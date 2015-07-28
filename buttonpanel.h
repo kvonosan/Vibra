@@ -22,13 +22,11 @@ private:
     QChar _paintsymbol;
     int _width, _height;
     QProcess *_process;
-    QFont _font, _brush_font;
-    QFontMetrics *_fntmetrics;
+    QFont _font;
     QColor _gridcolor, _textcolor;
     int _mousex, _mousey, _cursor;
     bool _panelside, _firstpaint, _mousepressed;
-    QRect _open, _save, _anim_prev, _anim, _anim_next;
-    QRect _one, _two, _three, _four, _five, _six, _seven, _eight, _nine;
+    QRect _arrow, _pencil, _rubber, _fill, _letter, _quit, _open, _save;
 };
 
 #endif // BUTTONPANEL_H
