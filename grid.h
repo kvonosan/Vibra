@@ -28,6 +28,7 @@ public:
     QFont *_font;
     bool _computed;
     QColor _defaultgridcolor, _defaulttextcolor;
+    int _width, _heigth;
 private:
     QVector <QVector<Symbol> > _symbols;
     int _sizeX, _sizeY, _centrX, _centrY;

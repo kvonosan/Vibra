@@ -4,6 +4,7 @@
 #include <QtGui>
 #include "menu.h"
 #include "buttonpanel.h"
+#include "base.h"
 
 class MainWindow : public QWindow
 {
@@ -23,6 +24,7 @@ private:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
+    Base *_base;
     Grid *_grid;
     QFont *_font;
     Menu *_mainMenu;
@@ -30,8 +32,8 @@ private:
     ButtonPanel *_panel;
     QBackingStore *_m_backingStore;
     QBasicTimer _timer, _timer_edit;
-    bool _start_timer_edit, _end_timer_edit;
     QColor _defaultgridcolor, _defaulttextcolor;
+    bool _start_timer_edit, _end_timer_edit, _game_mode;
     bool _m_update_pending, _start_timer, _end_timer, _show_help, _edit_mode;
 };
 

@@ -18,14 +18,16 @@ SOURCES += \
     mainwindow.cpp \
     main.cpp \
     grid.cpp \
-    buttonpanel.cpp
+    buttonpanel.cpp \
+    base.cpp
 
 HEADERS  += \
     symbol.h \
     menu.h \
     mainwindow.h \
     grid.h \
-    buttonpanel.h
+    buttonpanel.h \
+    base.h
 
 DISTFILES +=
 

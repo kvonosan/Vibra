@@ -57,6 +57,8 @@ void Grid::ComputeSize(int SizeX, int SizeY)
     //qDebug() << "Screen resolution " << SizeX << "x" << SizeY;
     //qDebug() << "Fontsize " << _font->pixelSize();
 #endif
+    _width = SizeX;
+    _heigth = SizeY;
     _sizeX = SizeX / _font->pixelSize();
     _sizeY = SizeY / _font->pixelSize();
     _centrX = _sizeX / 2;

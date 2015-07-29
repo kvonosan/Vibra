@@ -25,6 +25,8 @@ MainWindow::MainWindow(int _width, int _height, QWindow *parent) :
     _mainMenu->_line = (_grid->GetSizeY()/2);
     (_mainMenu->Next())->_line = (_grid->GetSizeY()/2 + 1);
     (_mainMenu->Next()->Next())->_line = (_grid->GetSizeY()/2 + 2);
+    _base = new Base(this, _grid);
+    _game_mode = false;
 }
 
 MainWindow::~MainWindow()
@@ -34,6 +36,7 @@ MainWindow::~MainWindow()
     delete _grid;
     delete _panel;
     delete _mainMenu;
+    delete _base;
 }
 
 bool MainWindow::event(QEvent *event)
@@ -70,7 +73,9 @@ void MainWindow::render(QPainter *painter)
 {
     if (painter != NULL)
     {
-        if (!_edit_mode)
+        if (_game_mode)
+        {}
+        else if (!_edit_mode)
         {
             _mainMenu->Paint(painter);
             if (_start_timer)
@@ -150,7 +155,9 @@ void MainWindow::resizeEvent(QResizeEvent *resizeEvent)
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    if (!_edit_mode)
+    if (_game_mode)
+    {}
+    else if (!_edit_mode)
     {
         _mainMenu->OnMouseOver(event->x(), event->y());
         renderNow();
@@ -169,7 +176,10 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if (!_edit_mode)
+    if (_game_mode)
+    {
+    }
+    else if (!_edit_mode)
     {
         switch(event->key())
         {
@@ -194,7 +204,7 @@ bool MainWindow::MouseOver(Menu *menu, int x, int y)
 {
     if (menu != NULL)
     {
-        if (!_edit_mode)
+        if (!_edit_mode && !_game_mode)
         {
             QVector<int> menurect = _grid->GetCoordForWord(menu->_title);
             if (menurect.length() == 4)
@@ -227,7 +237,9 @@ Menu *MainWindow::GetMenu(QString title)
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-    if (!_edit_mode)
+    if (_game_mode)
+    {}
+    else if (!_edit_mode)
     {
         Menu *menu = GetMenu("Exit");
         if (menu != NULL)
@@ -244,6 +256,16 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
             if (MouseOver(menu, event->x(), event->y()))
             {
                 _edit_mode = true;
+                renderNow();
+            }
+        }
+        menu = NULL;
+        menu = GetMenu("Play");
+        if (menu != NULL)
+        {
+            if (MouseOver(menu, event->x(), event->y()))
+            {
+                _game_mode = true;
                 renderNow();
             }
         }
