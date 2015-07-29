@@ -180,11 +180,11 @@ void ButtonPanel::Click(int x, int y)
             QFile file(_filename);
             if (file.open(QIODevice::ReadWrite))
             {
-                QDataStream stream(&file);
-                for (int i=0; i<_grid->GetSizeY();i++)
-                    for (int j=0;j<_grid->GetCenterX();j++)
+                QTextStream stream(&file);
+                for (int i=0; i<_grid->GetSizeX();i++)
+                    for (int j=0;j<_grid->GetSizeY();j++)
                     {
-                        stream >> _grid->GetSymbolAt(i,j)->symbol;
+                        stream >> (_grid->GetSymbolAt(i,j)->symbol);
                     }
                 file.close();
             }
@@ -202,11 +202,11 @@ void ButtonPanel::Click(int x, int y)
             }
             if (file.open(QIODevice::ReadWrite))
             {
-                QDataStream stream(&file);
-                for (int i=0;i<_grid->GetSizeY();i++)
-                    for (int j=0;j<_grid->GetCenterX();j++)
+                QTextStream stream(&file);
+                for (int i=0;i<_grid->GetSizeX();i++)
+                    for (int j=0;j<_grid->GetSizeY();j++)
                     {
-                        stream << _grid->GetSymbolAt(i,j)->symbol;
+                        stream << (_grid->GetSymbolAt(i,j)->symbol);
                     }
                 file.close();
             }
