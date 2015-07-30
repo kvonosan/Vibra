@@ -22,7 +22,7 @@ Grid::~Grid()
 
 void Grid::Paint(QPainter *painter)
 {
-    if (!painter)
+    if (painter == NULL)
     {
         qDebug() << "Error. Painter == NULL.";
         exit(-1);

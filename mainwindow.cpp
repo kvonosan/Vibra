@@ -25,7 +25,7 @@ MainWindow::MainWindow(int _width, int _height, QWindow *parent) :
     _mainMenu->_line = (_grid->GetSizeY()/2);
     (_mainMenu->Next())->_line = (_grid->GetSizeY()/2 + 1);
     (_mainMenu->Next()->Next())->_line = (_grid->GetSizeY()/2 + 2);
-    _base = new Base(this, _grid);
+    _base = new Base();
     _game_mode = false;
 }
 
@@ -74,7 +74,9 @@ void MainWindow::render(QPainter *painter)
     if (painter != NULL)
     {
         if (_game_mode)
-        {}
+        {
+            _base->Paint(painter);
+        }
         else if (!_edit_mode)
         {
             _mainMenu->Paint(painter);

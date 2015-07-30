@@ -54,11 +54,11 @@
 вид от первого лица[cosmos]:
 Panel
 A: fly T:^A^
-V: cosmos 1x1 R: captain E: class A
+V: cosmos 1x1 R: captain S: class A
 
 Panel help
 [A]ction [T]arget
-[V]iew [R]ank [E]quipment
+[V]iew [R]ank [S]hip
 
 Расы.
 
@@ -76,3 +76,6 @@ Humanoid. Reporter.
 Рейтинг.
 
 Умения.
+
+
+Меню базы: Выход, Банк, Магазин, Герой, Бар, Награды, Рейтинг, Вылет в космос.

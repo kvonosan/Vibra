@@ -7,12 +7,12 @@
 class Base
 {
 public:
-    Base(QWindow *parent, Grid *grid);
+    Base();
     ~Base();
+    void Paint(QPainter *painter);
 private:
-    QRect _quit;
-    Grid *_grid;
-    QWindow *_parent;
+    QRect _bank, _magazine, _hero, _bar, _honors, _rating, _flight, _quit;
+    QFont _font;
 };
 
 #endif // BASE

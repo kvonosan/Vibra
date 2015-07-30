@@ -43,6 +43,11 @@ void ButtonPanel::Paint(QPainter *painter)
         qDebug() << "Please, set boundaries.";
         exit(-1);
     }
+    if (painter == NULL)
+    {
+        qDebug() << "Error. Painter == NULL.";
+        exit(-1);
+    }
     _painter = painter;
     QString filename="char.txt";
     QFile file(filename);
