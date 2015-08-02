@@ -27,6 +27,7 @@ MainWindow::MainWindow(int _width, int _height, QWindow *parent) :
     (_mainMenu->Next()->Next())->_line = (_grid->GetSizeY()/2 + 2);
     _base = new Base(this);
     _game_mode = false;
+    _state = 0;
 }
 
 MainWindow::~MainWindow()
@@ -75,7 +76,13 @@ void MainWindow::render(QPainter *painter)
     {
         if (_game_mode)
         {
-            _base->Paint(painter);
+            switch(_state)
+            {
+            case 0:
+            {
+                _base->Paint(painter);
+            } break;
+            }
         }
         else if (!_edit_mode)
         {
@@ -158,7 +165,16 @@ void MainWindow::resizeEvent(QResizeEvent *resizeEvent)
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
     if (_game_mode)
-    {}
+    {
+        switch(_state)
+        {
+        case 0:
+        {
+            _base->MouseMove(event->x(), event->y());
+            renderNow();
+        } break;
+        }
+    }
     else if (!_edit_mode)
     {
         _mainMenu->OnMouseOver(event->x(), event->y());
@@ -240,7 +256,16 @@ Menu *MainWindow::GetMenu(QString title)
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     if (_game_mode)
-    {}
+    {
+        switch(_state)
+        {
+        case 0:
+        {
+            _base->Click(event->x(), event->y());
+            renderNow();
+        } break;
+        }
+    }
     else if (!_edit_mode)
     {
         Menu *menu = GetMenu("Exit");

@@ -20,7 +20,8 @@ SOURCES += \
     grid.cpp \
     buttonpanel.cpp \
     base.cpp \
-    frame.cpp
+    frame.cpp \
+    magazine.cpp
 
 HEADERS  += \
     symbol.h \
@@ -29,7 +30,8 @@ HEADERS  += \
     grid.h \
     buttonpanel.h \
     base.h \
-    frame.h
+    frame.h \
+    magazine.h
 
 DISTFILES +=
 

@@ -10,11 +10,17 @@ public:
     Frame(QWindow *parent);
     ~Frame();
     void Paint(QPainter *painter);
+    QString _action, _target, _view, _rank, _ship;
 private:
     Grid *_grid;
     QWindow *_parent;
     QPainter *_painter;
     QFont _font;
+    void SetAction();
+    void SetTarget();
+    void SetView();
+    void SetRank();
+    void SetShip();
 };
 
 #endif // FRAME

@@ -35,6 +35,7 @@ private:
     QColor _defaultgridcolor, _defaulttextcolor;
     bool _start_timer_edit, _end_timer_edit, _game_mode;
     bool _m_update_pending, _start_timer, _end_timer, _show_help, _edit_mode;
+    int _state;
 };
 
 #endif // WINDOW_H
