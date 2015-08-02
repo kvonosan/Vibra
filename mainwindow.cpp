@@ -25,7 +25,7 @@ MainWindow::MainWindow(int _width, int _height, QWindow *parent) :
     _mainMenu->_line = (_grid->GetSizeY()/2);
     (_mainMenu->Next())->_line = (_grid->GetSizeY()/2 + 1);
     (_mainMenu->Next()->Next())->_line = (_grid->GetSizeY()/2 + 2);
-    _base = new Base();
+    _base = new Base(this);
     _game_mode = false;
 }
 

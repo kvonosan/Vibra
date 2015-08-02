@@ -1,7 +1,13 @@
 #include "base.h"
 
-Base::Base()
+Base::Base(QWindow *parent)
 {
+    if (parent == NULL)
+    {
+        qDebug() << "Error. parent == NULL.";
+        exit(-1);
+    }
+    _parent = parent;
     _font.setPixelSize(32);
     _bank = QRect(10, 10, 80, 70);
     _magazine = QRect(100, 10, 130, 70);
@@ -11,6 +17,7 @@ Base::Base()
     _rating = QRect(10, 90, 140, 70);
     _flight = QRect(160, 90, 250, 70);
     _quit = QRect(420, 90, 140, 70);
+    _frame = new Frame(_parent);
 }
 
 Base::~Base()
@@ -23,6 +30,7 @@ void Base::Paint(QPainter *painter)
         qDebug() << "Error. Painter == NULL.";
         exit(-1);
     }
+    _frame->Paint(painter);
     QPainterPath path;
     path.addRoundedRect(_bank, 10, 10);
     path.addRoundedRect(_magazine, 10, 10);

@@ -5,5 +5,6 @@
         <file>icons/standart.png</file>
         <file>icons/rubber.png</file>
         <file>icons/fill.png</file>
+        <file>frame/cosmos_panel.ani</file>
     </qresource>
 </RCC>

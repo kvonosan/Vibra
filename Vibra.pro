@@ -19,7 +19,8 @@ SOURCES += \
     main.cpp \
     grid.cpp \
     buttonpanel.cpp \
-    base.cpp
+    base.cpp \
+    frame.cpp
 
 HEADERS  += \
     symbol.h \
@@ -27,7 +28,8 @@ HEADERS  += \
     mainwindow.h \
     grid.h \
     buttonpanel.h \
-    base.h
+    base.h \
+    frame.h
 
 DISTFILES +=
 

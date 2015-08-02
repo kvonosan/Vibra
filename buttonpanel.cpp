@@ -24,6 +24,11 @@ ButtonPanel::ButtonPanel(QWindow *parent, Grid *grid)
     _width = -1;
     _height = -1;
     _panelside = false;
+    if (parent == NULL)
+    {
+        qDebug() << "Error. parent == NULL.";
+        exit(-1);
+    }
     _parent = parent;
     _firstpaint = true;
     _cursor = 1;
