@@ -6,6 +6,8 @@
 #include "frame.h"
 #include "magazine.h"
 
+class Magazine;
+
 class Base
 {
 public:
@@ -14,12 +16,12 @@ public:
     void Paint(QPainter *painter);
     void MouseMove(int x, int y);
     void Click(int x, int y);
+    int _state;
 private:
     QRect _bank, _magazine, _hero, _bar, _honors, _rating, _flight, _quit;
     QFont _font;
     Frame *_frame;
     QWindow *_parent;
-    int _state;
     Magazine *_magazine_obj;
 };
 

@@ -19,7 +19,7 @@ Base::Base(QWindow *parent)
     _quit = QRect(420, 90, 140, 70);
     _frame = new Frame(_parent);
     _state = 0;
-    _magazine_obj = new Magazine(_parent);
+    _magazine_obj = new Magazine(_parent, this);
 }
 
 Base::~Base()
@@ -152,5 +152,10 @@ void Base::Click(int x, int y)
             _state = 0;
         }
     } break;
+    case 1:
+    {
+        _magazine_obj->Click(x, y);
+    }
+        break;
     }
 }
