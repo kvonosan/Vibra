@@ -16,9 +16,9 @@ Magazine::Magazine(QWindow *parent)
     _capt_three = QRect(_parent->geometry().width()/2+10, 10, _parent->geometry().width()/2-20, 30);
     _four = QRect(_parent->geometry().width()/2+10, _parent->geometry().height()/2+10-50, _parent->geometry().width()/2-20, _parent->geometry().height()/2+10-50);
     _capt_four = QRect(_parent->geometry().width()/2+10, _parent->geometry().height()/2+10-50, _parent->geometry().width()/2-20, 30);
-    _prev = QRect(10, _parent->geometry().height()-20-50, _parent->geometry().width()/3-10, 80);
-    _next = QRect(_parent->geometry().width()/3+10, _parent->geometry().height()-20-50, _parent->geometry().width()/3-20, 80);
-    _back = QRect(_parent->geometry().width()/3*2, _parent->geometry().height()-20-50, _parent->geometry().width()/3-10, 80);
+    _prev = QRect(10, _parent->geometry().height()-20-50, _parent->geometry().width()/3-10, 60);
+    _next = QRect(_parent->geometry().width()/3+10, _parent->geometry().height()-20-50, _parent->geometry().width()/3-20, 60);
+    _back = QRect(_parent->geometry().width()/3*2, _parent->geometry().height()-20-50, _parent->geometry().width()/3-10, 60);
 }
 
 Magazine::~Magazine()

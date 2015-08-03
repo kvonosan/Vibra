@@ -26,7 +26,7 @@ void Frame::Paint(QPainter *painter)
     }
     _painter = painter;
     _grid->ComputeSize(_parent->width(), _parent->height());
-    QFile file(":/res/frame/cosmos_panel.ani");
+    QFile file(":/res/frame/panel1.ani");
     if (file.open(QIODevice::ReadOnly))
     {
         QTextStream stream(&file);
