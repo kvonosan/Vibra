@@ -14,10 +14,10 @@ Hero::Hero(QWindow *parent, Base *base)
         exit(-1);
     }
     _base = base;
-    _ramka = QRect(10, 10, _parent->width()-20, _parent->height()-10);
+    _ramka = QRect(10, 10, _parent->width()-20, _parent->height()-20-20-50);
     _back = QRect(_parent->geometry().width()/3*2, _parent->geometry().height()-20-50, _parent->geometry().width()/3-20, 60);
     _string = "";
-    _name = "Чалдин Василий";
+    _name = "Лео Месси";
     _experience = "0";
     _gold = "0";
     _credits = "0";

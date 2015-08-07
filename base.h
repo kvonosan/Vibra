@@ -6,9 +6,11 @@
 #include "frame.h"
 #include "magazine.h"
 #include "hero.h"
+#include "honors.h"
 
 class Magazine;
 class Hero;
+class Honors;
 
 class Base
 {
@@ -27,6 +29,7 @@ private:
     QWindow *_parent;
     Magazine *_magazine_obj;
     Hero *_hero_obj;
+    Honors *_honors_obj;
 };
 
 #endif // BASE

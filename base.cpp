@@ -16,7 +16,7 @@ Base::Base(QWindow *parent)
     _honors = QRect(430, 10, 140, 70);
     _rating = QRect(10, 90, 140, 70);
     _flight = QRect(160, 90, 250, 70);
-    _quit = QRect(420, 90, 140, 70);
+    _quit = QRect(420, 90, 150, 70);
     _generator = QRect(10, 170, 330, 70);
     _news = QRect(350, 170, 220, 70);
     _improvement = QRect(10, 250, 220, 70);
@@ -24,6 +24,7 @@ Base::Base(QWindow *parent)
     _state = 0;
     _magazine_obj = new Magazine(_parent, this);
     _hero_obj = new Hero(_parent, this);
+    _honors_obj = new Honors(_parent, this);
 }
 
 Base::~Base()
@@ -31,6 +32,7 @@ Base::~Base()
     delete _frame;
     delete _magazine_obj;
     delete _hero_obj;
+    delete _honors_obj;
 }
 
 void Base::Paint(QPainter *painter)
@@ -78,18 +80,19 @@ void Base::Paint(QPainter *painter)
         painter->drawText(_generator, Qt::AlignCenter, QStringLiteral("Генератор человека"));
         painter->drawText(_news, Qt::AlignCenter, QStringLiteral("Новости"));
         painter->drawText(_improvement, Qt::AlignCenter, QStringLiteral("Улучшения"));
-    }
-        break;
+    } break;
     case 1:
     {
         _magazine_obj->Paint(painter);
-    }
-        break;
+    } break;
     case 2:
     {
         _hero_obj->Paint(painter);
-    }
-        break;
+    } break;
+    case 3:
+    {
+        _honors_obj->Paint(painter);
+    } break;
     }
 }
 
@@ -162,7 +165,7 @@ void Base::Click(int x, int y)
             //_frame->_target = "бар";
         }else if (_honors.contains(x,y))
         {
-            //_frame->_target = "награды";
+            _state = 3;
         } else if (_rating.contains(x,y))
         {
             //_frame->_target = "рейтинг";
@@ -186,12 +189,14 @@ void Base::Click(int x, int y)
     case 1:
     {
         _magazine_obj->Click(x, y);
-    }
-        break;
+    } break;
     case 2:
     {
         _hero_obj->Click(x, y);
-    }
-        break;
+    } break;
+    case 3:
+    {
+        _honors_obj->Click(x, y);
+    } break;
     }
 }

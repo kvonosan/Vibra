@@ -22,7 +22,8 @@ SOURCES += \
     base.cpp \
     frame.cpp \
     magazine.cpp \
-    hero.cpp
+    hero.cpp \
+    honors.cpp
 
 HEADERS  += \
     symbol.h \
@@ -33,7 +34,8 @@ HEADERS  += \
     base.h \
     frame.h \
     magazine.h \
-    hero.h
+    hero.h \
+    honors.h
 
 DISTFILES +=
 
