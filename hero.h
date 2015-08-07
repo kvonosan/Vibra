@@ -14,7 +14,8 @@ public:
     void Paint(QPainter *painter);
     void Click(int x, int y);
     void SetParams();
-    QString _name, _experience, _gold, _credits, _race, _ship, _specialty, _rank, _squadron;
+    QString _name, _experience, _gold, _credits, _race, _ship, _specialty,
+    _rank, _squadron, _rating;
 private:
     Base *_base;
     QWindow *_parent;

@@ -25,6 +25,8 @@ Base::Base(QWindow *parent)
     _magazine_obj = new Magazine(_parent, this);
     _hero_obj = new Hero(_parent, this);
     _honors_obj = new Honors(_parent, this);
+    _rating_obj = new Rating(_parent, this);
+    _bank_obj = new Bank(_parent, this);
 }
 
 Base::~Base()
@@ -33,6 +35,8 @@ Base::~Base()
     delete _magazine_obj;
     delete _hero_obj;
     delete _honors_obj;
+    delete _rating_obj;
+    delete _bank_obj;
 }
 
 void Base::Paint(QPainter *painter)
@@ -92,6 +96,14 @@ void Base::Paint(QPainter *painter)
     case 3:
     {
         _honors_obj->Paint(painter);
+    } break;
+    case 4:
+    {
+        _rating_obj->Paint(painter);
+    } break;
+    case 5:
+    {
+        _bank_obj->Paint(painter);
     } break;
     }
 }
@@ -153,7 +165,7 @@ void Base::Click(int x, int y)
     {
         if (_bank.contains(x,y))
         {
-            //_frame->_target = "банк";
+            _state = 5;
         } else if (_magazine.contains(x,y))
         {
             _state = 1;
@@ -168,7 +180,7 @@ void Base::Click(int x, int y)
             _state = 3;
         } else if (_rating.contains(x,y))
         {
-            //_frame->_target = "рейтинг";
+            _state = 4;
         } else if (_flight.contains(x,y))
         {
             //_frame->_target = "вылет";
@@ -197,6 +209,14 @@ void Base::Click(int x, int y)
     case 3:
     {
         _honors_obj->Click(x, y);
+    } break;
+    case 4:
+    {
+        _rating_obj->Click(x, y);
+    } break;
+    case 5:
+    {
+        _bank_obj->Click(x, y);
     } break;
     }
 }

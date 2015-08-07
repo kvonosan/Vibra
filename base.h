@@ -7,10 +7,14 @@
 #include "magazine.h"
 #include "hero.h"
 #include "honors.h"
+#include "rating.h"
+#include "bank.h"
 
 class Magazine;
 class Hero;
 class Honors;
+class Rating;
+class Bank;
 
 class Base
 {
@@ -30,6 +34,8 @@ private:
     Magazine *_magazine_obj;
     Hero *_hero_obj;
     Honors *_honors_obj;
+    Rating *_rating_obj;
+    Bank *_bank_obj;
 };
 
 #endif // BASE

@@ -26,6 +26,7 @@ Hero::Hero(QWindow *parent, Base *base)
     _specialty = "Гуманоид";
     _rank = "новобранец";
     _squadron = "нет";
+    _rating = "0";
 }
 
 Hero::~Hero()
@@ -69,5 +70,6 @@ void Hero::SetParams()
             " Раса: " + _race + "\n" + " Корабль: " + _ship + "\n" +
             " Специальность: " + _specialty + "\n" +
             " Звание: " + _rank + "\n" +
-            " Эскадрилия: " + _squadron + "\n";
+            " Эскадрилия: " + _squadron + "\n" +
+            " Место в рейтинге: " + _rating + "\n";
 }
