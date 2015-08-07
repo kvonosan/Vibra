@@ -21,7 +21,8 @@ SOURCES += \
     buttonpanel.cpp \
     base.cpp \
     frame.cpp \
-    magazine.cpp
+    magazine.cpp \
+    hero.cpp
 
 HEADERS  += \
     symbol.h \
@@ -31,7 +32,8 @@ HEADERS  += \
     buttonpanel.h \
     base.h \
     frame.h \
-    magazine.h
+    magazine.h \
+    hero.h
 
 DISTFILES +=
 

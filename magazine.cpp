@@ -59,7 +59,7 @@ void Magazine::Paint(QPainter *painter)
     path.addRoundedRect(_back, 10, 10);
     QPen pen(Qt::red, 4);
     painter->setPen(pen);
-    painter->fillPath(path, Qt::green);
+    painter->fillPath(path, Qt::lightGray);
     painter->fillPath(path1, Qt::lightGray);
     painter->drawPath(path1);
     painter->drawPath(path);

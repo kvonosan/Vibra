@@ -17,15 +17,20 @@ Base::Base(QWindow *parent)
     _rating = QRect(10, 90, 140, 70);
     _flight = QRect(160, 90, 250, 70);
     _quit = QRect(420, 90, 140, 70);
+    _generator = QRect(10, 170, 330, 70);
+    _news = QRect(350, 170, 220, 70);
+    _improvement = QRect(10, 250, 220, 70);
     _frame = new Frame(_parent);
     _state = 0;
     _magazine_obj = new Magazine(_parent, this);
+    _hero_obj = new Hero(_parent, this);
 }
 
 Base::~Base()
 {
     delete _frame;
     delete _magazine_obj;
+    delete _hero_obj;
 }
 
 void Base::Paint(QPainter *painter)
@@ -53,6 +58,9 @@ void Base::Paint(QPainter *painter)
         path.addRoundedRect(_rating, 10, 10);
         path.addRoundedRect(_flight, 10, 10);
         path.addRoundedRect(_quit, 10, 10);
+        path.addRoundedRect(_generator, 10, 10);
+        path.addRoundedRect(_news, 10, 10);
+        path.addRoundedRect(_improvement, 10, 10);
         QPen pen(Qt::red, 4);
         painter->setPen(pen);
         painter->fillPath(path, Qt::green);
@@ -67,11 +75,19 @@ void Base::Paint(QPainter *painter)
         painter->drawText(_rating, Qt::AlignCenter, QStringLiteral("Рейтинг"));
         painter->drawText(_flight, Qt::AlignCenter, QStringLiteral("Вылет в космос"));
         painter->drawText(_quit, Qt::AlignCenter, QStringLiteral("Выход"));
+        painter->drawText(_generator, Qt::AlignCenter, QStringLiteral("Генератор человека"));
+        painter->drawText(_news, Qt::AlignCenter, QStringLiteral("Новости"));
+        painter->drawText(_improvement, Qt::AlignCenter, QStringLiteral("Улучшения"));
     }
         break;
     case 1:
     {
         _magazine_obj->Paint(painter);
+    }
+        break;
+    case 2:
+    {
+        _hero_obj->Paint(painter);
     }
         break;
     }
@@ -107,6 +123,15 @@ void Base::MouseMove(int x, int y)
         } else if (_quit.contains(x,y))
         {
             _frame->_target = "выход";
+        } else if(_generator.contains(x, y))
+        {
+            _frame->_target = "генератор";
+        } else if (_news.contains(x, y))
+        {
+            _frame->_target = "новости";
+        } else if(_improvement.contains(x, y))
+        {
+            _frame->_target = "улучшения";
         } else
         {
             _frame->_target = "";
@@ -131,7 +156,7 @@ void Base::Click(int x, int y)
             _state = 1;
         } else if (_hero.contains(x,y))
         {
-            //_frame->_target="герой";
+            _state = 2;
         }else if (_bar.contains(x,y))
         {
             //_frame->_target = "бар";
@@ -147,7 +172,13 @@ void Base::Click(int x, int y)
         } else if (_quit.contains(x,y))
         {
             _parent->close();
-        } else
+        } else if (_generator.contains(x, y))
+        {
+        } else if (_news.contains(x, y))
+        {
+        } else if (_improvement.contains(x, y))
+        {
+        }else
         {
             _state = 0;
         }
@@ -155,6 +186,11 @@ void Base::Click(int x, int y)
     case 1:
     {
         _magazine_obj->Click(x, y);
+    }
+        break;
+    case 2:
+    {
+        _hero_obj->Click(x, y);
     }
         break;
     }

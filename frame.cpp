@@ -73,7 +73,7 @@ void Frame::SetTarget()
 
 void Frame::SetView()
 {
-    int posx = _grid->GetSizeX()/3*2;
+    int posx = _grid->GetSizeX()/3*2+3;
     int posy = _grid->GetSizeY() - 4;
     QString result = "В:" + _view;
     int g = 0;
