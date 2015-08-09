@@ -46,7 +46,7 @@ HEADERS  += \
 DISTFILES +=
 
 RESOURCES += \
-    resource.qrc
+    res.qrc
 
 FORMS +=
 

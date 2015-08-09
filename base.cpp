@@ -27,6 +27,7 @@ Base::Base(QWindow *parent)
     _honors_obj = new Honors(_parent, this);
     _rating_obj = new Rating(_parent, this);
     _bank_obj = new Bank(_parent, this);
+    _fly = new Fly(_parent, this);
 }
 
 Base::~Base()
@@ -37,6 +38,7 @@ Base::~Base()
     delete _honors_obj;
     delete _rating_obj;
     delete _bank_obj;
+    delete _fly;
 }
 
 void Base::Paint(QPainter *painter)
@@ -104,6 +106,10 @@ void Base::Paint(QPainter *painter)
     case 5:
     {
         _bank_obj->Paint(painter);
+    } break;
+    case 6:
+    {
+        _fly->Paint(painter);
     } break;
     }
 }
@@ -183,7 +189,7 @@ void Base::Click(int x, int y)
             _state = 4;
         } else if (_flight.contains(x,y))
         {
-            //_frame->_target = "вылет";
+           _state = 6;
         } else if (_quit.contains(x,y))
         {
             _parent->close();
@@ -217,6 +223,21 @@ void Base::Click(int x, int y)
     case 5:
     {
         _bank_obj->Click(x, y);
+    } break;
+    case 6:
+    {
+        _fly->Click(x, y);
+    } break;
+    }
+}
+
+void Base::KeyPress(int key)
+{
+    switch (_state)
+    {
+    case 6:
+    {
+        _fly->KeyPress(key);
     } break;
     }
 }

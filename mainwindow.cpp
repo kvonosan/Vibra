@@ -196,6 +196,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (_game_mode)
     {
+        _base->KeyPress(event->key());
+        renderNow();
     }
     else if (!_edit_mode)
     {

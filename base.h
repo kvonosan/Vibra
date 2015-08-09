@@ -9,12 +9,14 @@
 #include "honors.h"
 #include "rating.h"
 #include "bank.h"
+#include "fly.h"
 
 class Magazine;
 class Hero;
 class Honors;
 class Rating;
 class Bank;
+class Fly;
 
 class Base
 {
@@ -24,6 +26,7 @@ public:
     void Paint(QPainter *painter);
     void MouseMove(int x, int y);
     void Click(int x, int y);
+    void KeyPress(int key);
     int _state;
 private:
     QRect _bank, _magazine, _hero, _bar, _honors, _rating, _flight, _quit;
@@ -36,6 +39,7 @@ private:
     Honors *_honors_obj;
     Rating *_rating_obj;
     Bank *_bank_obj;
+    Fly *_fly;
 };
 
 #endif // BASE

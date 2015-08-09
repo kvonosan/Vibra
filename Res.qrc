@@ -1,10 +1,9 @@
 <RCC>
     <qresource prefix="/res">
-        <file>audio/mouseover.wav</file>
-        <file>icons/pencil.png</file>
-        <file>icons/standart.png</file>
-        <file>icons/rubber.png</file>
         <file>icons/fill.png</file>
-        <file>frame/panel1.ani</file>
+        <file>icons/pencil.png</file>
+        <file>icons/rubber.png</file>
+        <file>icons/standart.png</file>
+        <file>audio/mouseover.wav</file>
     </qresource>
 </RCC>

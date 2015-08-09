@@ -5,6 +5,5 @@
         <file>icons/pencil.png</file>
         <file>icons/rubber.png</file>
         <file>icons/standart.png</file>
-        <file>frame/panel1.ani</file>
     </qresource>
 </RCC>
