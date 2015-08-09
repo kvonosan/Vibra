@@ -23,3 +23,9 @@ win32 {
             -lboost_system-mgw49-mt-1_58 \
             -lws2_32
 }
+
+unix {
+    INCLUDEPATH += /opt/boost_1_58_0/
+    LIBS += -L/opt/boost_1_58_0/stage/lib/ \
+            -lboost_system
+}
