@@ -50,3 +50,4 @@ RESOURCES += \
 
 FORMS +=
 
+RC_FILE = myapp.rc
