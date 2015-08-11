@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core
+QT       += core network
 
 QT       -= gui sql
 
@@ -15,7 +15,8 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    player.cpp
 
 win32 {
     INCLUDEPATH += c:/boost_1_58_0/
@@ -29,3 +30,6 @@ unix {
     LIBS += -L/opt/boost_1_58_0/stage/lib/ \
             -lboost_system
 }
+
+HEADERS += \
+    player.h

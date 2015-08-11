@@ -1,11 +1,12 @@
 #include <QCoreApplication>
 #include <boost/asio.hpp>
-
-//mysql B8QCZ7NeKZ
+#include "player.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+
+    Player player;
 
     return a.exec();
 }

@@ -39,6 +39,8 @@
 Протонная пушка[A][20], Нейтроннаяя пушка[B][30], лазер[C][50], квебек[D][100], рапира[E][150], аскорбелл[D][200],
 торпеды[E][300].
 13)Плазмоид - генератор человека.
+14)Ускоритель: простой[A][5], улучшенный[B][10], экстра[C][15], быстрый[D][20], скоростной[E][25], реактивный[F][30],
+плазменный[G][35].
 
 Улучшения:
 Интоксикатор - увеличитель скорости двигателя.
@@ -132,7 +134,7 @@ F(1) = d*24*32 = 768*d
 Меню в полете:состояние корабля, опыт, энергия, радар, картограф, сканер, трюм.
 
 База данных:
-player(игрок): player_id, token, name, rating_id, gold, credits, race, ship, spec, rank, escadra, rating, ekran, level
+player(игрок): player_id, token, name, rating_id, gold, credits, race, ship, spec, rank, escadra, rating, screen, level, accelerator
 screen(экран): width, height
 race(раса): race_id, name, history, head
 ship(корабль): ship_id, name, class, engine, energy, life, fuel_tank
@@ -169,3 +171,4 @@ news(новости):news_id, name, text
 improvement(улучшения):improvement_id, name, description
 resource(ресурс):resource_id, name, class
 help(справка):help_id, text, level
+accelerator(ускоритель):accelerator_id, name, class, points, credits, gold
