@@ -121,7 +121,7 @@ F(1) = d*24*32 = 768*d
 7)вкусовая система, без вкусовой системы, плазмавкус.
 8)дыхательная система: стальные легкие.
 9)кровеносная система: биоимпульсная система.
-10)репродуктивная система: способность трансформироваться.
+10)репродуктивная система: способность трансформироваться, растеневидное яйцо.
 11)имунная система: умение телепортироваться.
 
 Меню базы: Магазин, Герой, Награды, Рейтинг, Выход, Банк, Бар, Вылет в космос, Генератор человека, Новости, Улучшения.
@@ -132,40 +132,40 @@ F(1) = d*24*32 = 768*d
 Меню в полете:состояние корабля, опыт, энергия, радар, картограф, сканер, трюм.
 
 База данных:
-игрок: payer_id, key, name, exp, exp_num, gold, credits, race, ship, spec, rank, escadra, rating, ekran, level
-ekran: width, height
-расы: race_id, name, history, head
-корабли: ship_name_id, ship_name, class, ship, engine, energy, life, fuel_tank
-двигатели: engine_id, engine_name, class
-специальности: spec_id, spec_name
-звания: rank_id, rank_name, captain, reward
-эскадрилия: esc_id, esc_name, captain_id
-рейтинг: rating_id, exp, kills, death, mission, credits, gold, fights
-награды: reward_id, title, description, type
-топливный бак:fuel_tank_id, name, class, penta, credits, gold
-yotanet: yotanet_id, class, name, speed, credits, gold
-generator:generator_id, class, name, speed, credits, gold
-cartograph:cartograph_id, name, class, link, credits, gold
-ship_body:body_id, name, class, energy, credits, gold
-radar:radar_id, name, class, energy, ships, credits, gold
-scaner:scaner_id, name, class, energy, predm, credits, gold
-chinilka: chinilka_id, name, class, energy, points, credits, gold
-grab:grab_id, name, class, energy, points, credits, gold
-weapons:weapons_id, name, class, energy, fire, speed, link, credits, gold
-world: id, penta, yota
-генератор:generator_id, sceleton, muscle, nerves, eyes, hearing, scent, taste, respiratory, circulatory, reproductive, immune
-sceleton:sceleton_id, name
-muscle:mescle_id, name
-nerves:nerves_id, name
-eyes:eyes_id, name
-hearing: hearing_id, name
-scent:scent_id, name
-taste:taste_id, name
-respiratory:respiratory_id, name
-circulatory:circulatory_id, name
-reproductive:reproductive_id, name
-immune:immune_id, name
-новости:news_id, news_name, news_text
-улучшения:improvement_id name, description
-ресурс:resource_id, name, class
-help:help_id, text, level
+player(игрок): player_id, token, name, rating_id, gold, credits, race, ship, spec, rank, escadra, rating, ekran, level
+screen(экран): width, height
+race(раса): race_id, name, history, head
+ship(корабль): ship_id, name, class, engine, energy, life, fuel_tank
+engine(двигатель): engine_id, name, class
+spec(специальности): spec_id, name
+rank(звания): rank_id, name, escadra_id, reward
+escadra(эскадрилия): escadra_id, name, captain
+rating(рейтинг): rating_id, exp, kills, death, mission, player_id, fights
+reward(награда): reward_id, title, description, type
+fuel_tank(топливный бак):fuel_tank_id, name, class, penta, credits, gold
+yotanet(йотанет): yotanet_id, class, name, speed, credits, gold
+generator(генератор):generator_id, class, name, speed, credits, gold
+cartograph(картограф):cartograph_id, name, class, link, credits, gold
+ship_body(корпус):body_id, name, class, energy, credits, gold
+radar(радар):radar_id, name, class, energy, ships, credits, gold
+scaner(сканер):scaner_id, name, class, energy, predm, credits, gold
+chinilka(чинилка): chinilka_id, name, class, energy, points, credits, gold
+grab(захват):grab_id, name, class, energy, points, credits, gold
+weapons(оружие):weapons_id, name, class, energy, fire, speed, link, credits, gold
+world(мир): id, penta, yota
+human_generator(генератор человека):human_generator_id, sceleton, muscle, nerves, eyes, hearing, scent, taste, respirator, circulatory, reproduction, immunity
+sceleton(скелет):sceleton_id, name, text
+muscle(мускулы):mescle_id, name, text
+nerves(нервы):nerves_id, name, text
+eyes(глаза):eyes_id, name, text
+hearing(слух): hearing_id, name, text
+scent(нюх):scent_id, name, text
+taste(вкус):taste_id, name, text
+respirator(дыхание):respirator_id, name, text
+circulatory(кровеносный):circulatory_id, name, text
+reproduction(размножение):reproduction_id, name, text
+immunity(иммунитет):immunity_id, name, text
+news(новости):news_id, name, text
+improvement(улучшения):improvement_id, name, description
+resource(ресурс):resource_id, name, class
+help(справка):help_id, text, level
