@@ -17,7 +17,9 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     player.cpp \
-    vk_auth.cpp
+    vk_auth.cpp \
+    infinite_world.cpp \
+    loader.cpp
 
 win32 {
     INCLUDEPATH += c:/boost_1_58_0/
@@ -34,4 +36,6 @@ unix {
 
 HEADERS += \
     player.h \
+    infinite_world.h \
+    loader.h \
     vk_auth.h

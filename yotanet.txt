@@ -135,8 +135,8 @@ F(1) = d*24*32 = 768*d
 Меню в полете:состояние корабля, опыт, энергия, радар, картограф, сканер, трюм.
 
 База данных:
-player(игрок): player_id, token, name, rating_id, gold, credits, race, ship, spec, rank, escadra, rating, screen, level, accelerator
-screen(экран): width, height
+player(игрок): player_id, token, name, rating_id, gold, credits, race, ship, spec, rank, escadra, rating, screen, level, accelerator, map
+screen(экран):screen_id, width, height
 race(раса): race_id, name, history, head
 ship(корабль): ship_id, name, class, engine, energy, life, fuel_tank
 engine(двигатель): engine_id, name, class
@@ -155,7 +155,7 @@ scaner(сканер):scaner_id, name, class, energy, predm, credits, gold
 chinilka(чинилка): chinilka_id, name, class, energy, points, credits, gold
 grab(захват):grab_id, name, class, energy, points, credits, gold
 weapons(оружие):weapons_id, name, class, energy, fire, speed, link, credits, gold
-world(мир): id, penta, yota
+world(мир): id, penta, yota, sector_length
 human_generator(генератор человека):human_generator_id, sceleton, muscle, nerves, eyes, hearing, scent, taste, respirator, circulatory, reproduction, immunity
 sceleton(скелет):sceleton_id, name, text
 muscle(мускулы):mescle_id, name, text
@@ -173,3 +173,4 @@ improvement(улучшения):improvement_id, name, description
 resource(ресурс):resource_id, name, class
 help(справка):help_id, text, level
 accelerator(ускоритель):accelerator_id, name, class, points, credits, gold
+map(карта):map_id, inleft, inright, intop, inbottom, infront, inbehind, data

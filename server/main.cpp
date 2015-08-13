@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 
     //Player player;
 
-    vk_auth *auth = new vk_auth("5028316", "bpPr0QAD5gytsbnbGpYK");
+    VkAuth *auth = new VkAuth("5028316", "bpPr0QAD5gytsbnbGpYK");
 
     return a.exec();
 }

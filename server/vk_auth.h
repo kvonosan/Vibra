@@ -4,12 +4,12 @@
 #include <QString>
 #include <QtNetwork>
 
-class vk_auth: public QObject
+class VkAuth: public QObject
 {
     Q_OBJECT
 public:
-    vk_auth(QString client_id, QString client_secret);
-    ~vk_auth();
+    VkAuth(QString client_id, QString client_secret);
+    ~VkAuth();
     QString _access_token;
 };
 

@@ -1,18 +1,15 @@
 #ifndef PLAYER
 #define PLAYER
 
-#include <QtNetwork>
+#include "infinite_world.h"
 
-class Player: public QObject
+class Player
 {
-    Q_OBJECT
 public:
-    Player(QObject *parent=0);
+    Player();
     ~Player();
 private:
-    QNetworkAccessManager *_manager;
-private slots:
-    void replyFinished(QNetworkReply *reply);
+    InfiniteWorld *_player_map;
 };
 
 #endif // PLAYER

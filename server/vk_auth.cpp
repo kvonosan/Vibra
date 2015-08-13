@@ -2,7 +2,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-vk_auth::vk_auth(QString client_id, QString client_secret)
+VkAuth::VkAuth(QString client_id, QString client_secret)
 {
     QNetworkAccessManager *manager = new QNetworkAccessManager(0);
     QNetworkReply *netReply = manager->get(QNetworkRequest(QUrl("https://oauth.vk.com/access_token?client_id="+client_id+"&client_secret="+client_secret+"&v=5.37&grant_type=client_credentials")));
@@ -21,5 +21,5 @@ vk_auth::vk_auth(QString client_id, QString client_secret)
     }
 }
 
-vk_auth::~vk_auth()
+VkAuth::~VkAuth()
 {}
