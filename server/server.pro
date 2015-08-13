@@ -16,7 +16,8 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    player.cpp
+    player.cpp \
+    vk_auth.cpp
 
 win32 {
     INCLUDEPATH += c:/boost_1_58_0/
@@ -32,4 +33,5 @@ unix {
 }
 
 HEADERS += \
-    player.h
+    player.h \
+    vk_auth.h
