@@ -9,7 +9,7 @@ public:
     InfiniteWorld();
     ~InfiniteWorld();
     InfiniteWorld *_left, *_right, *_top, *_bottom, *_in_front, *_behind;
-    QVector <QVector <QChar> > _map;
+    QVector <QChar> _map;
 };
 
 #endif // INFINITE_WORLD

@@ -20,7 +20,10 @@ private:
     void GenerateBottom(InfiniteWorld *map);
     void GenerateInFront(InfiniteWorld *map);
     void GenerateBehind(InfiniteWorld *map);
-    void Generate(InfiniteWorld *map);
+    void Generate768d(InfiniteWorld *map);
+    void GenerateMap();
+    void SaveMapToDatabase(InfiniteWorld *map);
+    void LoadToBuffer();
     void BufferizeLeft();
     void BufferizeRight();
     void BufferizeTop();
@@ -29,6 +32,7 @@ private:
     void BufferizeBehind();
     void AddPlayerToMap();
     QSqlDatabase _db;
+    int _sector_len;
 };
 
 #endif // LOADER

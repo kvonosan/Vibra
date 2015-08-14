@@ -8,11 +8,57 @@ Loader::Loader()
 Loader::~Loader()
 {}
 
-void Loader::Generate(InfiniteWorld *map)
+void Loader::Generate768d(InfiniteWorld *map)
 {
     if (map!=NULL)
     {
-        //map->_map = Random();
+        int i=0, g=0;
+        QChar symbol = ' ';
+        while (i<_sector_len)
+        {
+            g = rand()%10;
+            //qDebug() << g <<"\n";
+            switch(g)
+            {
+            case 0:
+            {
+                symbol = 'P';//Planet
+            }
+                break ;
+            case 1:
+            case 2:
+            {
+                symbol = ' ';//No
+            }
+                break;
+            case 3:
+            {
+                symbol = 'B';//Base
+            }
+                break;
+            case 4:
+            case 5:
+            {
+                symbol = 'S';//Star
+            }
+                break;
+            case 6:
+            case 7:
+            {
+                symbol = 'A';//Asteroid
+            }
+                break;
+            case 8:
+            case 9:
+            {
+                symbol = 'R';//Resource
+            }
+                break;
+            }
+            map->_map.push_back(symbol);
+            //qDebug() << map->_map[i];
+            i++;
+        }
     } else
     {
         qDebug() << "Error: map=NULL.";
@@ -28,7 +74,7 @@ void Loader::GenerateLeft(InfiniteWorld *map)
     if (map!=NULL&&map->_left == NULL)
     {
         InfiniteWorld *map_left = new InfiniteWorld();
-        Generate(map_left);
+        Generate768d(map_left);
         map->_left = map_left;
         _map.push_back(map_left);
     }
@@ -43,7 +89,7 @@ void Loader::GenerateRight(InfiniteWorld *map)
     if (map!=NULL&&map->_right == NULL)
     {
         InfiniteWorld *map_right = new InfiniteWorld();
-        Generate(map_right);
+        Generate768d(map_right);
         map->_right = map_right;
         _map.push_back(map_right);
     }
@@ -58,7 +104,7 @@ void Loader::GenerateTop(InfiniteWorld *map)
     if (map!=NULL&&map->_top == NULL)
     {
         InfiniteWorld *map_top = new InfiniteWorld();
-        Generate(map_top);
+        Generate768d(map_top);
         map->_top = map_top;
         _map.push_back(map_top);
     }
@@ -73,7 +119,7 @@ void Loader::GenerateBottom(InfiniteWorld *map)
     if (map!=NULL&&map->_bottom == NULL)
     {
         InfiniteWorld *map_bottom = new InfiniteWorld();
-        Generate(map_bottom);
+        Generate768d(map_bottom);
         map->_bottom = map_bottom;
         _map.push_back(map_bottom);
     }
@@ -88,7 +134,7 @@ void Loader::GenerateInFront(InfiniteWorld *map)
     if (map!=NULL&&map->_in_front == NULL)
     {
         InfiniteWorld *map_in_front = new InfiniteWorld();
-        Generate(map_in_front);
+        Generate768d(map_in_front);
         map->_in_front = map_in_front;
         _map.push_back(map_in_front);
     }
@@ -103,7 +149,7 @@ void Loader::GenerateBehind(InfiniteWorld *map)
     if (map!=NULL&&map->_behind == NULL)
     {
         InfiniteWorld *map_behind = new InfiniteWorld();
-        Generate(map_behind);
+        Generate768d(map_behind);
         map->_behind = map_behind;
         _map.push_back(map_behind);
     }
@@ -119,23 +165,65 @@ void Loader::DatabaseConnect()
     bool ok = _db.open();
     if (ok)
     {
-        //database connect
-        //if not found
-        //!generate map
-        //destroy
-        //else
-        //get params
-        QSqlQuery query("SELECT Count(*) FROM map");
-        if (query.exec())
+        QSqlQuery q;
+        q.prepare("SELECT Count(*) FROM map");
+        q.exec();
+        int count = 0;
+        if (q.next())
         {
-            int count = query.record().value(0).toInt();
-            qDebug() << "Count = " << count;
+            count = q.value(0).toInt();
         }
+        if (count == 0)
+        {
+            GenerateMap();
+        }
+        LoadToBuffer();
     } else
     {
         qDebug() << "Connect to database error.";
-        //exit(-1);
+        exit(-1);
     }
+}
+
+void Loader::GenerateMap()
+{
+    QSqlQuery q;
+    q.prepare("SELECT sector_length FROM world");
+    q.exec();
+    _sector_len=0;
+    if (q.next())
+    {
+        _sector_len = q.value(0).toInt();
+    }
+    if (_sector_len == 0)
+    {
+        _sector_len = 768;
+        QSqlQuery q1;
+        q1.prepare("INSERT INTO world (sector_length, penta, yota) VALUES(:sector,0,0)");
+        q1.bindValue(":sector", _sector_len);
+        q1.exec();
+    }
+    InfiniteWorld *map = new InfiniteWorld();
+    GenerateInFront(map);
+    SaveMapToDatabase(map->_in_front);
+    delete map;
+}
+
+void Loader::SaveMapToDatabase(InfiniteWorld *map)
+{
+    QString str;
+    for (int i=0; i<map->_map.length(); i++)
+    {
+        str += map->_map[i];
+    }
+    QSqlQuery q;
+    q.prepare("INSERT INTO map (inleft, inright, intop, inbottom, infront, inbehind, data) VALUES(0,0,0,0,0,0,:data)");
+    q.bindValue(":data", str);
+    q.exec();
+}
+
+void Loader::LoadToBuffer()
+{
 }
 
 void Loader::ListenPlayers()
