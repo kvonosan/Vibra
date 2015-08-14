@@ -4,9 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core network
+QT       += core network sql
 
-QT       -= gui sql
+QT       -= gui
 
 TARGET = server
 CONFIG   += console
@@ -21,6 +21,12 @@ SOURCES += main.cpp \
     infinite_world.cpp \
     loader.cpp
 
+HEADERS += \
+    player.h \
+    infinite_world.h \
+    loader.h \
+    vk_auth.h
+
 win32 {
     INCLUDEPATH += c:/boost_1_58_0/
     LIBS += -Lc:/boost_1_58_0/stage/lib/ \
@@ -33,9 +39,3 @@ unix {
     LIBS += -L/opt/boost_1_58_0/stage/lib/ \
             -lboost_system
 }
-
-HEADERS += \
-    player.h \
-    infinite_world.h \
-    loader.h \
-    vk_auth.h
