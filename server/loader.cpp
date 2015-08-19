@@ -177,7 +177,6 @@ void Loader::DatabaseConnect()
         {
             GenerateMap();
         }
-        LoadToBuffer();
     } else
     {
         qDebug() << "Connect to database error.";
@@ -222,7 +221,7 @@ void Loader::SaveMapToDatabase(InfiniteWorld *map)
     q.exec();
 }
 
-void Loader::LoadToBuffer()
+void Loader::LoadToBuffer(int id, int radius)
 {
 }
 
@@ -236,7 +235,36 @@ void Loader::ListenPlayers()
     //bufferize or generate player map
 }
 
-void Loader::BufferizeLeft()
+int Loader::BufferizeLeft(int id, int radius)
 {
-    //load from database
+    if (radius > 0)
+    {
+        radius--;
+        int map_id_left = 0;
+        //selectinleft
+        QSqlQuery q;
+        q.prepare("SELECT inleft,data FROM map WHERE map_id=:id");
+        q.bindValue(":id", id);
+        q.exec();
+        if (q.next())
+        {
+            //LoadData to infinite_world
+            //push_back infinite_world to queue
+            if (q.value(0).toInt() == 0)
+            {
+                return 0;
+            } else
+            {
+                BufferizeLeft(map_id_left, radius);
+            }
+        } else
+        {
+            qDebug() << "Error: bufferize left error.";
+            exit(-1);
+        }
+    } else
+    {
+
+        return 0;
+    }
 }

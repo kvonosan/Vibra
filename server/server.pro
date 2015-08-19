@@ -19,13 +19,15 @@ SOURCES += main.cpp \
     player.cpp \
     vk_auth.cpp \
     infinite_world.cpp \
-    loader.cpp
+    loader.cpp \
+    server.cpp
 
 HEADERS += \
     player.h \
     infinite_world.h \
     loader.h \
-    vk_auth.h
+    vk_auth.h \
+    server.h
 
 win32 {
     INCLUDEPATH += c:/boost_1_58_0/
