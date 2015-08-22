@@ -2,6 +2,7 @@
 #define WINDOW_H
 
 #include <QtGui>
+#include <QtWebKitWidgets>
 #include "menu.h"
 #include "buttonpanel.h"
 #include "base.h"
@@ -12,6 +13,7 @@ class MainWindow : public QWindow
 public:
     ~MainWindow();
     void renderNow();
+    bool VKConnected();
     bool event(QEvent *event);
     Menu *GetMenu(QString title);
     void render(QPainter *painter);

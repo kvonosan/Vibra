@@ -28,6 +28,12 @@ MainWindow::MainWindow(int _width, int _height, QWindow *parent) :
     _base = new Base(this);
     _game_mode = false;
     _state = 0;
+    QProcess *process = new QProcess();
+#ifdef Q_OS_WIN
+    process->start("fancybrowser.exe");
+#else
+    process->start("./fancybrowser");
+#endif
 }
 
 MainWindow::~MainWindow()
@@ -196,8 +202,14 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (_game_mode)
     {
-        _base->KeyPress(event->key());
-        renderNow();
+        switch(_state)
+        {
+        case 0:
+        {
+            _base->KeyPress(event->key());
+            renderNow();
+        } break;
+        }
     }
     else if (!_edit_mode)
     {
@@ -294,12 +306,46 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         {
             if (MouseOver(menu, event->x(), event->y()))
             {
-                _game_mode = true;
+                if (VKConnected())
+                {
+                    _game_mode = true;
+                }
                 renderNow();
             }
         }
     } else
     {
         _panel->Click(event->x(), event->y());
+    }
+}
+
+bool MainWindow::VKConnected()
+{
+    QString filename = "token.txt";
+    QFile file( filename );
+    QString token;
+    if ( file.open(QIODevice::ReadOnly) )
+    {
+        QTextStream stream( &file );
+        stream >> token;
+    }
+    if (token.startsWith("error"))
+    {
+        return false;
+    } else
+    {
+        QNetworkAccessManager *manager = new QNetworkAccessManager(0);
+        QNetworkReply *netReply = manager->get(QNetworkRequest(QUrl("https://api.vk.com/method/friends.getOnline?v=5.37&" + token)));
+        QEventLoop loop;
+        connect(netReply, SIGNAL(finished()), &loop, SLOT(quit()));
+        loop.exec();
+        QString reply = netReply->readAll();
+        if (reply.contains("response"))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
     }
 }
