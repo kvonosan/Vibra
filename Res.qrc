@@ -4,6 +4,5 @@
         <file>icons/pencil.png</file>
         <file>icons/rubber.png</file>
         <file>icons/standart.png</file>
-        <file>audio/mouseover.wav</file>
     </qresource>
 </RCC>

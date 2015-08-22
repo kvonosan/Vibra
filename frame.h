@@ -15,7 +15,6 @@ private:
     Grid *_grid;
     QWindow *_parent;
     QPainter *_painter;
-    QFont _font;
     void SetAction();
     void SetTarget();
     void SetView();

@@ -21,7 +21,7 @@ public:
     void SetTextColor(QPainter *painter, QColor textcolor);
     QVector <QVector<Symbol> >GetSymbols(){return _symbols;}
     void SetSymbols(QVector <QVector<Symbol> > symbols){_symbols = symbols;}
-    Grid(QColor defaultgridcolor, QColor defaulttextcolor, QFont *font = 0);
+    Grid(QColor defaultgridcolor, QColor defaulttextcolor);
     void PrintWordOnCenter(QPainter *painter, QString word, int line, QColor gridcolor = Qt::black, QColor textcolor = Qt::white);
     void PrintWordOnRight(QPainter *painter, QString word, int line, QColor gridcolor = Qt::black, QColor textcolor = Qt::white);
     void PrintWordOnLeft(QPainter *painter,QString word, int line, QColor gridcolor = Qt::black, QColor textcolor = Qt::white);

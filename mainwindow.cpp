@@ -1,49 +1,44 @@
 #include "mainwindow.h"
 
-MainWindow::MainWindow(int _width, int _height, QWindow *parent) :
+MainWindow::MainWindow(int _width, int _height, bool game_mode, bool edit_mode, QWindow *parent) :
     QWindow(parent), _m_update_pending(false)
 {
     create();
-    _font = new QFont();
-    _font->setPixelSize(32);
-    _edit_mode = false;
-    _end_timer = false;
-    _show_help = false;
-    _start_timer = true;
-    _end_timer_edit = false;
-    _start_timer_edit = true;
-    _defaultgridcolor = Qt::gray;
-    _defaulttextcolor = Qt::black;
-    _m_backingStore = new QBackingStore(this);
     setGeometry(0, 0, _width, _height);
-    _grid = new Grid(_defaultgridcolor, _defaulttextcolor, _font);
-    _panel = new ButtonPanel(this, _grid);
-    _mainMenu = new Menu(_grid, "Play");
-    _mainMenu->AddMenu(new Menu(_grid, "Redact"));
-    _mainMenu->Next()->AddMenu(new Menu(_grid, "Exit"));
-    _mainMenu->Build(width(), height(), _font);
-    _mainMenu->_line = (_grid->GetSizeY()/2);
-    (_mainMenu->Next())->_line = (_grid->GetSizeY()/2 + 1);
-    (_mainMenu->Next()->Next())->_line = (_grid->GetSizeY()/2 + 2);
-    _base = new Base(this);
-    _game_mode = false;
-    _state = 0;
-    QProcess *process = new QProcess();
+    _m_backingStore = new QBackingStore(this);
+    _edit_mode = edit_mode;
+    _game_mode = game_mode;
+    if (_edit_mode)
+    {
+        _grid = new Grid(Qt::gray, Qt::black);
+        _panel = new ButtonPanel(this, _grid);
+        _end_timer_edit = false;
+        _start_timer_edit = true;
+    }
+    if (_game_mode)
+    {
+        _base = new Base(this);
+        _state = 0;
+    }
 #ifdef Q_OS_WIN
-    process->start("fancybrowser.exe");
+    _process.start("fancybrowser.exe");
 #else
-    process->start("./fancybrowser");
+    _process.start("./fancybrowser");
 #endif
 }
 
 MainWindow::~MainWindow()
 {
-    delete _font;
+    if (_game_mode)
+    {
+        delete _base;
+    }
+    if (_edit_mode)
+    {
+        delete _grid;
+        delete _panel;
+    }
     delete _m_backingStore;
-    delete _grid;
-    delete _panel;
-    delete _mainMenu;
-    delete _base;
 }
 
 bool MainWindow::event(QEvent *event)
@@ -69,7 +64,7 @@ void MainWindow::renderNow()
     QPainter painter(device);
 
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.fillRect(0, 0, width(), height(), _defaultgridcolor);
+    painter.fillRect(0, 0, width(), height(), Qt::gray);
     render(&painter);
 
     _m_backingStore->endPaint();
@@ -84,39 +79,13 @@ void MainWindow::render(QPainter *painter)
         {
             switch(_state)
             {
-            case 0:
+            case 1:
             {
                 _base->Paint(painter);
             } break;
             }
         }
-        else if (!_edit_mode)
-        {
-            _mainMenu->Paint(painter);
-            if (_start_timer)
-            {
-                _timer.start(10000, this);
-                _start_timer = false;
-            }
-            if (!_end_timer)
-            {
-                painter->setPen(QPen(Qt::black));
-                painter->drawText(QRectF(0, 250, width(), height()), Qt::AlignCenter, QStringLiteral("Press F1 for help."));
-            }
-            if (_show_help)
-            {
-                painter->setPen(QPen(Qt::black));
-#ifdef Q_OS_WIN
-                painter->drawText(QRectF(0, height()/2 -1*_font->pixelSize(), width(), height()), Qt::AlignLeft, QStringLiteral("                        Start playing - "));
-                painter->drawText(QRectF(0, (height()/2), width(), height()), Qt::AlignLeft, QStringLiteral("        Start games redactor - "));
-                painter->drawText(QRectF(0, (height()/2 + 1*_font->pixelSize()), width(), height()), Qt::AlignLeft, QStringLiteral("                    Exit from game - "));
-#else
-                painter->drawText(QRectF(0, height()/2, width(), height()), Qt::AlignLeft, QStringLiteral("                        Start playing - "));
-                painter->drawText(QRectF(0, (height()/2 + 1*_font->pixelSize()), width(), height()), Qt::AlignLeft, QStringLiteral("        Start games redactor - "));
-                painter->drawText(QRectF(0, (height()/2 + 2*_font->pixelSize()), width(), height()), Qt::AlignLeft, QStringLiteral("                    Exit from game - "));
-#endif
-            }
-        } else
+        else if (_edit_mode)
         {
             _panel->Paint(painter);
             if (_start_timer_edit)
@@ -135,19 +104,12 @@ void MainWindow::render(QPainter *painter)
 
 void MainWindow::timerEvent(QTimerEvent *event)
 {
-    if (event->timerId() == _timer.timerId())
+    if (event->timerId() == _timer_edit.timerId())
     {
-        _end_timer = true;
+        _end_timer_edit = true;
         renderNow();
-    } else
-    {
-        if (event->timerId() == _timer_edit.timerId())
-        {
-            _end_timer_edit = true;
-            renderNow();
-        }
-        QWindow::timerEvent(event);
     }
+    QWindow::timerEvent(event);
 }
 
 void MainWindow::exposeEvent(QExposeEvent *)
@@ -160,7 +122,10 @@ void MainWindow::exposeEvent(QExposeEvent *)
 
 void MainWindow::resizeEvent(QResizeEvent *resizeEvent)
 {
-    _panel->SetBoundaries(width(), height());
+    if (_edit_mode)
+    {
+        _panel->SetBoundaries(width(), height());
+    }
     _m_backingStore->resize(resizeEvent->size());
     if (isExposed())
     {
@@ -174,18 +139,14 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     {
         switch(_state)
         {
-        case 0:
+        case 1:
         {
             _base->MouseMove(event->x(), event->y());
             renderNow();
         } break;
         }
     }
-    else if (!_edit_mode)
-    {
-        _mainMenu->OnMouseOver(event->x(), event->y());
-        renderNow();
-    } else
+    else if (_edit_mode)
     {
         if (event->buttons() == Qt::LeftButton)
         {
@@ -204,67 +165,18 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     {
         switch(_state)
         {
-        case 0:
+        case 1:
         {
             _base->KeyPress(event->key());
             renderNow();
         } break;
         }
     }
-    else if (!_edit_mode)
-    {
-        switch(event->key())
-        {
-        case Qt::Key_Escape:
-        {
-            this->close();
-        } break;
-        case Qt::Key_F1:
-        {
-            _show_help = !_show_help;
-            renderNow();
-        } break;
-        }
-    } else
+    else if (_edit_mode)
     {
         _panel->KeyPress(event);
         renderNow();
     }
-}
-
-bool MainWindow::MouseOver(Menu *menu, int x, int y)
-{
-    if (menu != NULL)
-    {
-        if (!_edit_mode && !_game_mode)
-        {
-            QVector<int> menurect = _grid->GetCoordForWord(menu->_title);
-            if (menurect.length() == 4)
-            {
-                if ((x > menurect.at(0)) && (x < menurect.at(2)) && (y > menurect.at(1)) && (y<menurect.at(3)))
-                {
-                    return true;
-                } else
-                {
-                    return false;
-                }
-            }
-        } else
-        {}
-    }
-    return false;
-}
-
-Menu *MainWindow::GetMenu(QString title)
-{
-    Menu *menu = _mainMenu;
-    while(menu != NULL)
-    {
-        if (menu->_title == title)
-            return menu;
-        menu = menu->Next();
-    }
-    return NULL;
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
@@ -273,47 +185,14 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     {
         switch(_state)
         {
-        case 0:
+        case 1:
         {
             _base->Click(event->x(), event->y());
             renderNow();
         } break;
         }
     }
-    else if (!_edit_mode)
-    {
-        Menu *menu = GetMenu("Exit");
-        if (menu != NULL)
-        {
-            if (MouseOver(menu, event->x(), event->y()))
-            {
-                this->close();
-            }
-        }
-        menu = NULL;
-        menu = GetMenu("Redact");
-        if (menu != NULL)
-        {
-            if (MouseOver(menu, event->x(), event->y()))
-            {
-                _edit_mode = true;
-                renderNow();
-            }
-        }
-        menu = NULL;
-        menu = GetMenu("Play");
-        if (menu != NULL)
-        {
-            if (MouseOver(menu, event->x(), event->y()))
-            {
-                if (VKConnected())
-                {
-                    _game_mode = true;
-                }
-                renderNow();
-            }
-        }
-    } else
+    else if (_edit_mode)
     {
         _panel->Click(event->x(), event->y());
     }

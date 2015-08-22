@@ -1,16 +1,10 @@
 #include "grid.h"
 #include <QDebug>
 
-Grid::Grid(QColor defaultgridcolor, QColor defaulttextcolor, QFont *font)
+Grid::Grid(QColor defaultgridcolor, QColor defaulttextcolor)
 {
-    if (font != NULL)
-    {
-        _font = font;
-    } else
-    {
-        qDebug() << "Error font == NULL.";
-        exit(-1);
-    }
+    _font = new QFont();
+    _font->setPixelSize(32);
     _computed = false;
     _defaultgridcolor = defaultgridcolor;
     _defaulttextcolor = defaulttextcolor;

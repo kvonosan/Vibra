@@ -3,7 +3,6 @@
 
 #include <QtGui>
 #include <QtWebKitWidgets>
-#include "menu.h"
 #include "buttonpanel.h"
 #include "base.h"
 
@@ -15,12 +14,11 @@ public:
     void renderNow();
     bool VKConnected();
     bool event(QEvent *event);
-    Menu *GetMenu(QString title);
     void render(QPainter *painter);
     void exposeEvent(QExposeEvent *);
-    bool MouseOver(Menu *menu, int x, int y);
-    explicit MainWindow(int _width, int _height, QWindow *parent = 0);
+    explicit MainWindow(int _width, int _height, bool game_mode, bool edit_mode, QWindow *parent = 0);
     void resizeEvent(QResizeEvent *resizeEvent);
+    bool _edit_mode, _game_mode;
 private:
     void keyPressEvent(QKeyEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
@@ -28,16 +26,13 @@ private:
     void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
     Base *_base;
     Grid *_grid;
-    QFont *_font;
-    Menu *_mainMenu;
     int _width, _height;
     ButtonPanel *_panel;
     QBackingStore *_m_backingStore;
-    QBasicTimer _timer, _timer_edit;
-    QColor _defaultgridcolor, _defaulttextcolor;
-    bool _start_timer_edit, _end_timer_edit, _game_mode;
-    bool _m_update_pending, _start_timer, _end_timer, _show_help, _edit_mode;
+    QBasicTimer _timer_edit;
+    bool _start_timer_edit, _end_timer_edit, _m_update_pending;
     int _state;
+    QProcess _process;
 };
 
 #endif // WINDOW_H

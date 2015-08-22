@@ -8,8 +8,7 @@ Frame::Frame(QWindow *parent)
         exit(-1);
     }
     _parent = parent;
-    _font.setPixelSize(32);
-    _grid = new Grid(Qt::black, Qt::white, &_font);
+    _grid = new Grid(Qt::black, Qt::white);
 }
 
 Frame::~Frame()

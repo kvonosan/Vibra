@@ -17,10 +17,8 @@ Fly::Fly(QWindow *parent, Base *base)
     _menu = false;
     int menu_num = 8;
     _compute = false;
-    _font = new QFont();
-    _font->setPixelSize(32);
     _frame = new Frame(_parent);
-    _grid = new Grid(Qt::black, Qt::white, _font);
+    _grid = new Grid(Qt::black, Qt::white);
     _state = QRect(10, 10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
     _exp = QRect(10, _parent->geometry().height()/menu_num*1+10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
     _energy = QRect(10, _parent->geometry().height()/menu_num*2+10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
@@ -34,7 +32,6 @@ Fly::Fly(QWindow *parent, Base *base)
 
 Fly::~Fly()
 {
-    delete _font;
     delete _grid;
     delete _frame;
 }

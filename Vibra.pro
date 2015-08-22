@@ -14,7 +14,6 @@ TEMPLATE = app
 
 SOURCES += \
     symbol.cpp \
-    menu.cpp \
     mainwindow.cpp \
     main.cpp \
     grid.cpp \
@@ -30,7 +29,6 @@ SOURCES += \
 
 HEADERS  += \
     symbol.h \
-    menu.h \
     mainwindow.h \
     grid.h \
     buttonpanel.h \

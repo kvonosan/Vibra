@@ -22,7 +22,6 @@ private:
     bool _menu, _compute;
     Grid *_grid;
     QRect _state, _exp, _energy, _radar, _cartograph, _scaner, _hold, _quit;
-    QFont *_font;
     Frame *_frame;
 };
 
