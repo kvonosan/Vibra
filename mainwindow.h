@@ -30,7 +30,7 @@ private:
     ButtonPanel *_panel;
     QBackingStore *_m_backingStore;
     QBasicTimer _timer_edit;
-    bool _start_timer_edit, _end_timer_edit, _m_update_pending;
+    bool _start_timer_edit, _end_timer_edit, _m_update_pending, _started;
     int _state;
     QProcess _process;
 };

@@ -79,6 +79,13 @@ void MainWindow::render(QPainter *painter)
         {
             switch(_state)
             {
+            case 0:
+            {
+                painter->fillRect(QRect(0,0,width(),height()), Qt::blue);
+                painter->setPen(Qt::black);
+                painter->setFont(QFont("Arial Black", 64));
+                painter->drawText(QRect(0, 300, width(), height()), Qt::AlignCenter, QStringLiteral("Yotanet 768d"));
+            } break;
             case 1:
             {
                 _base->Paint(painter);
