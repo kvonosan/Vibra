@@ -114,14 +114,14 @@ void MainWindow::render(QPainter *painter)
                 font.setUnderline(true);
                 painter->setFont(font);
                 painter->drawText(QRect(0, 300, width(), height()), Qt::AlignCenter, QStringLiteral("Yotanet 768d"));
-                if (!_net->_connected)
-                {
-                    _net->Connect();
-                }
             } break;
             case 1:
             {
                 _base->Paint(painter);
+                if (!_net->_connected)
+                {
+                    _net->NetConnect();
+                }
             } break;
             }
         }

@@ -5,10 +5,11 @@
 
 class Net : public QObject
 {
+    Q_OBJECT
 public:
     Net();
     ~Net();
-    void Connect();
+    void NetConnect();
     bool VKConnected();
     bool _connected;
 private:

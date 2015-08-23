@@ -267,4 +267,5 @@ int Loader::BufferizeLeft(int id, int radius)
 
         return 0;
     }
+    return 0;
 }

@@ -17,17 +17,21 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     player.cpp \
-    vk_auth.cpp \
     infinite_world.cpp \
     loader.cpp \
-    server.cpp
+    net.cpp \
+    myclient.cpp \
+    mytask.cpp \
+    myserver.cpp
 
 HEADERS += \
     player.h \
     infinite_world.h \
     loader.h \
-    vk_auth.h \
-    server.h
+    net.h \
+    myclient.h \
+    mytask.h \
+    myserver.h
 
 win32 {
     INCLUDEPATH += c:/boost_1_58_0/

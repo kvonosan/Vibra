@@ -2,7 +2,7 @@
 
 Net::Net()
 {
-    _port = 2244;
+    _port = 33333;
     _manager = new QNetworkAccessManager(0);
     _reply = _manager->get(QNetworkRequest(QUrl("https://api.vk.com/method/users.get?v=5.37")));
     QEventLoop loop;
@@ -27,10 +27,12 @@ Net::~Net()
     delete _reply;
 }
 
-void Net::Connect()
+void Net::NetConnect()
 {
-    QObject::connect(_tcp, SIGNAL(connected()), SLOT(Connected()));
+    _tcp = new QTcpSocket();
+    connect(_tcp, SIGNAL(connected()), SLOT(Connected()));
     _tcp->connectToHost("31.24.29.91", _port);
+    _tcp->waitForConnected(2000);
     _tcp->connectToHost("127.0.0.1", _port);
 }
 
