@@ -20,11 +20,35 @@ MainWindow::MainWindow(int _width, int _height, bool game_mode, bool edit_mode, 
         _base = new Base(this);
         _state = 0;
     }
+    connect(&_process, SIGNAL(finished(int)), SLOT(OnExit()));
+    if (!VKConnected())
+    {
 #ifdef Q_OS_WIN
     _process.start("fancybrowser.exe");
 #else
     _process.start("./fancybrowser");
 #endif
+    } else
+    {
+        _state = 1;
+        renderNow();
+    }
+}
+
+void MainWindow::OnExit()
+{
+    if (VKConnected())
+    {
+        _state = 1;
+        renderNow();
+    } else
+    {
+#ifdef Q_OS_WIN
+    _process.start("fancybrowser.exe");
+#else
+    _process.start("./fancybrowser");
+#endif
+    }
 }
 
 MainWindow::~MainWindow()

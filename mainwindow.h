@@ -19,6 +19,8 @@ public:
     explicit MainWindow(int _width, int _height, bool game_mode, bool edit_mode, QWindow *parent = 0);
     void resizeEvent(QResizeEvent *resizeEvent);
     bool _edit_mode, _game_mode;
+private slots:
+    void OnExit();
 private:
     void keyPressEvent(QKeyEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
