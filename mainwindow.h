@@ -5,6 +5,7 @@
 #include <QtWebKitWidgets>
 #include "buttonpanel.h"
 #include "base.h"
+#include "net.h"
 
 class MainWindow : public QWindow
 {
@@ -35,6 +36,7 @@ private:
     bool _start_timer_edit, _end_timer_edit, _m_update_pending, _started;
     int _state;
     QProcess _process;
+    Net *_net;
 };
 
 #endif // WINDOW_H

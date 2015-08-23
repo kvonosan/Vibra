@@ -21,7 +21,8 @@ MainWindow::MainWindow(int _width, int _height, bool game_mode, bool edit_mode, 
         _state = 0;
     }
     connect(&_process, SIGNAL(finished(int)), SLOT(OnExit()));
-    if (!VKConnected())
+    _net = new Net();
+    if (!_net->VKConnected())
     {
 #ifdef Q_OS_WIN
     _process.start("fancybrowser.exe");
@@ -37,7 +38,7 @@ MainWindow::MainWindow(int _width, int _height, bool game_mode, bool edit_mode, 
 
 void MainWindow::OnExit()
 {
-    if (VKConnected())
+    if (_net->VKConnected())
     {
         _state = 1;
         renderNow();
@@ -113,6 +114,10 @@ void MainWindow::render(QPainter *painter)
                 font.setUnderline(true);
                 painter->setFont(font);
                 painter->drawText(QRect(0, 300, width(), height()), Qt::AlignCenter, QStringLiteral("Yotanet 768d"));
+                if (!_net->_connected)
+                {
+                    _net->Connect();
+                }
             } break;
             case 1:
             {
@@ -230,36 +235,5 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     else if (_edit_mode)
     {
         _panel->Click(event->x(), event->y());
-    }
-}
-
-bool MainWindow::VKConnected()
-{
-    QString filename = "token.txt";
-    QFile file( filename );
-    QString token;
-    if ( file.open(QIODevice::ReadOnly) )
-    {
-        QTextStream stream( &file );
-        stream >> token;
-    }
-    if (token.startsWith("error"))
-    {
-        return false;
-    } else
-    {
-        QNetworkAccessManager *manager = new QNetworkAccessManager(0);
-        QNetworkReply *netReply = manager->get(QNetworkRequest(QUrl("https://api.vk.com/method/friends.getOnline?v=5.37&" + token)));
-        QEventLoop loop;
-        connect(netReply, SIGNAL(finished()), &loop, SLOT(quit()));
-        loop.exec();
-        QString reply = netReply->readAll();
-        if (reply.contains("response"))
-        {
-            return true;
-        } else
-        {
-            return false;
-        }
     }
 }

@@ -25,7 +25,8 @@ SOURCES += \
     honors.cpp \
     rating.cpp \
     bank.cpp \
-    fly.cpp
+    fly.cpp \
+    net.cpp
 
 HEADERS  += \
     symbol.h \
@@ -39,7 +40,8 @@ HEADERS  += \
     honors.h \
     rating.h \
     bank.h \
-    fly.h
+    fly.h \
+    net.h
 
 DISTFILES +=
 

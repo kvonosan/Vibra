@@ -135,7 +135,7 @@ F(1) = d*24*32 = 768*d
 Меню в полете:состояние корабля, опыт, энергия, радар, картограф, сканер, трюм.
 
 База данных:
-player(игрок): player_id, token, name, rating_id, gold, credits, race, ship, spec, rank, escadra, rating, screen, level, accelerator, map
+player(игрок): player_id, vk_id, token, name, rating_id, gold, credits, race, ship, spec, rank, escadra, rating, screen, level, accelerator, map
 screen(экран):screen_id, width, height
 race(раса): race_id, name, history, head
 ship(корабль): ship_id, name, class, engine, energy, life, fuel_tank
