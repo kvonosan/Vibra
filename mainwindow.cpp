@@ -105,9 +105,13 @@ void MainWindow::render(QPainter *painter)
             {
             case 0:
             {
-                painter->fillRect(QRect(0,0,width(),height()), Qt::blue);
+                QColor color;
+                color.setNamedColor("#00A2E8");
+                painter->fillRect(QRect(0,0,width(),height()), color);
                 painter->setPen(Qt::black);
-                painter->setFont(QFont("Arial Black", 64));
+                QFont font = QFont("Arial Black", 64);
+                font.setUnderline(true);
+                painter->setFont(font);
                 painter->drawText(QRect(0, 300, width(), height()), Qt::AlignCenter, QStringLiteral("Yotanet 768d"));
             } break;
             case 1:
