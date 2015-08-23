@@ -11,17 +11,18 @@ public:
     ~Net();
     void NetConnect();
     bool VKConnected();
+    void GetVKID();
     bool _connected;
 private:
     int _port;
-    QString _acess_token;
+    QString _acess_token, _vk_user_id;
     QTcpSocket *_tcp;
     QNetworkAccessManager *_manager;
     QNetworkReply *_reply;
     int _vk_player_id;
     QString _firstName;
     QString _lastName;
-private slots:
+public slots:
     void Connected();
 };
 

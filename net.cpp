@@ -3,12 +3,18 @@
 Net::Net()
 {
     _port = 33333;
+    _connected = false;
+}
+
+void Net::GetVKID()
+{
     _manager = new QNetworkAccessManager(0);
-    _reply = _manager->get(QNetworkRequest(QUrl("https://api.vk.com/method/users.get?v=5.37")));
+    _reply = _manager->get(QNetworkRequest(QUrl("https://api.vk.com/method/users.get?v=5.37&user_ids="+_vk_user_id)));
     QEventLoop loop;
     connect(_reply, SIGNAL(finished()), &loop, SLOT(quit()));
     loop.exec();
-    QJsonDocument document = QJsonDocument::fromJson(_reply->readAll());
+    QByteArray recv = _reply->readAll();
+    QJsonDocument document = QJsonDocument::fromJson(recv);
     QJsonObject object = document.object();
     QJsonValue value = object.value("response");
     QJsonArray array = value.toArray();
@@ -18,7 +24,6 @@ Net::Net()
         _firstName = v.toObject().value("first_name").toString();
         _lastName = v.toObject().value("last_name").toString();
     }
-    _connected = false;
 }
 
 Net::~Net()
@@ -30,16 +35,17 @@ Net::~Net()
 void Net::NetConnect()
 {
     _tcp = new QTcpSocket();
-    connect(_tcp, SIGNAL(connected()), SLOT(Connected()));
+    connect(_tcp, SIGNAL(connected()), this, SLOT(Connected()));
     _tcp->connectToHost("31.24.29.91", _port);
     _tcp->waitForConnected(2000);
     _tcp->connectToHost("127.0.0.1", _port);
+    _connected = true;
 }
 
 void Net::Connected()
 {
+    GetVKID();
     _tcp->write((const char*) &_vk_player_id, sizeof(_vk_player_id));
-    _connected = true;
 }
 
 bool Net::VKConnected()
@@ -51,6 +57,12 @@ bool Net::VKConnected()
     {
         QTextStream stream( &file );
         stream >> _acess_token;
+        stream >> _vk_user_id;
+        QStringList user_id = _vk_user_id.split("=");
+        QString id = user_id.at(1);
+        QStringList user_id_lst = id.split("\"");
+        _vk_user_id = user_id_lst.at(0);
+        qDebug() << _vk_user_id;
     }
     if (token.startsWith("error"))
     {

@@ -55,6 +55,7 @@ void MainWindow::finishLoading(bool)
         QString access_token = params.at(1);
         QStringList access_token_param = access_token.split('&');
         QString token = access_token_param.at(0);
+        QString user_id = access_token_param.at(2);
 
         QString filename = "token.txt";
         QFile::remove(filename);
@@ -63,6 +64,7 @@ void MainWindow::finishLoading(bool)
         {
             QTextStream stream( &file );
             stream << token << endl;
+            stream << user_id << endl;
         }
         setWindowTitle("Для продолжения закройте окно!");
     }
