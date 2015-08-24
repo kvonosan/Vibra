@@ -176,6 +176,7 @@ void Loader::DatabaseConnect()
         if (count == 0)
         {
             GenerateMap();
+            GenerateTables();
         }
     } else
     {
@@ -206,6 +207,23 @@ void Loader::GenerateMap()
     GenerateInFront(map);
     SaveMapToDatabase(map->_in_front);
     delete map;
+}
+
+void Loader::GenerateTables()
+{
+    QSqlQuery q;
+    q.prepare("SELECT Count(*) FROM race");
+    q.exec();
+    int count = 0;
+    if (q.next())
+    {
+        count = q.value(0).toInt();
+    }
+    if (count == 0)
+    {
+        qDebug() << "Пожалуйста, заполните таблицы данными, они пусты.";
+        exit(1);
+    }
 }
 
 void Loader::SaveMapToDatabase(InfiniteWorld *map)

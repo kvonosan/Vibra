@@ -22,6 +22,7 @@ private:
     void GenerateBehind(InfiniteWorld *map);
     void Generate768d(InfiniteWorld *map);
     void GenerateMap();
+    void GenerateTables();
     void SaveMapToDatabase(InfiniteWorld *map);
     void LoadToBuffer(int map_id, int radius);
     int BufferizeLeft(int map_id, int radius);

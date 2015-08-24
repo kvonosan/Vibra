@@ -51,11 +51,22 @@ void MyClient::readyRead()
     //array.remove(array.size()-1, 1);
     QDataStream stream(&array, QIODevice::ReadOnly);
     bool ok;
-    _player->_player_id = array.toInt(&ok, 16);
-    qDebug() << "player_id = " << _player->_player_id;
+    _player->_player_id_vk = array.toInt(&ok, 16);
+    qDebug() << "player_id_vk = " << _player->_player_id_vk;
+    if (_player->Search())
+    {
+        qDebug() << "player_id = " << _player->_player_id;
+    } else
+    {
+        qDebug() << "new player_id = " << _player->_player_id;
+        //send new
+        QByteArray buf;
+        buf.append("new");
+        socket->write(buf);
+    }
 
     // Time consumer
-    MyTask *mytask = new MyTask();
+    /*MyTask *mytask = new MyTask();
     mytask->setAutoDelete(true);
     
     // using queued connection
@@ -64,7 +75,7 @@ void MyClient::readyRead()
     qDebug() << "Starting a new task using a thread from the QThreadPool";
     
     // QThreadPool::globalInstance() returns global QThreadPool instance
-    QThreadPool::globalInstance()->start(mytask);
+    QThreadPool::globalInstance()->start(mytask);*/
 
 }
 
