@@ -1,5 +1,6 @@
 // myclient.cpp
 
+#include <QDataStream>
 #include "myclient.h"
 
 MyClient::MyClient(QObject *parent) :
@@ -20,6 +21,7 @@ void MyClient::setSocket(qintptr descriptor)
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
 
     socket->setSocketDescriptor(descriptor);
+    _player = new Player();
 
     qDebug() << " Client connected at " << descriptor;
 }
@@ -45,7 +47,12 @@ void MyClient::disconnected()
 void MyClient::readyRead()
 {
     qDebug() << "MyClient::readyRead()";
-    qDebug() << socket->readAll();
+    QByteArray array = socket->readAll();
+    //array.remove(array.size()-1, 1);
+    QDataStream stream(&array, QIODevice::ReadOnly);
+    bool ok;
+    _player->_player_id = array.toInt(&ok, 16);
+    qDebug() << "player_id = " << _player->_player_id;
 
     // Time consumer
     MyTask *mytask = new MyTask();

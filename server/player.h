@@ -8,6 +8,7 @@ class Player
 public:
     Player();
     ~Player();
+    int _player_id;
 private:
     InfiniteWorld *_player_map;
 };

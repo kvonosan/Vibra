@@ -45,7 +45,10 @@ void Net::NetConnect()
 void Net::Connected()
 {
     GetVKID();
-    _tcp->write((const char*) &_vk_player_id, sizeof(_vk_player_id));
+    QByteArray array;
+    QDataStream stream(&array, QIODevice::WriteOnly);
+    stream << _vk_player_id;
+    _tcp->write(array.toHex());
 }
 
 bool Net::VKConnected()

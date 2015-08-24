@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QThreadPool>
 #include "mytask.h"
+#include "player.h"
 
 class MyClient : public QObject
 {
@@ -29,7 +30,7 @@ public slots:
 
 private:
     QTcpSocket *socket;
-
+    Player *_player;
 };
 
 #endif // MYCLIENT_H
