@@ -1,6 +1,7 @@
 #ifndef INFINITE_WORLD
 #define INFINITE_WORLD
 
+#include <QChar>
 #include <QVector>
 
 class InfiniteWorld
