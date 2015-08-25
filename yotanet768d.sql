@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.13.1
+-- version 4.4.14
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Авг 24 2015 г., 13:37
+-- Время создания: Авг 25 2015 г., 10:49
 -- Версия сервера: 5.5.41-MariaDB
 -- Версия PHP: 5.4.16
 
@@ -316,7 +316,22 @@ CREATE TABLE IF NOT EXISTS `race` (
   `name` varchar(15) NOT NULL,
   `history` mediumtext NOT NULL,
   `head` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `race`
+--
+
+INSERT INTO `race` (`race_id`, `name`, `history`, `head`) VALUES
+(1, 'Харха', 'Это продвинутые плазма органоиды. Это своеобразные киберго-независимые существа.', 0),
+(2, 'Лайттруверы', 'Силачи с огненной планеты.', 0),
+(3, 'Шерохомоты', 'Звери фурри.', 0),
+(4, 'Ливербэйлы', 'Существа с реакцией гиперпортации. Умеют гиперпортироваться от субстенций к субстенции. Живут всегда возле субстенции.', 0),
+(5, 'Киберги', 'Недоразвитая раса людей. Раса создана человечеством.', 0),
+(6, 'Галогены', 'Уничтожители людской расы.', 0),
+(7, 'Матофиты', 'Специалисты улучшений.', 0);
+
+-- --------------------------------------------------------
 
 --
 -- Структура таблицы `radar`
@@ -503,7 +518,19 @@ CREATE TABLE IF NOT EXISTS `ship_body` (
 CREATE TABLE IF NOT EXISTS `spec` (
   `spec_id` int(10) NOT NULL,
   `name` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `spec`
+--
+
+INSERT INTO `spec` (`spec_id`, `name`) VALUES
+(1, 'гуманоид'),
+(2, 'репортер'),
+(3, 'писатель'),
+(4, 'ижненер'),
+(5, 'админ'),
+(6, 'создатель');
 
 -- --------------------------------------------------------
 
@@ -909,7 +936,7 @@ ALTER TABLE `player`
 -- AUTO_INCREMENT для таблицы `race`
 --
 ALTER TABLE `race`
-  MODIFY `race_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `race_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT для таблицы `radar`
 --
@@ -979,7 +1006,7 @@ ALTER TABLE `ship_body`
 -- AUTO_INCREMENT для таблицы `spec`
 --
 ALTER TABLE `spec`
-  MODIFY `spec_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `spec_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT для таблицы `taste`
 --
