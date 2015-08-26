@@ -11,7 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = Vibra
 TEMPLATE = app
 
-
 SOURCES += \
     symbol.cpp \
     mainwindow.cpp \

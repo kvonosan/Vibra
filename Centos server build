@@ -1,0 +1,40 @@
+установка server в Centos 7
+yum -y install gcc
+yum -y install make
+yum -y install qt
+yum -y install qt-devel
+yum -y install g++
+yum -y install gcc-c++
+yum -y install epel-release
+yum -y install qtwebkit.x86_64
+yum -y install qt5-webkit-devel.x86_64
+yum -y install qt5-qtbase-mysql.x86_64
+yum -y install qt5-qtmultimedia.x86_64
+yum -y install qt5-qtmultimedia-devel.x86_64
+
+
+качаем git:
+git clone https://github.com/kvonosan/Vibra.git
+cd Vibra
+qmake-qt5 -makefile
+make
+
+LD_LIBRARY_PATH=/usr/lib64
+export LD_LIBRARY_PATH
+
+проверяем LD_LIBRARY_PATH
+echo $LD_LIBRARY_PATH
+
+./server
+
+Если нам нужен релиз то
+открываем server.pro
+дописываем CONFIG += debug_and_release
+и собираем
+qmake-qt5 -makefile
+make release
+
+LD_LIBRARY_PATH=/usr/lib64
+export LD_LIBRARY_PATH
+
+./server

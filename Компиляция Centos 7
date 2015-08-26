@@ -1,0 +1,51 @@
+установка yotanet768d в Centos 7
+Ставим qt:
+yum install -y epel-release
+yum install -y git
+yum install -y qt-settings
+yum install -y qt5-qtbase
+yum install -y qt5-qtbase-common
+yum install -y qt5-qtbase-devel
+yum install -y qt5-qtbase-gui
+yum install -y qt5-qtbase-mysql
+yum install -y qt5-qtdeclarative 
+yum install -y qt5-qtdeclarative-devel
+yum install -y qt5-qtlocation 
+yum install -y qt5-qtmultimedia
+yum install -y qt5-qtmultimedia-devel
+yum install -y qt5-qtsensors
+yum install -y qt5-qtwebkit 
+yum install -y qt5-qtwebkit-devel 
+yum install -y qt5-qtxmlpatterns
+
+качаем git:
+git clone https://github.com/kvonosan/Vibra.git
+cd Vibra
+qmake-qt5 -makefile
+make
+
+LD_LIBRARY_PATH=/usr/lib64
+export LD_LIBRARY_PATH
+
+проверяем LD_LIBRARY_PATH
+echo $LD_LIBRARY_PATH
+
+./Vibra
+
+Если нам нужен релиз то
+открываем Vibra.pro
+дописываем CONFIG += debug_and_release
+и собираем
+qmake-qt5 -makefile
+make release
+
+LD_LIBRARY_PATH=/usr/lib64
+export LD_LIBRARY_PATH
+
+./Vibra
+
+компилируем fancybrowser
+и charactermap
+и ложим их в одну папку с ./Vibra (запускать ненадо)
+чтобы запустить рисовальщик наберите
+./Vibra --redact

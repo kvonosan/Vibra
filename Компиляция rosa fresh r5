@@ -1,0 +1,36 @@
+установка yotanet768d на rosa fresh r6:
+устанавливаем git (через пуск->приложения->установка и удаление программ(здесь выберите все))
+gdb
+gcc-c++
+qt5-devel
+
+запускаем
+cd Vibra
+qmake-qt5 -makefile
+make
+
+LD_LIBRARY_PATH=/usr/lib64
+export LD_LIBRARY_PATH
+
+проверяем LD_LIBRARY_PATH
+echo $LD_LIBRARY_PATH
+
+./Vibra
+
+Если нам нужен релиз то
+открываем Vibra.pro
+дописываем CONFIG += debug_and_release
+и собираем
+qmake-qt5 -makefile
+make release
+
+LD_LIBRARY_PATH=/usr/lib64
+export LD_LIBRARY_PATH
+
+./Vibra
+
+компилируем fancybrowser
+и charactermap
+и ложим их в одну папку с ./Vibra (запускать ненадо)
+чтобы запустить рисовальщик наберите
+./Vibra --redact
