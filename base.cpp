@@ -81,7 +81,7 @@ void Base::Paint(QPainter *painter)
         painter->drawText(_bar, Qt::AlignCenter, QStringLiteral("Бар"));
         painter->drawText(_honors, Qt::AlignCenter, QStringLiteral("Награды"));
         painter->drawText(_rating, Qt::AlignCenter, QStringLiteral("Рейтинг"));
-        painter->drawText(_flight, Qt::AlignCenter, QStringLiteral("Вылет в космос"));
+        painter->drawText(_flight, Qt::AlignCenter, QStringLiteral("Вылет в йотанет"));
         painter->drawText(_quit, Qt::AlignCenter, QStringLiteral("Выход"));
         painter->drawText(_generator, Qt::AlignCenter, QStringLiteral("Генератор человека"));
         painter->drawText(_news, Qt::AlignCenter, QStringLiteral("Новости"));
