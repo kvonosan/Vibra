@@ -36,7 +36,7 @@ void Net::NetConnect()
 {
     _tcp = new QTcpSocket();
     connect(_tcp, SIGNAL(connected()), this, SLOT(Connected()));
-    _tcp->connectToHost("31.24.29.91", _port);
+    _tcp->connectToHost("91.215.138.69", _port);
     _tcp->waitForConnected(2000);
     _tcp->connectToHost("127.0.0.1", _port);
     _connected = true;

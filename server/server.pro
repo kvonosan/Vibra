@@ -11,6 +11,7 @@ QT       -= gui
 TARGET = server
 CONFIG   += console
 CONFIG   -= app_bundle
+CONFIG += debug_and_release
 
 TEMPLATE = app
 
@@ -32,16 +33,3 @@ HEADERS += \
     myclient.h \
     mytask.h \
     myserver.h
-
-win32 {
-    INCLUDEPATH += c:/boost_1_58_0/
-    LIBS += -Lc:/boost_1_58_0/stage/lib/ \
-            -lboost_system-mgw49-mt-1_58 \
-            -lws2_32
-}
-
-unix {
-    INCLUDEPATH += /opt/boost_1_58_0/
-    LIBS += -L/opt/boost_1_58_0/stage/lib/ \
-            -lboost_system
-}

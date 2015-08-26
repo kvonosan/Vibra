@@ -1,11 +1,11 @@
 #include <QCoreApplication>
-#include <boost/asio.hpp>
 #include "player.h"
 #include "net.h"
 #include "loader.h"
 #include "myserver.h"
 
 //copy c:\MySQL\lib\opt\libmysql.dll to build path
+//LD_LIBRARY_PATH=/usr/lib64
 
 int main(int argc, char *argv[])
 {
