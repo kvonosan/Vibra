@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Авг 25 2015 г., 10:49
+-- Время создания: Авг 27 2015 г., 10:28
 -- Версия сервера: 5.5.41-MariaDB
 -- Версия PHP: 5.4.16
 
@@ -244,7 +244,14 @@ CREATE TABLE IF NOT EXISTS `map` (
   `infront` int(10) NOT NULL,
   `inbehind` int(10) NOT NULL,
   `data` mediumtext NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `map`
+--
+
+INSERT INTO `map` (`map_id`, `inleft`, `inright`, `intop`, `inbottom`, `infront`, `inbehind`, `data`) VALUES
+(1, 0, 0, 0, 0, 0, 0, 'BAASBSA R  APRBAPA A RAR P BASR  RRABA  RB RSARSSPBA PAB PA SSSAASARBASS SSASSBPARARRSB SR PARR AASRSPSRA A A  A PA SRSRPR AA  SRAAAABASABRSR  RBRPRRSPRABRSA  SRRSR PBPSSSSAAB ASRA  ARSAS RSRASBRRB RRASBBBRAPSRRRRAAASBPBPR SSPSRSAR  SAASSR  RRBARP  PS  PRSPASA SRA RSA SPA RRPR B  PBSPBR RARBBRPSAASPPSA AASARRA R RRAP AA B  SRR SR PASRAPSRPS RA PS   PSS RP RBRPSPR RA SSSRRBAPSP RSBS ASB SARS  AS  RRR RRRARBRBBBRPSAARRPARARPBBBAB AS ASRARAPS PSRAPRA SARBR RBP ARR SSR SASRRSSRBSAPR RRAR SBSRP P RA   PAB  RPSAAASPASASRSR APAASA RRAPAP P BAA ASS P RPRRSS PBARRAPSAAAPRASRARSBBRBARBARAS RPRRRSRSBA BRPRARRB SBA   P  AS AS A   APSPRS AA  RASRPR P  RASASABARASR APAPRSBRS SS SSSRRBRS   APBSABABBSSBRA SRRP SAASA BBBRS PRAABSPRPS  BSRBS SPRBSASRRPAABAA SPASPR   AR PS ASP');
 
 -- --------------------------------------------------------
 
@@ -303,7 +310,14 @@ CREATE TABLE IF NOT EXISTS `player` (
   `level` int(10) NOT NULL,
   `accelerator` int(10) NOT NULL,
   `map` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `player`
+--
+
+INSERT INTO `player` (`player_id`, `vk_id`, `gold`, `credits`, `race`, `ship`, `spec`, `rank`, `escadra`, `rating`, `screen`, `level`, `accelerator`, `map`) VALUES
+(1, 164605891, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -573,7 +587,14 @@ CREATE TABLE IF NOT EXISTS `world` (
   `penta` int(10) NOT NULL,
   `yota` int(10) NOT NULL,
   `sector_length` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `world`
+--
+
+INSERT INTO `world` (`id`, `penta`, `yota`, `sector_length`) VALUES
+(1, 0, 0, 768);
 
 -- --------------------------------------------------------
 
@@ -911,7 +932,7 @@ ALTER TABLE `improvement`
 -- AUTO_INCREMENT для таблицы `map`
 --
 ALTER TABLE `map`
-  MODIFY `map_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `map_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT для таблицы `muscle`
 --
@@ -931,7 +952,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT для таблицы `player`
 --
 ALTER TABLE `player`
-  MODIFY `player_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `player_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT для таблицы `race`
 --
@@ -1021,7 +1042,7 @@ ALTER TABLE `weapons`
 -- AUTO_INCREMENT для таблицы `world`
 --
 ALTER TABLE `world`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT для таблицы `yotanet`
 --

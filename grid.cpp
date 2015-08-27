@@ -12,6 +12,7 @@ Grid::Grid(QColor defaultgridcolor, QColor defaulttextcolor)
 
 Grid::~Grid()
 {
+    delete _font;
 }
 
 void Grid::Paint(QPainter *painter)

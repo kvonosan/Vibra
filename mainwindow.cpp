@@ -19,36 +19,20 @@ MainWindow::MainWindow(int _width, int _height, bool game_mode, bool edit_mode, 
     {
         _base = new Base(this);
         _state = 0;
-    }
-    connect(&_process, SIGNAL(finished(int)), SLOT(OnExit()));
-    _net = new Net();
-    if (!_net->VKConnected())
-    {
+        connect(&_process, SIGNAL(finished(int)), SLOT(OnExit()));
+        _net = new Net();
+        if (!_net->VKConnected())
+        {
 #ifdef Q_OS_WIN
-    _process.start("fancybrowser.exe");
+        _process.start("fancybrowser.exe");
 #else
-    _process.start("./fancybrowser");
+        _process.start("./fancybrowser");
 #endif
-    } else
-    {
-        _state = 1;
-        renderNow();
-    }
-}
-
-void MainWindow::OnExit()
-{
-    if (_net->VKConnected())
-    {
-        _state = 1;
-        renderNow();
-    } else
-    {
-#ifdef Q_OS_WIN
-    _process.start("fancybrowser.exe");
-#else
-    _process.start("./fancybrowser");
-#endif
+        } else
+        {
+            _state = 1;
+            renderNow();
+        }
     }
 }
 
@@ -57,6 +41,7 @@ MainWindow::~MainWindow()
     if (_game_mode)
     {
         delete _base;
+        delete _net;
     }
     if (_edit_mode)
     {
@@ -64,6 +49,26 @@ MainWindow::~MainWindow()
         delete _panel;
     }
     delete _m_backingStore;
+}
+
+
+void MainWindow::OnExit()
+{
+    if (_game_mode)
+    {
+        if (_net->VKConnected())
+        {
+            _state = 1;
+            renderNow();
+        } else
+        {
+#ifdef Q_OS_WIN
+            _process.start("fancybrowser.exe");
+#else
+            _process.start("./fancybrowser");
+#endif
+        }
+    }
 }
 
 bool MainWindow::event(QEvent *event)
@@ -144,12 +149,15 @@ void MainWindow::render(QPainter *painter)
 
 void MainWindow::timerEvent(QTimerEvent *event)
 {
-    if (event->timerId() == _timer_edit.timerId())
+    if (_edit_mode)
     {
-        _end_timer_edit = true;
-        renderNow();
+        if (event->timerId() == _timer_edit.timerId())
+        {
+            _end_timer_edit = true;
+            renderNow();
+        }
+        QWindow::timerEvent(event);
     }
-    QWindow::timerEvent(event);
 }
 
 void MainWindow::exposeEvent(QExposeEvent *)

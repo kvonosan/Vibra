@@ -9,18 +9,24 @@ MyClient::MyClient(QObject *parent) :
     QThreadPool::globalInstance()->setMaxThreadCount(5);
 }
 
+MyClient::~MyClient()
+{
+    delete _socket;
+    delete _player;
+}
+
 void MyClient::setSocket(qintptr descriptor)
 {
     // make a new socket
-    socket = new QTcpSocket(this);
+    _socket = new QTcpSocket(this);
 
     qDebug() << "A new socket created!";
 
-    connect(socket, SIGNAL(connected()), this, SLOT(connected()));
-    connect(socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
-    connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    connect(_socket, SIGNAL(connected()), this, SLOT(connected()));
+    connect(_socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
+    connect(_socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
 
-    socket->setSocketDescriptor(descriptor);
+    _socket->setSocketDescriptor(descriptor);
     _player = new Player();
 
     qDebug() << " Client connected at " << descriptor;
@@ -39,6 +45,40 @@ void MyClient::disconnected()
     qDebug() << "Client disconnected";
 }
 
+bool MyClient::VkAuth(QString access_token)
+{
+    //get ident
+    _manager = new QNetworkAccessManager(0);
+    _reply = _manager->get(QNetworkRequest(QUrl("https://api.vk.com/method/users.get?v=5.37&"+access_token)));
+    QEventLoop loop;
+    connect(_reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
+    QByteArray recv = _reply->readAll();
+    QString recv_str = QString::fromUtf8(recv.toStdString().c_str());
+    if (recv_str.contains("error"))
+    {
+        //bye
+        qDebug() <<"bye";
+    } else
+    {
+        //todo
+        qDebug() <<"todo";
+        /*QJsonDocument document = QJsonDocument::fromJson(recv);
+        QJsonObject object = document.object();
+        QJsonValue value = object.value("response");
+        QJsonArray array = value.toArray();
+        int _vk_player_id=0;
+        QString _firstName, _lastName;
+        foreach (const QJsonValue & v, array)
+        {
+            _vk_player_id =  v.toObject().value("id").toInt();
+            _firstName = v.toObject().value("first_name").toString();
+            _lastName = v.toObject().value("last_name").toString();
+        }*/
+    }
+    delete _manager;
+}
+
 // Our main thread of execution
 // This happening via main thread
 // Our code running in our current thread not in another QThread
@@ -47,11 +87,18 @@ void MyClient::disconnected()
 void MyClient::readyRead()
 {
     qDebug() << "MyClient::readyRead()";
-    QByteArray array = socket->readAll();
-    //array.remove(array.size()-1, 1);
-    QDataStream stream(&array, QIODevice::ReadOnly);
+    QByteArray array = _socket->readAll();
+    //auth with access_token
+    VkAuth(QString::fromUtf8(array.toStdString().c_str()));
+/*
     bool ok;
     _player->_player_id_vk = array.toInt(&ok, 16);
+    if (!ok)
+    {
+        qDebug() << "Отсоединен из-за неверного player_id_vk = " << _player->_player_id_vk;
+        socket->close();
+        return;
+    }
     qDebug() << "player_id_vk = " << _player->_player_id_vk;
     if (_player->Search())
     {
@@ -63,7 +110,7 @@ void MyClient::readyRead()
         QByteArray buf;
         buf.append("new");
         socket->write(buf);
-    }
+    }*/
 
     // Time consumer
     /*MyTask *mytask = new MyTask();
@@ -87,5 +134,5 @@ void MyClient::TaskResult(int Number)
     Buffer.append("\r\nTask result = ");
     Buffer.append(QString::number(Number));
 
-    socket->write(Buffer);
+    _socket->write(Buffer);
 }

@@ -240,11 +240,10 @@ void ButtonPanel::KeyPress(QKeyEvent *event)
     }
     if (event->key() == Qt::Key_L || event->key() == 0x414 || event->key() == 0x434)
     {
-        QProcess *process = new QProcess();
 #ifdef Q_OS_WIN
-        process->start("charactermap.exe");
+            _process->start("charactermap.exe");
 #else
-        process->start("./charactermap");
+            _process->start("./charactermap");
 #endif
     }
     if (event->key() == Qt::Key_Q || event->key() == 0x419 || event->key() == 0x439)

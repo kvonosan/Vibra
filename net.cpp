@@ -4,9 +4,53 @@ Net::Net()
 {
     _port = 33333;
     _connected = false;
+    _tcp = new QTcpSocket();
 }
 
-void Net::GetVKID()
+Net::~Net()
+{
+    delete _tcp;
+}
+
+bool Net::VKConnected()
+{
+    QString filename = "token.txt";
+    QFile file( filename );
+    QString token;
+    if ( file.open(QIODevice::ReadOnly) )
+    {
+        QTextStream stream( &file );
+        stream >> _access_token;
+        stream >> _vk_user_id;
+        QStringList user_id = _vk_user_id.split("=");
+        QString id = user_id.at(1);
+        QStringList user_id_lst = id.split("\"");
+        _vk_user_id = user_id_lst.at(0);
+        qDebug() << _vk_user_id;
+    }
+    if (token.startsWith("error"))
+    {
+        return false;
+    } else
+    {
+        QNetworkAccessManager *manager = new QNetworkAccessManager(0);
+        QNetworkReply *netReply = manager->get(QNetworkRequest(QUrl("https://api.vk.com/method/friends.getOnline?v=5.37&" + _access_token)));
+        QEventLoop loop;
+        connect(netReply, SIGNAL(finished()), &loop, SLOT(quit()));
+        loop.exec();
+        QString reply = netReply->readAll();
+        if (reply.contains("response"))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+        delete manager;
+    }
+}
+
+void Net::GetVKName()
 {
     _manager = new QNetworkAccessManager(0);
     _reply = _manager->get(QNetworkRequest(QUrl("https://api.vk.com/method/users.get?v=5.37&user_ids="+_vk_user_id)));
@@ -24,17 +68,11 @@ void Net::GetVKID()
         _firstName = v.toObject().value("first_name").toString();
         _lastName = v.toObject().value("last_name").toString();
     }
-}
-
-Net::~Net()
-{
     delete _manager;
-    delete _reply;
 }
 
 void Net::NetConnect()
 {
-    _tcp = new QTcpSocket();
     connect(_tcp, SIGNAL(connected()), this, SLOT(Connected()));
     _tcp->connectToHost("91.215.138.69", _port);
     _tcp->waitForConnected(2000);
@@ -44,46 +82,19 @@ void Net::NetConnect()
 
 void Net::Connected()
 {
-    GetVKID();
-    QByteArray array;
-    QDataStream stream(&array, QIODevice::WriteOnly);
-    stream << _vk_player_id;
-    _tcp->write(array.toHex());
+    _tcp->write(_access_token.toUtf8());
+    connect(_tcp, SIGNAL(readyRead()), this, SLOT(readyRead()));
 }
 
-bool Net::VKConnected()
+void Net::readyRead()
 {
-    QString filename = "token.txt";
-    QFile file( filename );
-    QString token;
-    if ( file.open(QIODevice::ReadOnly) )
+    QByteArray _player_id_buf = _tcp->readAll();
+    bool ok;
+    _player_id = _player_id_buf.toInt(&ok, 16);
+    if (!ok)
     {
-        QTextStream stream( &file );
-        stream >> _acess_token;
-        stream >> _vk_user_id;
-        QStringList user_id = _vk_user_id.split("=");
-        QString id = user_id.at(1);
-        QStringList user_id_lst = id.split("\"");
-        _vk_user_id = user_id_lst.at(0);
-        qDebug() << _vk_user_id;
+        qDebug() << "Net read error.";
+        exit(-1);
     }
-    if (token.startsWith("error"))
-    {
-        return false;
-    } else
-    {
-        QNetworkAccessManager *manager = new QNetworkAccessManager(0);
-        QNetworkReply *netReply = manager->get(QNetworkRequest(QUrl("https://api.vk.com/method/friends.getOnline?v=5.37&" + _acess_token)));
-        QEventLoop loop;
-        connect(netReply, SIGNAL(finished()), &loop, SLOT(quit()));
-        loop.exec();
-        QString reply = netReply->readAll();
-        if (reply.contains("response"))
-        {
-            return true;
-        } else
-        {
-            return false;
-        }
-    }
+    GetVKName();
 }

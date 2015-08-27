@@ -18,5 +18,10 @@ int main(int argc, char *argv[])
     MyServer *server = new MyServer();
     server->startServer();
 
-    return a.exec();
+    int result = a.exec();
+
+    delete net;
+    delete server;
+
+    return result;
 }

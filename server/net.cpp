@@ -22,4 +22,6 @@ Net::Net(QString client_id, QString client_secret)
 }
 
 Net::~Net()
-{}
+{
+    delete _manager;
+}

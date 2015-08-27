@@ -13,15 +13,12 @@ class MyServer : public QTcpServer
     Q_OBJECT
 public:
     explicit MyServer(QObject *parent = 0);
+    ~MyServer();
     void startServer();
-
 protected:
     void incomingConnection(qintptr socketDescriptor);
-
-signals:
-
-public slots:
-
+private:
+    QVector <MyClient* > _clients;
 };
 
 #endif // MYSERVER_H

@@ -6,7 +6,13 @@ Loader::Loader()
 }
 
 Loader::~Loader()
-{}
+{
+    QVectorIterator <InfiniteWorld* > i(_map);
+    while(i.hasNext())
+    {
+        delete i.next();
+    }
+}
 
 void Loader::Generate768d(InfiniteWorld *map)
 {

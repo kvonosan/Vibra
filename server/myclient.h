@@ -3,8 +3,8 @@
 #ifndef MYCLIENT_H
 #define MYCLIENT_H
 
+#include <QtNetwork>
 #include <QObject>
-#include <QTcpSocket>
 #include <QDebug>
 #include <QThreadPool>
 #include "mytask.h"
@@ -15,10 +15,10 @@ class MyClient : public QObject
     Q_OBJECT
 public:
     explicit MyClient(QObject *parent = 0);
+    ~MyClient();
     void setSocket(qintptr Descriptor);
-
+    bool VkAuth(QString access_token);
 signals:
-
 public slots:
     void connected();
     void disconnected();
@@ -29,8 +29,10 @@ public slots:
     void TaskResult(int Number);
 
 private:
-    QTcpSocket *socket;
+    QTcpSocket *_socket;
     Player *_player;
+    QNetworkAccessManager *_manager;
+    QNetworkReply *_reply;
 };
 
 #endif // MYCLIENT_H

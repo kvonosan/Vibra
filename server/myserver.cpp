@@ -7,6 +7,15 @@ MyServer::MyServer(QObject *parent) :
 {
 }
 
+MyServer::~MyServer()
+{
+    QVectorIterator <MyClient* > i(_clients);
+    while(i.hasNext())
+    {
+        delete i.next();
+    }
+}
+
 void MyServer::startServer()
 {
     if(listen(QHostAddress::Any, 33333))
@@ -25,4 +34,5 @@ void MyServer::incomingConnection(qintptr socketDescriptor)
     // and set the socket
     MyClient *client = new MyClient(this);
     client->setSocket(socketDescriptor);
+    _clients.push_back(client);
 }
