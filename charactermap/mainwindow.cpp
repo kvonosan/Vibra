@@ -207,7 +207,13 @@ void MainWindow::updateClipboard()
     if ( file.open(QIODevice::ReadWrite) )
     {
         QTextStream stream( &file );
-        stream << lineEdit->text() << endl;
+        if (lineEdit->text().size()==0)
+        {
+            stream << "*" << endl;
+        } else
+        {
+            stream << lineEdit->text() << endl;
+        }
     }
     exit(0);
 }

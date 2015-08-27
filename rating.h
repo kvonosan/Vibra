@@ -9,10 +9,10 @@ class Base;
 class Rating
 {
 public:
-    Rating(QWindow *parent, Base *base);
     ~Rating();
-    void Paint(QPainter *painter);
     void Click(int x, int y);
+    void Paint(QPainter *painter);
+    Rating(QWindow *parent, Base *base);
 private:
     Base *_base;
     QWindow *_parent;

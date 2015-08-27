@@ -36,10 +36,8 @@ bool Player::Search()
             q1.exec();
             q.bindValue(":id", _player_id_vk);
             q.exec();
-            int count = 0;
             if (q.next())
             {
-                count = q.value(0).toInt();
                 _player_id = q.value(1).toInt();
             }
             return false;

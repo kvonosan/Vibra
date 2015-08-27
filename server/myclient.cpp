@@ -1,12 +1,12 @@
 // myclient.cpp
 
-#include <QDataStream>
 #include "myclient.h"
 
 MyClient::MyClient(QObject *parent) :
     QObject(parent)
 {
     QThreadPool::globalInstance()->setMaxThreadCount(5);
+    _delete = false;
 }
 
 MyClient::~MyClient()
@@ -45,7 +45,7 @@ void MyClient::disconnected()
     qDebug() << "Client disconnected";
 }
 
-bool MyClient::VkAuth(QString access_token)
+void MyClient::VkAuth(QString access_token)
 {
     //get ident
     _manager = new QNetworkAccessManager(0);
@@ -58,11 +58,11 @@ bool MyClient::VkAuth(QString access_token)
     if (recv_str.contains("error"))
     {
         //bye
-        qDebug() <<"bye";
+        _socket->close();
+        _delete = true;
     } else
     {
         //todo
-        qDebug() <<"todo";
         /*QJsonDocument document = QJsonDocument::fromJson(recv);
         QJsonObject object = document.object();
         QJsonValue value = object.value("response");

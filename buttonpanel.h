@@ -15,14 +15,14 @@ public:
     void SetBoundaries(int width, int height);
     void SetMousePressed(bool pressed, int x, int y);
 private:
+    QFont _font;
     Grid *_grid;
     QWindow *_parent;
     QString _filename;
     QPainter *_painter;
     QChar _paintsymbol;
-    int _width, _height;
     QProcess *_process;
-    QFont _font;
+    int _width, _height;
     QColor _gridcolor, _textcolor;
     int _mousex, _mousey, _cursor;
     bool _panelside, _firstpaint, _mousepressed;

@@ -3,7 +3,6 @@
 #ifndef MYTASK_H
 #define MYTASK_H
 
-#include <QRunnable>
 #include <QObject>
 #include <QRunnable>
 
@@ -19,11 +18,9 @@ class MyTask : public QObject, public QRunnable
     Q_OBJECT
 public:
     MyTask();
-
 signals:
     // notify to the main thread when we're done
     void Result(int Number);
-
 protected:
     void run();
 };

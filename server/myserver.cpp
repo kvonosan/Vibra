@@ -35,4 +35,18 @@ void MyServer::incomingConnection(qintptr socketDescriptor)
     MyClient *client = new MyClient(this);
     client->setSocket(socketDescriptor);
     _clients.push_back(client);
+    DeleteNotActive();
+}
+
+void MyServer::DeleteNotActive()
+{
+    QVectorIterator <MyClient* > i(_clients);
+    while(i.hasNext())
+    {
+        MyClient *ptr = i.next();
+         if (ptr->_delete)
+         {
+            delete ptr;
+         }
+    }
 }

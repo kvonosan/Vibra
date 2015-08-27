@@ -9,9 +9,9 @@ class Net : public QObject
 public:
     Net();
     ~Net();
+    void GetVKName();
     void NetConnect();
     bool VKConnected();
-    void GetVKName();
     bool _connected;
 private:
     int _port;

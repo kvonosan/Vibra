@@ -26,7 +26,7 @@ bool Net::VKConnected()
         QString id = user_id.at(1);
         QStringList user_id_lst = id.split("\"");
         _vk_user_id = user_id_lst.at(0);
-        qDebug() << _vk_user_id;
+        //qDebug() << _vk_user_id;
     }
     if (token.startsWith("error"))
     {
@@ -48,6 +48,7 @@ bool Net::VKConnected()
         }
         delete manager;
     }
+    return false;
 }
 
 void Net::GetVKName()

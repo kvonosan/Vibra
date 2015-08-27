@@ -9,8 +9,8 @@ class InfiniteWorld
 public:
     InfiniteWorld();
     ~InfiniteWorld();
-    InfiniteWorld *_left, *_right, *_top, *_bottom, *_in_front, *_behind;
     QVector <QChar> _map;
+    InfiniteWorld *_left, *_right, *_top, *_bottom, *_in_front, *_behind;
 };
 
 #endif // INFINITE_WORLD

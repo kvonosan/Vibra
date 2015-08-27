@@ -2,44 +2,44 @@
 #define BASE
 
 #include <QtGui>
-#include "grid.h"
-#include "frame.h"
-#include "magazine.h"
-#include "hero.h"
-#include "honors.h"
-#include "rating.h"
-#include "bank.h"
 #include "fly.h"
+#include "grid.h"
+#include "bank.h"
+#include "hero.h"
+#include "frame.h"
+#include "rating.h"
+#include "honors.h"
+#include "magazine.h"
 
-class Magazine;
+class Fly;
+class Bank;
 class Hero;
 class Honors;
 class Rating;
-class Bank;
-class Fly;
+class Magazine;
 
 class Base
 {
 public:
-    Base(QWindow *parent);
     ~Base();
-    void Paint(QPainter *painter);
-    void MouseMove(int x, int y);
-    void Click(int x, int y);
+    Base(QWindow *parent);
     void KeyPress(int key);
+    void Click(int x, int y);
+    void MouseMove(int x, int y);
+    void Paint(QPainter *painter);
     int _state;
 private:
-    QRect _bank, _magazine, _hero, _bar, _honors, _rating, _flight, _quit;
-    QRect _generator, _news, _improvement;
+    Fly *_fly;
     QFont _font;
     Frame *_frame;
-    QWindow *_parent;
-    Magazine *_magazine_obj;
+    Bank *_bank_obj;
     Hero *_hero_obj;
+    QWindow *_parent;
     Honors *_honors_obj;
     Rating *_rating_obj;
-    Bank *_bank_obj;
-    Fly *_fly;
+    Magazine *_magazine_obj;
+    QRect _bank, _magazine, _hero, _bar, _honors, _rating, _flight, _quit,
+    _generator, _news, _improvement;
 };
 
 #endif // BASE

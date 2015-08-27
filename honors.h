@@ -9,10 +9,10 @@ class Base;
 class Honors
 {
 public:
-    Honors(QWindow *parent, Base *base);
     ~Honors();
-    void Paint(QPainter *painter);
     void Click(int x, int y);
+    void Paint(QPainter *painter);
+    Honors(QWindow *parent, Base *base);
 private:
     Base *_base;
     QWindow *_parent;

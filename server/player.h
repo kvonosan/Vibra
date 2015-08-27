@@ -9,12 +9,12 @@ class Player
 public:
     Player();
     ~Player();
+    bool Search();
     int _player_id;
     int _player_id_vk;
-    bool Search();
 private:
-    InfiniteWorld *_player_map;
     QSqlDatabase _db;
+    InfiniteWorld *_player_map;
 };
 
 #endif // PLAYER

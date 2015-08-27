@@ -27,8 +27,8 @@ public:
     void PrintWordOnLeft(QPainter *painter,QString word, int line, QColor gridcolor = Qt::black, QColor textcolor = Qt::white);
     QFont *_font;
     bool _computed;
-    QColor _defaultgridcolor, _defaulttextcolor;
     int _width, _heigth;
+    QColor _defaultgridcolor, _defaulttextcolor;
 private:
     QVector <QVector<Symbol> > _symbols;
     int _sizeX, _sizeY, _centrX, _centrY;

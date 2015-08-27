@@ -3,9 +3,8 @@
 #ifndef MYCLIENT_H
 #define MYCLIENT_H
 
-#include <QtNetwork>
 #include <QObject>
-#include <QDebug>
+#include <QtNetwork>
 #include <QThreadPool>
 #include "mytask.h"
 #include "player.h"
@@ -14,25 +13,23 @@ class MyClient : public QObject
 {
     Q_OBJECT
 public:
-    explicit MyClient(QObject *parent = 0);
     ~MyClient();
+    void VkAuth(QString access_token);
     void setSocket(qintptr Descriptor);
-    bool VkAuth(QString access_token);
-signals:
+    explicit MyClient(QObject *parent = 0);
+    bool _delete;
 public slots:
     void connected();
-    void disconnected();
     void readyRead();
-
+    void disconnected();
     // make the server fully ascynchronous
     // by doing time consuming task
     void TaskResult(int Number);
-
 private:
-    QTcpSocket *_socket;
     Player *_player;
-    QNetworkAccessManager *_manager;
+    QTcpSocket *_socket;
     QNetworkReply *_reply;
+    QNetworkAccessManager *_manager;
 };
 
 #endif // MYCLIENT_H

@@ -8,11 +8,11 @@ class Net: public QObject
 {
     Q_OBJECT
 public:
-    Net(QString client_id, QString client_secret);
     ~Net();
+    Net(QString client_id, QString client_secret);
     QString _access_token;
-    QNetworkAccessManager *_manager;
     QNetworkReply *_reply;
+    QNetworkAccessManager *_manager;
 };
 
 #endif // VK_AUTH

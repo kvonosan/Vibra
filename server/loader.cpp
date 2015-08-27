@@ -245,10 +245,6 @@ void Loader::SaveMapToDatabase(InfiniteWorld *map)
     q.exec();
 }
 
-void Loader::LoadToBuffer(int id, int radius)
-{
-}
-
 void Loader::ListenPlayers()
 {
     //listen port 2244

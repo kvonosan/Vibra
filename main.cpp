@@ -1,7 +1,8 @@
-#include "mainwindow.h"
-#include <QApplication>
-#include <QGLFormat>
 #include <QDebug>
+#include <QGLFormat>
+#include <QApplication>
+#include <QDesktopWidget>
+#include "mainwindow.h"
 
 int main(int argc, char **argv)
 {
@@ -86,6 +87,7 @@ int main(int argc, char **argv)
        qDebug() << "Your platform does not support OpenGL 2.0";
     }
 #endif
+
     int result = app.exec();
     delete window;
     return result;

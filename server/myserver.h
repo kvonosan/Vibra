@@ -4,20 +4,19 @@
 #define MYSERVER_H
 
 #include <QTcpServer>
-#include <QTcpSocket>
-#include <QAbstractSocket>
 #include "myclient.h"
 
 class MyServer : public QTcpServer
 {
     Q_OBJECT
 public:
-    explicit MyServer(QObject *parent = 0);
     ~MyServer();
     void startServer();
+    explicit MyServer(QObject *parent = 0);
 protected:
     void incomingConnection(qintptr socketDescriptor);
 private:
+    void DeleteNotActive();
     QVector <MyClient* > _clients;
 };
 
