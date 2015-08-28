@@ -1,6 +1,7 @@
 #ifndef NET
 #define NET
 
+#include "base.h"
 #include <QtNetwork>
 
 class Net : public QObject
@@ -10,11 +11,13 @@ public:
     Net();
     ~Net();
     void GetVKName();
-    void NetConnect();
+    void NetConnect(Base *base);
     bool VKConnected();
     bool _connected;
+    bool _authorized;
 private:
     int _port;
+    Base *_base;
     QTcpSocket *_tcp;
     QNetworkReply *_reply;
     QString _firstName, _lastName;

@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include <QMessageBox>
 
 MainWindow::MainWindow(int _width, int _height, bool game_mode, bool edit_mode, QWindow *parent) :
     QWindow(parent), _m_update_pending(false)
@@ -33,6 +34,8 @@ MainWindow::MainWindow(int _width, int _height, bool game_mode, bool edit_mode, 
             _state = 1;
             renderNow();
         }
+        _end_timer_edit = false;
+        _start_timer_edit = true;
     }
 }
 
@@ -107,6 +110,11 @@ void MainWindow::render(QPainter *painter)
     {
         if (_game_mode)
         {
+            if (_start_timer_edit)
+            {
+                _timer_edit.start(5000, this);
+                _start_timer_edit = false;
+            }
             switch(_state)
             {
             case 0:
@@ -125,7 +133,22 @@ void MainWindow::render(QPainter *painter)
                 _base->Paint(painter);
                 if (!_net->_connected)
                 {
-                    _net->NetConnect();
+                    _net->NetConnect(_base);
+                }
+                if (_end_timer_edit)
+                {
+                    if (!_net->_authorized)
+                    {
+                        QMessageBox* pmbx = new QMessageBox("Соединение с сервером",
+                                            "<b>Соединение не установлено!</b>",
+                                            QMessageBox::Information,
+                                            QMessageBox::NoButton,
+                                            QMessageBox::Ok,
+                                            QMessageBox::NoButton);
+                        pmbx->exec();
+                        delete pmbx;
+                        exit(-1);
+                    }
                 }
             } break;
             }
@@ -149,7 +172,7 @@ void MainWindow::render(QPainter *painter)
 
 void MainWindow::timerEvent(QTimerEvent *event)
 {
-    if (_edit_mode)
+    if (_edit_mode||_game_mode)
     {
         if (event->timerId() == _timer_edit.timerId())
         {

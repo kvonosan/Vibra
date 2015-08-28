@@ -1,4 +1,5 @@
 #include "net.h"
+#include "hero.h"
 
 Net::Net()
 {
@@ -72,13 +73,20 @@ void Net::GetVKName()
     delete _manager;
 }
 
-void Net::NetConnect()
+void Net::NetConnect(Base *base)
 {
+    if (base == NULL)
+    {
+        qDebug() << "Error: base = NULL.";
+        exit(-1);
+    }
+    _base = base;
     connect(_tcp, SIGNAL(connected()), this, SLOT(Connected()));
     _tcp->connectToHost("91.215.138.69", _port);
     _tcp->waitForConnected(2000);
     _tcp->connectToHost("127.0.0.1", _port);
     _connected = true;
+    _authorized = false;
 }
 
 void Net::Connected()
@@ -97,5 +105,8 @@ void Net::readyRead()
         qDebug() << "Net read error.";
         exit(-1);
     }
+    _authorized = true;
     GetVKName();
+    _base->_hero_obj->_name = _firstName + " "+ _lastName;
+    //get info
 }

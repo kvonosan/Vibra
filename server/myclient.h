@@ -3,6 +3,7 @@
 #ifndef MYCLIENT_H
 #define MYCLIENT_H
 
+#include <QtSql>
 #include <QObject>
 #include <QtNetwork>
 #include <QThreadPool>

@@ -28,12 +28,12 @@ public:
     void MouseMove(int x, int y);
     void Paint(QPainter *painter);
     int _state;
+    Hero *_hero_obj;
 private:
     Fly *_fly;
     QFont _font;
     Frame *_frame;
     Bank *_bank_obj;
-    Hero *_hero_obj;
     QWindow *_parent;
     Honors *_honors_obj;
     Rating *_rating_obj;

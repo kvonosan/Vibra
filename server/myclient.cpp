@@ -63,18 +63,21 @@ void MyClient::VkAuth(QString access_token)
     } else
     {
         //todo
-        /*QJsonDocument document = QJsonDocument::fromJson(recv);
+        QJsonDocument document = QJsonDocument::fromJson(recv);
         QJsonObject object = document.object();
         QJsonValue value = object.value("response");
-        QJsonArray array = value.toArray();
-        int _vk_player_id=0;
-        QString _firstName, _lastName;
-        foreach (const QJsonValue & v, array)
+        QJsonArray array1 = value.toArray();
+        foreach (const QJsonValue & v, array1)
         {
-            _vk_player_id =  v.toObject().value("id").toInt();
-            _firstName = v.toObject().value("first_name").toString();
-            _lastName = v.toObject().value("last_name").toString();
-        }*/
+            _player->_player_id_vk =  v.toObject().value("id").toInt();
+            //_firstName = v.toObject().value("first_name").toString();
+            //_lastName = v.toObject().value("last_name").toString();
+        }
+        _player->Search();
+        QByteArray array;
+        QDataStream stream(&array, QIODevice::WriteOnly);
+        stream << _player->_player_id;
+        _socket->write(array.toHex());
     }
     delete _manager;
 }
@@ -90,27 +93,6 @@ void MyClient::readyRead()
     QByteArray array = _socket->readAll();
     //auth with access_token
     VkAuth(QString::fromUtf8(array.toStdString().c_str()));
-/*
-    bool ok;
-    _player->_player_id_vk = array.toInt(&ok, 16);
-    if (!ok)
-    {
-        qDebug() << "Отсоединен из-за неверного player_id_vk = " << _player->_player_id_vk;
-        socket->close();
-        return;
-    }
-    qDebug() << "player_id_vk = " << _player->_player_id_vk;
-    if (_player->Search())
-    {
-        qDebug() << "player_id = " << _player->_player_id;
-    } else
-    {
-        qDebug() << "new player_id = " << _player->_player_id;
-        //send new
-        QByteArray buf;
-        buf.append("new");
-        socket->write(buf);
-    }*/
 
     // Time consumer
     /*MyTask *mytask = new MyTask();
