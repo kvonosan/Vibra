@@ -1,5 +1,3 @@
-// myclient.cpp
-
 #include "myclient.h"
 
 MyClient::MyClient(QObject *parent) :
@@ -17,7 +15,6 @@ MyClient::~MyClient()
 
 void MyClient::setSocket(qintptr descriptor)
 {
-    // make a new socket
     _socket = new QTcpSocket(this);
 
     qDebug() << "A new socket created!";
@@ -32,14 +29,11 @@ void MyClient::setSocket(qintptr descriptor)
     qDebug() << " Client connected at " << descriptor;
 }
 
-
-// asynchronous - runs separately from the thread we created
 void MyClient::connected()
 {
     qDebug() << "Client connected event";
 }
 
-// asynchronous
 void MyClient::disconnected()
 {
     qDebug() << "Client disconnected";
@@ -47,7 +41,6 @@ void MyClient::disconnected()
 
 void MyClient::VkAuth(QString access_token)
 {
-    //get ident
     _manager = new QNetworkAccessManager(0);
     _reply = _manager->get(QNetworkRequest(QUrl("https://api.vk.com/method/users.get?v=5.37&"+access_token)));
     QEventLoop loop;
@@ -57,12 +50,10 @@ void MyClient::VkAuth(QString access_token)
     QString recv_str = QString::fromUtf8(recv.toStdString().c_str());
     if (recv_str.contains("error"))
     {
-        //bye
         _socket->close();
         _delete = true;
     } else
     {
-        //todo
         QJsonDocument document = QJsonDocument::fromJson(recv);
         QJsonObject object = document.object();
         QJsonValue value = object.value("response");
@@ -82,39 +73,26 @@ void MyClient::VkAuth(QString access_token)
     delete _manager;
 }
 
-// Our main thread of execution
-// This happening via main thread
-// Our code running in our current thread not in another QThread
-// That's why we're getting the thread from the pool
-
 void MyClient::readyRead()
 {
     qDebug() << "MyClient::readyRead()";
     QByteArray array = _socket->readAll();
     //auth with access_token
     VkAuth(QString::fromUtf8(array.toStdString().c_str()));
-
-    // Time consumer
-    /*MyTask *mytask = new MyTask();
-    mytask->setAutoDelete(true);
-    
-    // using queued connection
-    connect(mytask, SIGNAL(Result(int)), this, SLOT(TaskResult(int)), Qt::QueuedConnection);
-
-    qDebug() << "Starting a new task using a thread from the QThreadPool";
-    
-    // QThreadPool::globalInstance() returns global QThreadPool instance
-    QThreadPool::globalInstance()->start(mytask);*/
-
-}
-
-// After a task performed a time consuming task,
-// we grab the result here, and send it to client
-void MyClient::TaskResult(int Number)
-{
-    QByteArray Buffer;
-    Buffer.append("\r\nTask result = ");
-    Buffer.append(QString::number(Number));
-
-    _socket->write(Buffer);
+    //
+    /*QSqlQuery q;
+    q.prepare("SELECT gold,credits,race,ship,spec,rank,escadra,rating,level FROM player WHERE player_id=:id");
+    q.bindValue(":id", _player->_player_id);
+    q.exec();
+    int count = 0;
+    if (q.next())
+    {
+        count = q.value(0).toInt();
+        _player_id = q.value(1).toInt();
+    }
+    //
+    QByteArray array;
+    QDataStream stream(&array, QIODevice::WriteOnly);
+    stream << _player->_player_id;
+    _socket->write(array.toHex());*/
 }

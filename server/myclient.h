@@ -23,9 +23,6 @@ public slots:
     void connected();
     void readyRead();
     void disconnected();
-    // make the server fully ascynchronous
-    // by doing time consuming task
-    void TaskResult(int Number);
 private:
     Player *_player;
     QTcpSocket *_socket;

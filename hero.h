@@ -15,7 +15,7 @@ public:
     void Paint(QPainter *painter);
     Hero(QWindow *parent, Base *base);
     QString _name, _experience, _gold, _credits, _race, _ship, _specialty,
-    _rank, _squadron, _rating;
+    _rank, _squadron, _rating, _level;
 private:
     Base *_base;
     QString _string;

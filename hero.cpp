@@ -27,6 +27,7 @@ Hero::Hero(QWindow *parent, Base *base)
     _rank = "новобранец";
     _squadron = "нет";
     _rating = "0";
+    _level = "0";
 }
 
 Hero::~Hero()
@@ -71,5 +72,6 @@ void Hero::SetParams()
             " Специальность: " + _specialty + "\n" +
             " Звание: " + _rank + "\n" +
             " Эскадрилия: " + _squadron + "\n" +
-            " Место в рейтинге: " + _rating + "\n";
+            " Место в рейтинге: " + _rating + "\n" +
+            " Уровень: " + _level + "\n";
 }

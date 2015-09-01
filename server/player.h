@@ -12,6 +12,8 @@ public:
     void Search();
     int _player_id;
     int _player_id_vk;
+    void newPlayer();
+    void AddToMap();
 private:
     InfiniteWorld *_player_map;
 };

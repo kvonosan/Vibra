@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Авг 27 2015 г., 10:28
--- Версия сервера: 5.5.41-MariaDB
+-- Время создания: Сен 01 2015 г., 15:14
+-- Версия сервера: 5.5.44-MariaDB
 -- Версия PHP: 5.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -33,7 +33,20 @@ CREATE TABLE IF NOT EXISTS `accelerator` (
   `points` int(10) NOT NULL,
   `credits` int(10) NOT NULL,
   `gold` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `accelerator`
+--
+
+INSERT INTO `accelerator` (`accelerator_id`, `name`, `class`, `points`, `credits`, `gold`) VALUES
+(1, 'простой', 'A', 5, 100, 10000),
+(2, 'улучшенный', 'B', 10, 200, 20000),
+(3, 'экстра', 'C', 15, 300, 30000),
+(4, 'быстрый', 'D', 20, 400, 40000),
+(5, 'скоростной', 'E', 25, 500, 50000),
+(6, 'реактивный', 'F', 30, 600, 60000),
+(7, 'плазменный', 'G', 35, 700, 70000);
 
 -- --------------------------------------------------------
 
@@ -45,10 +58,21 @@ CREATE TABLE IF NOT EXISTS `cartograph` (
   `cartograph_id` int(10) NOT NULL,
   `name` varchar(15) NOT NULL,
   `class` varchar(1) NOT NULL,
+  `energy` int(10) NOT NULL,
   `link` int(10) NOT NULL,
   `credits` int(10) NOT NULL,
   `gold` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cartograph`
+--
+
+INSERT INTO `cartograph` (`cartograph_id`, `name`, `class`, `energy`, `link`, `credits`, `gold`) VALUES
+(1, 'малый', 'A', 10, 10, 100, 10000),
+(2, 'средний', 'B', 30, 30, 200, 20000),
+(3, 'стандартный', 'С', 50, 50, 300, 30000),
+(4, 'длинный', 'D', 100, 75, 400, 40000);
 
 -- --------------------------------------------------------
 
@@ -64,7 +88,19 @@ CREATE TABLE IF NOT EXISTS `chinilka` (
   `points` int(10) NOT NULL,
   `credits` int(10) NOT NULL,
   `gold` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `chinilka`
+--
+
+INSERT INTO `chinilka` (`chinilka_id`, `name`, `class`, `energy`, `points`, `credits`, `gold`) VALUES
+(1, 'диплоид', 'A', 50, 20, 100, 10000),
+(2, 'триплоид', 'B', 100, 30, 200, 20000),
+(3, 'пентоплоид', 'C', 150, 50, 300, 30000),
+(4, 'матаплоид', 'D', 200, 75, 400, 40000),
+(5, 'истоплоид', 'E', 250, 100, 500, 50000),
+(6, 'устоплоид', 'F', 300, 125, 600, 60000);
 
 -- --------------------------------------------------------
 
@@ -88,7 +124,17 @@ CREATE TABLE IF NOT EXISTS `engine` (
   `engine_id` int(10) NOT NULL,
   `name` varchar(15) NOT NULL,
   `class` varchar(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `engine`
+--
+
+INSERT INTO `engine` (`engine_id`, `name`, `class`) VALUES
+(2, 'Позитронный', 'A'),
+(3, 'Нейронный', 'B'),
+(4, 'Фильтронный', 'C'),
+(5, 'Оксонный', 'D');
 
 -- --------------------------------------------------------
 
@@ -127,7 +173,17 @@ CREATE TABLE IF NOT EXISTS `fuel_tank` (
   `penta` int(10) NOT NULL,
   `credits` int(10) NOT NULL,
   `gold` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `fuel_tank`
+--
+
+INSERT INTO `fuel_tank` (`fuel_tank_id`, `name`, `class`, `penta`, `credits`, `gold`) VALUES
+(1, 'малый', 'A', 25, 0, 0),
+(2, 'средний', 'B', 50, 100, 10000),
+(3, 'большой', 'C', 75, 200, 20000),
+(4, 'мегабак', 'D', 100, 300, 30000);
 
 -- --------------------------------------------------------
 
@@ -142,7 +198,17 @@ CREATE TABLE IF NOT EXISTS `generator` (
   `speed` int(10) NOT NULL,
   `credits` int(10) NOT NULL,
   `gold` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `generator`
+--
+
+INSERT INTO `generator` (`generator_id`, `class`, `name`, `speed`, `credits`, `gold`) VALUES
+(1, 'A', 'эталон', 175, 100, 10000),
+(2, 'B', 'энергичный', 200, 200, 20000),
+(3, 'C', 'триэнергичный', 300, 300, 30000),
+(4, 'D', 'тэтраэнергичный', 400, 400, 40000);
 
 -- --------------------------------------------------------
 
@@ -158,7 +224,19 @@ CREATE TABLE IF NOT EXISTS `grab` (
   `points` int(10) NOT NULL,
   `credits` int(10) NOT NULL,
   `gold` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `grab`
+--
+
+INSERT INTO `grab` (`grab_id`, `name`, `class`, `energy`, `points`, `credits`, `gold`) VALUES
+(1, 'простой', 'A', 20, 3, 100, 10000),
+(2, 'улучшенный', 'B', 30, 5, 200, 20000),
+(3, 'лучший', 'C', 40, 10, 300, 30000),
+(4, 'самый лучший', 'D', 100, 25, 400, 40000),
+(5, 'сложный', 'E', 200, 50, 500, 50000),
+(6, 'самый сложный', 'F', 300, 100, 600, 60000);
 
 -- --------------------------------------------------------
 
@@ -308,7 +386,6 @@ CREATE TABLE IF NOT EXISTS `player` (
   `rating` int(10) NOT NULL,
   `screen` int(10) NOT NULL,
   `level` int(10) NOT NULL,
-  `accelerator` int(10) NOT NULL,
   `map` int(10) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -316,8 +393,37 @@ CREATE TABLE IF NOT EXISTS `player` (
 -- Дамп данных таблицы `player`
 --
 
-INSERT INTO `player` (`player_id`, `vk_id`, `gold`, `credits`, `race`, `ship`, `spec`, `rank`, `escadra`, `rating`, `screen`, `level`, `accelerator`, `map`) VALUES
-(1, 164605891, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO `player` (`player_id`, `vk_id`, `gold`, `credits`, `race`, `ship`, `spec`, `rank`, `escadra`, `rating`, `screen`, `level`, `map`) VALUES
+(1, 164605891, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `protection`
+--
+
+CREATE TABLE IF NOT EXISTS `protection` (
+  `protection_id` int(10) NOT NULL,
+  `name` varchar(15) NOT NULL,
+  `class` varchar(1) NOT NULL,
+  `energy` int(10) NOT NULL,
+  `life` int(10) NOT NULL,
+  `credits` int(10) NOT NULL,
+  `gold` int(10) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `protection`
+--
+
+INSERT INTO `protection` (`protection_id`, `name`, `class`, `energy`, `life`, `credits`, `gold`) VALUES
+(1, 'слабая', 'A', 100, 50, 100, 10000),
+(2, 'средняя', 'B', 150, 150, 200, 20000),
+(3, 'хорошая', 'C', 200, 300, 300, 30000),
+(4, 'лучшая', 'D', 250, 500, 400, 40000),
+(5, 'плазменная', 'E', 300, 600, 500, 50000),
+(6, 'бронеплазменная', 'F', 350, 750, 600, 60000),
+(7, 'стелсплазменная', 'G', 400, 1000, 700, 70000);
 
 -- --------------------------------------------------------
 
@@ -359,7 +465,18 @@ CREATE TABLE IF NOT EXISTS `radar` (
   `ships` int(10) NOT NULL,
   `credits` int(10) NOT NULL,
   `gold` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `radar`
+--
+
+INSERT INTO `radar` (`radar_id`, `name`, `class`, `energy`, `ships`, `credits`, `gold`) VALUES
+(1, 'простой', 'A', 20, 2, 100, 10000),
+(2, 'улучшенный', 'B', 40, 5, 200, 20000),
+(3, 'средний', 'С', 80, 10, 300, 30000),
+(4, 'лучший', 'D', 400, 50, 400, 40000),
+(5, 'самый лучший', 'E', 700, 100, 500, 50000);
 
 -- --------------------------------------------------------
 
@@ -454,7 +571,18 @@ CREATE TABLE IF NOT EXISTS `scaner` (
   `predm` int(10) NOT NULL,
   `credits` int(10) NOT NULL,
   `gold` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `scaner`
+--
+
+INSERT INTO `scaner` (`scaner_id`, `name`, `class`, `energy`, `predm`, `credits`, `gold`) VALUES
+(1, 'простой', 'A', 20, 5, 100, 10000),
+(2, 'наружный', 'B', 30, 10, 200, 20000),
+(3, 'плазменный', 'С', 40, 15, 300, 30000),
+(4, 'йота', 'D', 50, 20, 400, 40000),
+(5, 'нейра', 'E', 60, 30, 500, 50000);
 
 -- --------------------------------------------------------
 
@@ -500,12 +628,20 @@ CREATE TABLE IF NOT EXISTS `screen` (
 
 CREATE TABLE IF NOT EXISTS `ship` (
   `ship_id` int(10) NOT NULL,
-  `name` varchar(15) NOT NULL,
-  `class` varchar(1) NOT NULL,
+  `player_id` int(10) NOT NULL,
   `engine` int(10) NOT NULL,
-  `energy` int(10) NOT NULL,
-  `life` int(10) NOT NULL,
-  `fuel_tank` int(10) NOT NULL
+  `fuel_tank` int(10) NOT NULL,
+  `yotanet` int(10) NOT NULL,
+  `generator` int(10) NOT NULL,
+  `cartograph` int(10) NOT NULL,
+  `ship_body` int(10) NOT NULL,
+  `radar` int(10) NOT NULL,
+  `scaner` int(10) NOT NULL,
+  `chinilka` int(10) NOT NULL,
+  `grab` int(10) NOT NULL,
+  `weapons` int(10) NOT NULL,
+  `improvement` int(10) NOT NULL,
+  `accelerator` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -519,9 +655,21 @@ CREATE TABLE IF NOT EXISTS `ship_body` (
   `name` varchar(15) NOT NULL,
   `class` varchar(1) NOT NULL,
   `energy` int(10) NOT NULL,
+  `life` int(10) NOT NULL,
   `credits` int(10) NOT NULL,
   `gold` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `ship_body`
+--
+
+INSERT INTO `ship_body` (`body_id`, `name`, `class`, `energy`, `life`, `credits`, `gold`) VALUES
+(1, 'легкий', 'A', 500, 200, 0, 0),
+(2, 'полулегкий', 'B', 750, 300, 100, 10000),
+(3, 'тяжелый', 'С', 1000, 500, 200, 20000),
+(4, 'крейсер', 'D', 1250, 700, 300, 30000),
+(5, 'грузовой', 'E', 2000, 1000, 400, 40000);
 
 -- --------------------------------------------------------
 
@@ -566,6 +714,7 @@ CREATE TABLE IF NOT EXISTS `taste` (
 
 CREATE TABLE IF NOT EXISTS `weapons` (
   `weapons_id` int(10) NOT NULL,
+  `player_id` int(10) NOT NULL,
   `name` varchar(15) NOT NULL,
   `class` varchar(1) NOT NULL,
   `energy` int(10) NOT NULL,
@@ -574,7 +723,20 @@ CREATE TABLE IF NOT EXISTS `weapons` (
   `link` int(10) NOT NULL,
   `credits` int(10) NOT NULL,
   `gold` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `weapons`
+--
+
+INSERT INTO `weapons` (`weapons_id`, `player_id`, `name`, `class`, `energy`, `fire`, `speed`, `link`, `credits`, `gold`) VALUES
+(1, 0, 'протонная', 'A', 20, 5, 1, 1, 100, 10000),
+(2, 0, 'нейтронная', 'B', 30, 10, 5, 5, 200, 20000),
+(3, 0, 'лазер', 'С', 50, 25, 10, 10, 300, 30000),
+(4, 0, 'квебек', 'D', 100, 35, 15, 15, 400, 40000),
+(5, 0, 'рапира', 'E', 150, 40, 20, 20, 500, 50000),
+(6, 0, 'аскорбелл', 'F', 200, 45, 25, 25, 600, 60000),
+(7, 0, 'торпеды', 'G', 300, 50, 30, 30, 700, 70000);
 
 -- --------------------------------------------------------
 
@@ -594,7 +756,7 @@ CREATE TABLE IF NOT EXISTS `world` (
 --
 
 INSERT INTO `world` (`id`, `penta`, `yota`, `sector_length`) VALUES
-(1, 0, 0, 768);
+(1, 12, 100, 768);
 
 -- --------------------------------------------------------
 
@@ -609,7 +771,18 @@ CREATE TABLE IF NOT EXISTS `yotanet` (
   `speed` int(10) NOT NULL,
   `credits` int(10) NOT NULL,
   `gold` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `yotanet`
+--
+
+INSERT INTO `yotanet` (`yotanet_id`, `class`, `name`, `speed`, `credits`, `gold`) VALUES
+(1, 'A', 'быстрый', 50, 100, 10000),
+(2, 'B', 'скоростной', 75, 200, 20000),
+(3, 'C', 'сверхскоростной', 100, 300, 30000),
+(4, 'D', 'легкий', 125, 400, 40000),
+(5, 'E', 'быстрейший', 150, 500, 50000);
 
 --
 -- Индексы сохранённых таблиц
@@ -736,6 +909,12 @@ ALTER TABLE `player`
   ADD PRIMARY KEY (`player_id`);
 
 --
+-- Индексы таблицы `protection`
+--
+ALTER TABLE `protection`
+  ADD PRIMARY KEY (`protection_id`);
+
+--
 -- Индексы таблицы `race`
 --
 ALTER TABLE `race`
@@ -857,17 +1036,17 @@ ALTER TABLE `yotanet`
 -- AUTO_INCREMENT для таблицы `accelerator`
 --
 ALTER TABLE `accelerator`
-  MODIFY `accelerator_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `accelerator_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT для таблицы `cartograph`
 --
 ALTER TABLE `cartograph`
-  MODIFY `cartograph_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `cartograph_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT для таблицы `chinilka`
 --
 ALTER TABLE `chinilka`
-  MODIFY `chinilka_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `chinilka_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT для таблицы `circulatory`
 --
@@ -877,7 +1056,7 @@ ALTER TABLE `circulatory`
 -- AUTO_INCREMENT для таблицы `engine`
 --
 ALTER TABLE `engine`
-  MODIFY `engine_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `engine_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT для таблицы `escadra`
 --
@@ -892,17 +1071,17 @@ ALTER TABLE `eyes`
 -- AUTO_INCREMENT для таблицы `fuel_tank`
 --
 ALTER TABLE `fuel_tank`
-  MODIFY `fuel_tank_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `fuel_tank_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT для таблицы `generator`
 --
 ALTER TABLE `generator`
-  MODIFY `generator_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `generator_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT для таблицы `grab`
 --
 ALTER TABLE `grab`
-  MODIFY `grab_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `grab_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT для таблицы `hearing`
 --
@@ -954,6 +1133,11 @@ ALTER TABLE `news`
 ALTER TABLE `player`
   MODIFY `player_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT для таблицы `protection`
+--
+ALTER TABLE `protection`
+  MODIFY `protection_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
 -- AUTO_INCREMENT для таблицы `race`
 --
 ALTER TABLE `race`
@@ -962,7 +1146,7 @@ ALTER TABLE `race`
 -- AUTO_INCREMENT для таблицы `radar`
 --
 ALTER TABLE `radar`
-  MODIFY `radar_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `radar_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT для таблицы `rank`
 --
@@ -997,7 +1181,7 @@ ALTER TABLE `reward`
 -- AUTO_INCREMENT для таблицы `scaner`
 --
 ALTER TABLE `scaner`
-  MODIFY `scaner_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `scaner_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT для таблицы `sceleton`
 --
@@ -1022,7 +1206,7 @@ ALTER TABLE `ship`
 -- AUTO_INCREMENT для таблицы `ship_body`
 --
 ALTER TABLE `ship_body`
-  MODIFY `body_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `body_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT для таблицы `spec`
 --
@@ -1037,7 +1221,7 @@ ALTER TABLE `taste`
 -- AUTO_INCREMENT для таблицы `weapons`
 --
 ALTER TABLE `weapons`
-  MODIFY `weapons_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `weapons_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT для таблицы `world`
 --
@@ -1047,7 +1231,7 @@ ALTER TABLE `world`
 -- AUTO_INCREMENT для таблицы `yotanet`
 --
 ALTER TABLE `yotanet`
-  MODIFY `yotanet_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `yotanet_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
