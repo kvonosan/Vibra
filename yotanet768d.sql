@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Сен 01 2015 г., 15:14
+-- Время создания: Сен 02 2015 г., 13:34
 -- Версия сервера: 5.5.44-MariaDB
 -- Версия PHP: 5.4.16
 
@@ -386,15 +386,16 @@ CREATE TABLE IF NOT EXISTS `player` (
   `rating` int(10) NOT NULL,
   `screen` int(10) NOT NULL,
   `level` int(10) NOT NULL,
-  `map` int(10) NOT NULL
+  `map` int(10) NOT NULL,
+  `pos` int(10) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `player`
 --
 
-INSERT INTO `player` (`player_id`, `vk_id`, `gold`, `credits`, `race`, `ship`, `spec`, `rank`, `escadra`, `rating`, `screen`, `level`, `map`) VALUES
-(1, 164605891, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO `player` (`player_id`, `vk_id`, `gold`, `credits`, `race`, `ship`, `spec`, `rank`, `escadra`, `rating`, `screen`, `level`, `map`, `pos`) VALUES
+(1, 164605891, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 

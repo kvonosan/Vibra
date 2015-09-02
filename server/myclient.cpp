@@ -80,4 +80,5 @@ void MyClient::readyRead()
     //auth with access_token
     VkAuth(QString::fromUtf8(array.toStdString().c_str()));
     _player->newPlayer();
+    _player->AddToMap();
 }
