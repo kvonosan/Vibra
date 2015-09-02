@@ -105,8 +105,40 @@ void Net::readyRead()
         qDebug() << "Net read error.";
         exit(-1);
     }
-    _authorized = true;
-    GetVKName();
-    _base->_hero_obj->_name = _firstName + " "+ _lastName;
-    //get info
+    if (_player_id !=0)
+    {
+        _authorized = true;
+        GetVKName();
+        _base->_hero_obj->_name = _firstName + " "+ _lastName;
+        //get info
+        connect(_tcp, SIGNAL(readyRead()), this, SLOT(readyRead2()));
+        QString ok = "ok";
+        _tcp->write(ok.toUtf8());
+    }
+}
+
+void Net::readyRead2()
+{
+    QByteArray recv = _reply->readAll();
+    QJsonDocument document = QJsonDocument::fromJson(recv);
+    QJsonObject object = document.object();
+    QJsonValue value = object.value("player");
+    QJsonArray array = value.toArray();
+    int exp = 0, gold = 0, credits = 0, level = 0;
+    QString race, ship_body;
+    foreach (const QJsonValue & v, array)
+    {
+        exp =  v.toObject().value("exp").toInt();
+        gold = v.toObject().value("gold").toInt();
+        credits = v.toObject().value("credits").toInt();
+        race = v.toObject().value("race").toString();
+        ship_body = v.toObject().value("ship_body").toString();
+        level = v.toObject().value("level").toInt();
+    }
+    _base->_hero_obj->_experience = QString(exp);
+    _base->_hero_obj->_gold = QString(gold);
+    _base->_hero_obj->_credits = QString(credits);
+    _base->_hero_obj->_race = race;
+    _base->_hero_obj->_ship = "Класс "+ ship_body;
+    _base->_hero_obj->_level = QString(level);
 }

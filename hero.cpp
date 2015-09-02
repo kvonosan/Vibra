@@ -69,9 +69,9 @@ void Hero::SetParams()
     _string = " Имя: " + _name + "\n" + " Опыт: " + _experience + "\n" +
             " Золото: " + _gold + "\n" + " Кредиты: " + _credits + "\n" +
             " Раса: " + _race + "\n" + " Корабль: " + _ship + "\n" +
-            " Специальность: " + _specialty + "\n" +
+            /*" Специальность: " + _specialty + "\n" +
             " Звание: " + _rank + "\n" +
             " Эскадрилия: " + _squadron + "\n" +
-            " Место в рейтинге: " + _rating + "\n" +
+            " Место в рейтинге: " + _rating + "\n" +*/
             " Уровень: " + _level + "\n";
 }

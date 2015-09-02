@@ -15,6 +15,7 @@ class MyClient : public QObject
     Q_OBJECT
 public:
     ~MyClient();
+    void SendInfo();
     void VkAuth(QString access_token);
     void setSocket(qintptr Descriptor);
     explicit MyClient(QObject *parent = 0);
