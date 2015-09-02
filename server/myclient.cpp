@@ -79,20 +79,5 @@ void MyClient::readyRead()
     QByteArray array = _socket->readAll();
     //auth with access_token
     VkAuth(QString::fromUtf8(array.toStdString().c_str()));
-    //
-    /*QSqlQuery q;
-    q.prepare("SELECT gold,credits,race,ship,spec,rank,escadra,rating,level FROM player WHERE player_id=:id");
-    q.bindValue(":id", _player->_player_id);
-    q.exec();
-    int count = 0;
-    if (q.next())
-    {
-        count = q.value(0).toInt();
-        _player_id = q.value(1).toInt();
-    }
-    //
-    QByteArray array;
-    QDataStream stream(&array, QIODevice::WriteOnly);
-    stream << _player->_player_id;
-    _socket->write(array.toHex());*/
+    _player->newPlayer();
 }

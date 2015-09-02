@@ -53,24 +53,25 @@ void Player::newPlayer()
     if (level == 0)
     {
         QSqlQuery q1;
-        q1.prepare("INSERT INTO ship(player_id, engine, fuel_tank, yotanet, generator,"
-                   " cartograph, ship_body, radar, scaner, chinilka, grab, "
-                   "weapons, improvement, accelerator) VALUES(:id, 1, 1, 0, 0, 0, 0"
+        q1.prepare("INSERT INTO ship(player_id, engine, fuel_tank, ship_body, generator,"
+                   " cartograph, yotanet, radar, scaner, chinilka, grab, "
+                   "weapons, improvement, accelerator) VALUES(:id, 1, 1, 1, 0, 0, 0"
                    ", 0, 0, 0, 0, 0, 0, 0)");
         q1.bindValue(":id", _player_id);
         q1.exec();
         QSqlQuery q2;
-        q1.prepare("INSERT INTO rating(player_id, exp, kills, death, mission, credits"
+        q2.prepare("INSERT INTO rating(player_id, exp, kills, death, mission, credits,"
                    "fights) VALUES(:id,0,0,0,0,0,0)");
         q2.bindValue(":id", _player_id);
         q2.exec();
         QSqlQuery q3;
         q3.prepare("SELECT ship_id FROM ship WHERE player_id=:id");
         q3.bindValue(":id", _player_id);
+        q3.exec();
         int ship_id = 0;
         if (q3.next())
         {
-            ship_id = q.value(0).toInt();
+            ship_id = q3.value(0).toInt();
         }
         if (ship_id == 0)
         {
@@ -80,10 +81,11 @@ void Player::newPlayer()
         QSqlQuery q4;
         q4.prepare("SELECT rating_id FROM rating WHERE player_id=:id");
         q4.bindValue(":id", _player_id);
+        q4.exec();
         int rating1 = 0;
         if (q4.next())
         {
-            rating1 = q.value(0).toInt();
+            rating1 = q4.value(0).toInt();
         }
         if (rating1 == 0)
         {
@@ -91,15 +93,15 @@ void Player::newPlayer()
             return;
         }
         QSqlQuery q5;
-        q5.prepare("UPDATE player SET race=1, ship_id=:ship, spec=1, rating=:rating1,"
+        q5.prepare("UPDATE player SET race=1, ship=:ship, spec=1, rating=:rating1,"
                    " level=1 WHERE player_id = :id");
         q5.bindValue(":ship", ship_id);
         q5.bindValue(":rating1", rating1);
         q5.bindValue(":id", _player_id);
-        AddToMap();
+        q5.exec();
     } else
     {
-        qDebug() << "player_id = " + QString(_player_id) + "already on map";
+        qDebug() << "player_id = " + QString(_player_id) + " already created.";
     }
 }
 
