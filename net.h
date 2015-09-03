@@ -27,7 +27,6 @@ private:
 public slots:
     void Connected();
     void readyRead();
-    void readyRead2();
 };
 
 #endif // NET

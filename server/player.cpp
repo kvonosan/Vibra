@@ -35,7 +35,7 @@ void Player::Search()
         }
     } else
     {
-        qDebug() << "player_id = " + QString(_player_id);
+        qDebug() << "player_id = " + QString::number(_player_id);
     }
 }
 
@@ -101,7 +101,7 @@ void Player::newPlayer()
         q5.exec();
     } else
     {
-        qDebug() << "player_id = " + QString(_player_id) + " already created.";
+        qDebug() << "player_id = " + QString::number(_player_id) + " already created.";
     }
 }
 

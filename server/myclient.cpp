@@ -69,23 +69,27 @@ void MyClient::VkAuth(QString access_token)
             //_lastName = v.toObject().value("last_name").toString();
         }
         _player->Search();
-        QByteArray array;
-        QDataStream stream(&array, QIODevice::WriteOnly);
-        stream << _player->_player_id;
-        _socket->write(array.toHex());
+        QString str =  QString("id") + " " + QString::number(_player->_player_id);
+        _socket->write(str.toUtf8());
     }
     delete _manager;
 }
 
 void MyClient::readyRead()
 {
-    qDebug() << "MyClient::readyRead()";
+    //qDebug() << "MyClient::readyRead()";
     QByteArray array = _socket->readAll();
-    //auth with access_token
-    VkAuth(QString::fromUtf8(array.toStdString().c_str()));
-    _player->newPlayer();
-    _player->AddToMap();
-    SendInfo();
+    QString str = QString::fromUtf8(array.toStdString().c_str());
+    if (str.startsWith("token"))
+    {
+        QStringList list = str.split(" ");
+        VkAuth(list[1]);
+        _player->newPlayer();
+        _player->AddToMap();
+    } else if (str.startsWith("getinfo"))
+    {
+        SendInfo();
+    }
 }
 
 void MyClient::SendInfo()
@@ -156,14 +160,10 @@ void MyClient::SendInfo()
         obj["race"] = race1;
         obj["ship_body"] = ship_body1;
         obj["level"] = level;
-        QJsonObject player;
-        player["player"] = obj;
-        QJsonDocument doc(player);
-        QByteArray array = _socket->readAll();
-        QString str = QString::fromUtf8(array.toStdString().c_str());
-        if (str.contains("ok"))
-        {
-            _socket->write(doc.toJson());
-        }
+        //QJsonObject player;
+        //player["player"] = obj;
+        QJsonDocument doc(obj);
+        QString str = QString("info") + " " + QString::fromUtf8(doc.toJson(QJsonDocument::Compact).toStdString().c_str());
+        _socket->write(str.toUtf8());
     }
 }

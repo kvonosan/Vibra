@@ -91,54 +91,77 @@ void Net::NetConnect(Base *base)
 
 void Net::Connected()
 {
-    _tcp->write(_access_token.toUtf8());
+    QString str = "token " + _access_token;
+    _tcp->write(str.toUtf8());
     connect(_tcp, SIGNAL(readyRead()), this, SLOT(readyRead()));
 }
 
 void Net::readyRead()
 {
-    QByteArray _player_id_buf = _tcp->readAll();
-    bool ok;
-    _player_id = _player_id_buf.toInt(&ok, 16);
-    if (!ok)
+    QByteArray array = _tcp->readAll();
+    QString str = QString::fromUtf8(array.toStdString().c_str());
+    if (str.startsWith("id"))
     {
-        qDebug() << "Net read error.";
-        exit(-1);
-    }
-    if (_player_id !=0)
+        QStringList list = str.split(" ");
+        bool ok;
+        _player_id = list[1].toInt(&ok, 16);
+        if (!ok)
+        {
+            qDebug() << "Net read error.";
+            exit(-1);
+        }
+        if (_player_id != 0)
+        {
+            _authorized = true;
+            GetVKName();
+            _base->_hero_obj->_name = _firstName + " "+ _lastName;
+            QString str1 = "getinfo";
+            _tcp->write(str1.toUtf8());
+        }
+    } else if (str.startsWith("info"))
     {
-        _authorized = true;
-        GetVKName();
-        _base->_hero_obj->_name = _firstName + " "+ _lastName;
-        //get info
-        connect(_tcp, SIGNAL(readyRead()), this, SLOT(readyRead2()));
-        QString ok = "ok";
-        _tcp->write(ok.toUtf8());
-    }
-}
+        str.replace("info", "");
+        QJsonObject object;
+        QJsonDocument document = QJsonDocument::fromJson(str.toUtf8());
+        if (!document.isNull())
+        {
+            if (document.isObject())
+            {
+                object = document.object();
+            }
+        } else
+        {
+            qDebug() << "Parse json error.";
+        }
+        int exp = 0, gold = 0, credits = 0, level = 0;
+        QString race, ship_body;
+        exp = object["exp"].toInt();
+        gold = object["gold"].toInt();
+        credits = object["credits"].toInt();
+        race = object["race"].toString();
+        ship_body = object["ship_body"].toString();
+        level = object["level"].toInt();
 
-void Net::readyRead2()
-{
-    QByteArray recv = _reply->readAll();
-    QJsonDocument document = QJsonDocument::fromJson(recv);
-    QJsonObject object = document.object();
-    QJsonValue value = object.value("player");
-    QJsonArray array = value.toArray();
-    int exp = 0, gold = 0, credits = 0, level = 0;
-    QString race, ship_body;
-    foreach (const QJsonValue & v, array)
-    {
-        exp =  v.toObject().value("exp").toInt();
-        gold = v.toObject().value("gold").toInt();
-        credits = v.toObject().value("credits").toInt();
-        race = v.toObject().value("race").toString();
-        ship_body = v.toObject().value("ship_body").toString();
-        level = v.toObject().value("level").toInt();
+        /*QJsonObject object = document.object();
+        QJsonValue value = object.value("player");
+        QJsonArray array = value.toArray();
+        int exp = 0, gold = 0, credits = 0, level = 0;
+        QString race, ship_body;
+        foreach (const QJsonValue & v, array)
+        {
+            exp =  v.toObject().value("exp").toInt();
+            gold = v.toObject().value("gold").toInt();
+            credits = v.toObject().value("credits").toInt();
+            race = v.toObject().value("race").toString();
+            ship_body = v.toObject().value("ship_body").toString();
+            level = v.toObject().value("level").toInt();
+        }*/
+
+        _base->_hero_obj->_experience = QString::number(exp);
+        _base->_hero_obj->_gold = QString::number(gold);
+        _base->_hero_obj->_credits = QString::number(credits);
+        _base->_hero_obj->_race = race;
+        _base->_hero_obj->_ship = "Класс "+ ship_body;
+        _base->_hero_obj->_level = QString::number(level);
     }
-    _base->_hero_obj->_experience = QString(exp);
-    _base->_hero_obj->_gold = QString(gold);
-    _base->_hero_obj->_credits = QString(credits);
-    _base->_hero_obj->_race = race;
-    _base->_hero_obj->_ship = "Класс "+ ship_body;
-    _base->_hero_obj->_level = QString(level);
 }
