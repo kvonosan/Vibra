@@ -16,8 +16,8 @@ public:
     void Click(int x, int y);
     void Paint(QPainter *painter);
     Fly(QWindow *parent, Base *base);
-private:
     Grid *_grid;
+private:
     Base *_base;
     Frame *_frame;
     QWindow *_parent;

@@ -18,10 +18,10 @@ MainWindow::MainWindow(int _width, int _height, bool game_mode, bool edit_mode, 
     }
     if (_game_mode)
     {
-        _base = new Base(this);
+        _net = new Net();
+        _base = new Base(this, _net);
         _state = 0;
         connect(&_process, SIGNAL(finished(int)), SLOT(OnExit()));
-        _net = new Net();
         if (!_net->VKConnected())
         {
 #ifdef Q_OS_WIN

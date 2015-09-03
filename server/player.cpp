@@ -2,6 +2,7 @@
 
 Player::Player()
 {
+    _bufferizeMap = 0;
 }
 
 Player::~Player()

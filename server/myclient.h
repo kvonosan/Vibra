@@ -9,6 +9,7 @@
 #include <QThreadPool>
 #include "mytask.h"
 #include "player.h"
+#include "loader.h"
 
 class MyClient : public QObject
 {
@@ -18,13 +19,14 @@ public:
     void SendInfo();
     void VkAuth(QString access_token);
     void setSocket(qintptr Descriptor);
-    explicit MyClient(QObject *parent = 0);
+    explicit MyClient(Loader *loader, QObject *parent = 0);
     bool _delete;
 public slots:
     void connected();
     void readyRead();
     void disconnected();
 private:
+    Loader *_loader;
     Player *_player;
     QTcpSocket *_socket;
     QNetworkReply *_reply;

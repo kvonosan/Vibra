@@ -12,10 +12,10 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
     Net *net = new Net("5028316", "bpPr0QAD5gytsbnbGpYK");
 
-    Loader loader;
-    loader.DatabaseConnect();
+    Loader *loader = new Loader();
+    loader->DatabaseConnect();
 
-    MyServer *server = new MyServer();
+    MyServer *server = new MyServer(loader);
     server->startServer();
 
     int result = a.exec();

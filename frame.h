@@ -10,6 +10,8 @@ public:
     ~Frame();
     Frame(QWindow *parent);
     void Paint(QPainter *painter);
+    int GetWidth(){return _grid->GetSizeX();}
+    int GetHeight(){return _grid->GetSizeY();}
     QString _action, _target, _view, _rank, _ship;
 private:
     void SetView();

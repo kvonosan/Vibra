@@ -1,10 +1,16 @@
 #include "myclient.h"
 
-MyClient::MyClient(QObject *parent) :
+MyClient::MyClient(Loader *loader, QObject *parent) :
     QObject(parent)
 {
     QThreadPool::globalInstance()->setMaxThreadCount(5);
     _delete = false;
+    if (loader == NULL)
+    {
+        qDebug() << "Error loader == NULL";
+        exit(-1);
+    }
+    _loader = loader;
 }
 
 MyClient::~MyClient()
@@ -89,6 +95,57 @@ void MyClient::readyRead()
     } else if (str.startsWith("getinfo"))
     {
         SendInfo();
+    } else if (str.startsWith("getmap"))
+    {
+        str.replace("getmap", "");
+        /*QJsonObject object;
+        QJsonDocument document = QJsonDocument::fromJson(str.toUtf8());
+        if (!document.isNull())
+        {
+            if (document.isObject())
+            {
+                object = document.object();
+            }
+        } else
+        {
+            qDebug() << "Parse json error.";
+        }
+        int screen_width = object["screen_width"].toInt();
+        int screen_height = object["screen_height"].toInt();
+        int len = object["len"].toInt();
+        QSqlQuery q1;
+        q1.prepare("INSERT INTO screen(width, height, len, player_id) VALUES (:w, :h, :l, :p)");
+        q1.bindValue(":w", screen_width);
+        q1.bindValue(":h", screen_height);
+        q1.bindValue(":l", len);
+        q1.bindValue(":p", _player->_player_id);
+        q1.exec();
+        QSqlQuery q2;
+        q2.prepare("SELECT screen_id FROM screen WHERE player_id=:p");
+        q2.bindValue(":p", _player->_player_id);
+        q2.exec();
+        int id = 0;
+        if (q2.next())
+        {
+            id = q2.value(0).toInt();
+        }
+        if (id==0)
+        {
+            qDebug() << "insert screen error.";
+        }
+        QSqlQuery q3;
+        q3.prepare("UPDATE player SET screen = :scr WHERE player_id=:p");
+        q3.bindValue(":scr", id);
+        q3.bindValue(":p", _player->_player_id);
+        q3.exec();*/
+        QString map = QString("map ") + _loader->Bufferize(_player);
+        _socket->write(map.toUtf8());
+    } else if(str.startsWith("getleftmap"))
+    {
+        //
+    } else if (str.startsWith("getrightmap"))
+    {
+        //
     }
 }
 
@@ -148,11 +205,6 @@ void MyClient::SendInfo()
         {
             ship_body1 = q5.value(0).toString();
         }
-        /*_string = " Опыт: " + _experience + "\n" +
-                " Золото: " + _gold + "\n" + " Кредиты: " + _credits + "\n" +
-                " Раса: " + _race + "\n" + " Корабль: " + _ship + "\n" +
-                " Уровень: " + _level + "\n";*/
-        //exp, gold, credits, race1, ship_body1, level
         QJsonObject obj;
         obj["exp"] = exp;
         obj["gold"] = gold;
@@ -160,8 +212,6 @@ void MyClient::SendInfo()
         obj["race"] = race1;
         obj["ship_body"] = ship_body1;
         obj["level"] = level;
-        //QJsonObject player;
-        //player["player"] = obj;
         QJsonDocument doc(obj);
         QString str = QString("info") + " " + QString::fromUtf8(doc.toJson(QJsonDocument::Compact).toStdString().c_str());
         _socket->write(str.toUtf8());

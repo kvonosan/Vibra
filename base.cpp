@@ -1,6 +1,6 @@
 #include "base.h"
 
-Base::Base(QWindow *parent)
+Base::Base(QWindow *parent, Net *net)
 {
     if (parent == NULL)
     {
@@ -8,6 +8,12 @@ Base::Base(QWindow *parent)
         exit(-1);
     }
     _parent = parent;
+    if (net == NULL)
+    {
+        qDebug() << "Error. net == NULL.";
+        exit(-1);
+    }
+    _net = net;
     _font.setPixelSize(32);
     _bank = QRect(10, 10, 80, 70);
     _magazine = QRect(100, 10, 130, 70);
@@ -190,6 +196,7 @@ void Base::Click(int x, int y)
         } else if (_flight.contains(x,y))
         {
            _state = 6;
+           _net->BufferizeMap();
         } else if (_quit.contains(x,y))
         {
             _parent->close();

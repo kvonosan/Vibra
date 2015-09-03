@@ -1,5 +1,6 @@
 #include "net.h"
 #include "hero.h"
+#include "frame.h"
 
 Net::Net()
 {
@@ -141,27 +142,32 @@ void Net::readyRead()
         race = object["race"].toString();
         ship_body = object["ship_body"].toString();
         level = object["level"].toInt();
-
-        /*QJsonObject object = document.object();
-        QJsonValue value = object.value("player");
-        QJsonArray array = value.toArray();
-        int exp = 0, gold = 0, credits = 0, level = 0;
-        QString race, ship_body;
-        foreach (const QJsonValue & v, array)
-        {
-            exp =  v.toObject().value("exp").toInt();
-            gold = v.toObject().value("gold").toInt();
-            credits = v.toObject().value("credits").toInt();
-            race = v.toObject().value("race").toString();
-            ship_body = v.toObject().value("ship_body").toString();
-            level = v.toObject().value("level").toInt();
-        }*/
-
         _base->_hero_obj->_experience = QString::number(exp);
         _base->_hero_obj->_gold = QString::number(gold);
         _base->_hero_obj->_credits = QString::number(credits);
         _base->_hero_obj->_race = race;
         _base->_hero_obj->_ship = "Класс "+ ship_body;
         _base->_hero_obj->_level = QString::number(level);
+    } else if (str.startsWith("map"))
+    {
+        str.replace("map ", "");
+        int g=0;
+        for(int j=0; j < _base->_fly->_grid->GetSizeY(); j++)
+            for(int i=0; i < _base->_fly->_grid->GetSizeX(); i++)
+            {
+                _base->_fly->_grid->GetSymbolAt(i, j)->symbol = str[g];
+                g++;
+            }
     }
+}
+
+void Net::BufferizeMap()
+{
+    QJsonObject obj;
+    obj["screen_width"] = _base->_frame->GetWidth();
+    obj["screen_height"] = _base->_frame->GetHeight();
+    obj["len"] = 2;
+    QJsonDocument doc(obj);
+    QString str = QString("getmap") + " " + QString::fromUtf8(doc.toJson(QJsonDocument::Compact).toStdString().c_str());
+    _tcp->write(str.toUtf8());
 }

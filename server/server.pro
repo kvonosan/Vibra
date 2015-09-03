@@ -18,7 +18,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     player.cpp \
-    infinite_world.cpp \
     loader.cpp \
     net.cpp \
     myclient.cpp \
@@ -27,7 +26,6 @@ SOURCES += main.cpp \
 
 HEADERS += \
     player.h \
-    infinite_world.h \
     loader.h \
     net.h \
     myclient.h \

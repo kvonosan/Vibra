@@ -17,7 +17,7 @@ Fly::Fly(QWindow *parent, Base *base)
     _menu = false;
     int menu_num = 8;
     _compute = false;
-    _frame = new Frame(_parent);
+    //_frame = new Frame(_parent);
     _grid = new Grid(Qt::black, Qt::white);
     _state = QRect(10, 10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
     _exp = QRect(10, _parent->geometry().height()/menu_num*1+10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
@@ -27,13 +27,12 @@ Fly::Fly(QWindow *parent, Base *base)
     _scaner = QRect(10, _parent->geometry().height()/menu_num*5+10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
     _hold = QRect(10, _parent->geometry().height()/menu_num*6+10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
     _quit = QRect(10, _parent->geometry().height()/menu_num*7+10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
-
 }
 
 Fly::~Fly()
 {
     delete _grid;
-    delete _frame;
+    //delete _frame;
 }
 
 void Fly::Paint(QPainter *painter)
@@ -49,7 +48,7 @@ void Fly::Paint(QPainter *painter)
     }
     _compute = true;
     _grid->Paint(painter);
-    _frame->Paint(painter);
+    //_frame->Paint(painter);
     if (_menu)
     {
         QPainterPath path;

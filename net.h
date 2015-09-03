@@ -4,6 +4,8 @@
 #include "base.h"
 #include <QtNetwork>
 
+class Base;
+
 class Net : public QObject
 {
     Q_OBJECT
@@ -13,6 +15,7 @@ public:
     void GetVKName();
     void NetConnect(Base *base);
     bool VKConnected();
+    void BufferizeMap();
     bool _connected;
     bool _authorized;
 private:

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Сен 02 2015 г., 13:34
+-- Время создания: Сен 03 2015 г., 12:20
 -- Версия сервера: 5.5.44-MariaDB
 -- Версия PHP: 5.4.16
 
@@ -618,7 +618,9 @@ CREATE TABLE IF NOT EXISTS `scent` (
 CREATE TABLE IF NOT EXISTS `screen` (
   `screen_id` int(10) NOT NULL,
   `width` int(10) NOT NULL,
-  `height` int(10) NOT NULL
+  `height` int(10) NOT NULL,
+  `len` int(10) NOT NULL,
+  `player_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

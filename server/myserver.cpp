@@ -2,9 +2,15 @@
 
 #include "myserver.h"
 
-MyServer::MyServer(QObject *parent) :
+MyServer::MyServer(Loader *loader, QObject *parent) :
     QTcpServer(parent)
 {
+    if (loader==NULL)
+    {
+        qDebug() << "loader == NULL";
+        exit(-1);
+    }
+    _loader = loader;
 }
 
 MyServer::~MyServer()
@@ -32,7 +38,7 @@ void MyServer::incomingConnection(qintptr socketDescriptor)
 {
     // At the incoming connection, make a client
     // and set the socket
-    MyClient *client = new MyClient(this);
+    MyClient *client = new MyClient(_loader, this);
     client->setSocket(socketDescriptor);
     _clients.push_back(client);
     DeleteNotActive();

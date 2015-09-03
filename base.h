@@ -2,6 +2,7 @@
 #define BASE
 
 #include <QtGui>
+#include "net.h"
 #include "fly.h"
 #include "grid.h"
 #include "bank.h"
@@ -11,6 +12,7 @@
 #include "honors.h"
 #include "magazine.h"
 
+class Net;
 class Fly;
 class Bank;
 class Hero;
@@ -22,17 +24,18 @@ class Base
 {
 public:
     ~Base();
-    Base(QWindow *parent);
+    Base(QWindow *parent, Net *net);
     void KeyPress(int key);
     void Click(int x, int y);
     void MouseMove(int x, int y);
     void Paint(QPainter *painter);
+    Fly *_fly;
     int _state;
+    Frame *_frame;
     Hero *_hero_obj;
 private:
-    Fly *_fly;
+    Net *_net;
     QFont _font;
-    Frame *_frame;
     Bank *_bank_obj;
     QWindow *_parent;
     Honors *_honors_obj;
