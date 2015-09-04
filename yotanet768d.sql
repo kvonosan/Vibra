@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Сен 03 2015 г., 12:20
+-- Время создания: Сен 04 2015 г., 10:33
 -- Версия сервера: 5.5.44-MariaDB
 -- Версия PHP: 5.4.16
 
@@ -329,7 +329,7 @@ CREATE TABLE IF NOT EXISTS `map` (
 --
 
 INSERT INTO `map` (`map_id`, `inleft`, `inright`, `intop`, `inbottom`, `infront`, `inbehind`, `data`) VALUES
-(1, 0, 0, 0, 0, 0, 0, 'BAASBSA R  APRBAPA A RAR P BASR  RRABA  RB RSARSSPBA PAB PA SSSAASARBASS SSASSBPARARRSB SR PARR AASRSPSRA A A  A PA SRSRPR AA  SRAAAABASABRSR  RBRPRRSPRABRSA  SRRSR PBPSSSSAAB ASRA  ARSAS RSRASBRRB RRASBBBRAPSRRRRAAASBPBPR SSPSRSAR  SAASSR  RRBARP  PS  PRSPASA SRA RSA SPA RRPR B  PBSPBR RARBBRPSAASPPSA AASARRA R RRAP AA B  SRR SR PASRAPSRPS RA PS   PSS RP RBRPSPR RA SSSRRBAPSP RSBS ASB SARS  AS  RRR RRRARBRBBBRPSAARRPARARPBBBAB AS ASRARAPS PSRAPRA SARBR RBP ARR SSR SASRRSSRBSAPR RRAR SBSRP P RA   PAB  RPSAAASPASASRSR APAASA RRAPAP P BAA ASS P RPRRSS PBARRAPSAAAPRASRARSBBRBARBARAS RPRRRSRSBA BRPRARRB SBA   P  AS AS A   APSPRS AA  RASRPR P  RASASABARASR APAPRSBRS SS SSSRRBRS   APBSABABBSSBRA SRRP SAASA BBBRS PRAABSPRPS  BSRBS SPRBSASRRPAABAA SPASPR   AR PS ASP');
+(1, 0, 0, 0, 0, 0, 0, '                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                .');
 
 -- --------------------------------------------------------
 

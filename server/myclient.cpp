@@ -104,65 +104,77 @@ void MyClient::readyRead()
     {
         if (_player->_pos - 1 >= 0)
         {
-            QSqlQuery q1;
-            q1.prepare("SELECT data FROM map WHERE map_id=:m");
-            q1.bindValue(":m", _player->_map);
-            q1.exec();
-            QString data;
-            if (q1.next())
+            int border = (_player->_pos - 1)%32;
+            if (border != 31)
             {
-                data = q1.value(0).toString();
+                QSqlQuery q1;
+                q1.prepare("SELECT data FROM map WHERE map_id=:m");
+                q1.bindValue(":m", _player->_map);
+                q1.exec();
+                QString data;
+                if (q1.next())
+                {
+                    data = q1.value(0).toString();
+                }
+                if (data[_player->_pos-1] == ' ')
+                {
+                    data[_player->_pos-1] = data[_player->_pos];
+                    data[_player->_pos] = ' ';
+                    _player->_pos = _player->_pos-1;
+                }
+                QSqlQuery q6;
+                q6.prepare("UPDATE map SET data=:data WHERE map_id=:id");
+                q6.bindValue(":id", _player->_map);
+                q6.bindValue(":data", data);
+                q6.exec();
+                QSqlQuery q7;
+                q7.prepare("UPDATE player SET pos=:p WHERE player_id=:id");
+                q7.bindValue(":id", _player->_player_id);
+                q7.bindValue(":p", _player->_pos);
+                q7.exec();
             }
-            if (data[_player->_pos-1] == ' ')
-            {
-                data[_player->_pos-1] = data[_player->_pos];
-                data[_player->_pos] = ' ';
-                _player->_pos = _player->_pos-1;
-            }
-            QSqlQuery q6;
-            q6.prepare("UPDATE map SET data=:data WHERE map_id=:id");
-            q6.bindValue(":id", _player->_map);
-            q6.bindValue(":data", data);
-            q6.exec();
-            QSqlQuery q7;
-            q7.prepare("UPDATE player SET pos=:p WHERE player_id=:id");
-            q7.bindValue(":id", _player->_player_id);
-            q7.bindValue(":p", _player->_pos);
-            q7.exec();
+        }
+        if ((_player->_pos - 1)%32 == 31 ||(_player->_pos - 1)%32 == -1)
+        {
+            _loader->GenerateLeftMap(_player);
         }
     } else if (str.startsWith("right"))
     {
         if (_player->_pos + 1 < 768)
         {
-            QSqlQuery q1;
-            q1.prepare("SELECT data FROM map WHERE map_id=:m");
-            q1.bindValue(":m", _player->_map);
-            q1.exec();
-            QString data;
-            if (q1.next())
+            int border = (_player->_pos + 1)%32;
+            if (border != 0)
             {
-                data = q1.value(0).toString();
+                QSqlQuery q1;
+                q1.prepare("SELECT data FROM map WHERE map_id=:m");
+                q1.bindValue(":m", _player->_map);
+                q1.exec();
+                QString data;
+                if (q1.next())
+                {
+                    data = q1.value(0).toString();
+                }
+                if (data[_player->_pos+1] == ' ')
+                {
+                    data[_player->_pos+1] = data[_player->_pos];
+                    data[_player->_pos] = ' ';
+                    _player->_pos = _player->_pos+1;
+                }
+                QSqlQuery q6;
+                q6.prepare("UPDATE map SET data=:data WHERE map_id=:id");
+                q6.bindValue(":id", _player->_map);
+                q6.bindValue(":data", data);
+                q6.exec();
+                QSqlQuery q7;
+                q7.prepare("UPDATE player SET pos=:p WHERE player_id=:id");
+                q7.bindValue(":id", _player->_player_id);
+                q7.bindValue(":p", _player->_pos);
+                q7.exec();
             }
-            if (data[_player->_pos+1] == ' ')
-            {
-                data[_player->_pos+1] = data[_player->_pos];
-                data[_player->_pos] = ' ';
-                _player->_pos = _player->_pos+1;
-            }
-            QSqlQuery q6;
-            q6.prepare("UPDATE map SET data=:data WHERE map_id=:id");
-            q6.bindValue(":id", _player->_map);
-            q6.bindValue(":data", data);
-            q6.exec();
-            QSqlQuery q7;
-            q7.prepare("UPDATE player SET pos=:p WHERE player_id=:id");
-            q7.bindValue(":id", _player->_player_id);
-            q7.bindValue(":p", _player->_pos);
-            q7.exec();
         }
     } else if (str.startsWith("top"))
     {
-        if (_player->_pos-32 > 0)
+        if (_player->_pos-32 >= 0)
         {
             QSqlQuery q1;
             q1.prepare("SELECT data FROM map WHERE map_id=:m");
