@@ -220,6 +220,7 @@ void Loader::GenerateLeftMap(Player *player)
     }
     symbol = data[player->_pos];
     data[player->_pos] = ' ';
+    int last_pos = player->_pos;
     //
     QSqlQuery q5;
     q5.prepare("SELECT data FROM map WHERE map_id=:map");
@@ -240,27 +241,28 @@ void Loader::GenerateLeftMap(Player *player)
         player->_pos = player->_pos+31;
         pos = player->_pos;
     }
-    if (data1[pos] == ' ')
+    if (data1[pos] != ' ')
     {
-        QSqlQuery q7;
-        q7.prepare("UPDATE map SET data=:data WHERE map_id=:map");
-        q7.bindValue(":map", player->_map);
-        q7.bindValue(":data", data);
-        q7.exec();
-
-        //
-        data1[pos] = symbol;
-        player->_map = last;
-        QSqlQuery q8;
-        q8.prepare("UPDATE map SET data=:data WHERE map_id=:map");
-        q8.bindValue(":map", player->_map);
-        q8.bindValue(":data", data1);
-        q8.exec();
-        QSqlQuery q3;
-        q3.prepare("UPDATE player SET map=:map, pos=:pos WHERE player_id=:id");
-        q3.bindValue(":map", last);
-        q3.bindValue(":id", player->_player_id);
-        q3.bindValue(":pos", player->_pos);
-        q3.exec();
+        data1[pos] = ' ';
     }
+    QSqlQuery q7;
+    q7.prepare("UPDATE map SET data=:data WHERE map_id=:map");
+    q7.bindValue(":map", player->_map);
+    q7.bindValue(":data", data);
+    q7.exec();
+
+    //
+    data1[pos] = symbol;
+    player->_map = last;
+    QSqlQuery q8;
+    q8.prepare("UPDATE map SET data=:data WHERE map_id=:map");
+    q8.bindValue(":map", player->_map);
+    q8.bindValue(":data", data1);
+    q8.exec();
+    QSqlQuery q3;
+    q3.prepare("UPDATE player SET map=:map, pos=:pos WHERE player_id=:id");
+    q3.bindValue(":map", last);
+    q3.bindValue(":id", player->_player_id);
+    q3.bindValue(":pos", player->_pos);
+    q3.exec();
 }

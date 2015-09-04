@@ -102,7 +102,13 @@ void MyClient::readyRead()
         _socket->write(map.toUtf8());
     } else if (str.startsWith("left"))
     {
-        if (_player->_pos - 1 >= 0)
+        bool generate = false;
+        if (_player->_pos%32 == 0)
+        {
+            _loader->GenerateLeftMap(_player);
+            generate = true;
+        }
+        if (_player->_pos - 1 >= 0 && !generate)
         {
             int border = (_player->_pos - 1)%32;
             if (border != 31)
@@ -133,10 +139,6 @@ void MyClient::readyRead()
                 q7.bindValue(":p", _player->_pos);
                 q7.exec();
             }
-        }
-        if ((_player->_pos - 1)%32 == 31 ||(_player->_pos - 1)%32 == -1)
-        {
-            _loader->GenerateLeftMap(_player);
         }
     } else if (str.startsWith("right"))
     {
