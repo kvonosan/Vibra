@@ -220,7 +220,6 @@ void Loader::GenerateLeftMap(Player *player)
     }
     symbol = data[player->_pos];
     data[player->_pos] = ' ';
-    int last_pos = player->_pos;
     //
     QSqlQuery q5;
     q5.prepare("SELECT data FROM map WHERE map_id=:map");
@@ -250,7 +249,80 @@ void Loader::GenerateLeftMap(Player *player)
     q7.bindValue(":map", player->_map);
     q7.bindValue(":data", data);
     q7.exec();
+    //
+    data1[pos] = symbol;
+    player->_map = last;
+    QSqlQuery q8;
+    q8.prepare("UPDATE map SET data=:data WHERE map_id=:map");
+    q8.bindValue(":map", player->_map);
+    q8.bindValue(":data", data1);
+    q8.exec();
+    QSqlQuery q3;
+    q3.prepare("UPDATE player SET map=:map, pos=:pos WHERE player_id=:id");
+    q3.bindValue(":map", last);
+    q3.bindValue(":id", player->_player_id);
+    q3.bindValue(":pos", player->_pos);
+    q3.exec();
+}
 
+void Loader::GenerateRightMap(Player *player)
+{
+    QString map = Generate768d();
+    QSqlQuery q1;
+    q1.prepare("INSERT INTO map (inleft, inright, intop, inbottom, infront, inbehind, data) VALUES(:inleft,0,0,0,0,0,:data)");
+    q1.bindValue(":data", map);
+    q1.bindValue(":inleft", player->_map);
+    q1.exec();
+    QSqlQuery q2;
+    q2.prepare("SELECT map_id FROM map ORDER BY map_id DESC LIMIT 1");
+    q2.exec();
+    int last = 0;
+    if (q2.next())
+    {
+        last = q2.value(0).toInt();
+    }
+    QSqlQuery q4;
+    q4.prepare("UPDATE map SET inright=:inright WHERE map_id=:map_id");
+    q4.bindValue(":inright", last);
+    q4.bindValue(":map_id", player->_map);
+    q4.exec();
+    QSqlQuery q6;
+    q6.prepare("SELECT data FROM map WHERE map_id=:map");
+    q6.bindValue(":map", player->_map);
+    q6.exec();
+    QString data;
+    QChar symbol;
+    if (q6.next())
+    {
+        data = q6.value(0).toString();
+    }
+    symbol = data[player->_pos];
+    data[player->_pos] = ' ';
+    //
+    QSqlQuery q5;
+    q5.prepare("SELECT data FROM map WHERE map_id=:map");
+    q5.bindValue(":map", last);
+    q5.exec();
+    QString data1;
+    if (q5.next())
+    {
+        data1 = q5.value(0).toString();
+    }
+    int pos = player->_pos%32;
+    if (pos == 31)
+    {
+        player->_pos = player->_pos-31;
+        pos = player->_pos;
+    }
+    if (data1[pos] != ' ')
+    {
+        data1[pos] = ' ';
+    }
+    QSqlQuery q7;
+    q7.prepare("UPDATE map SET data=:data WHERE map_id=:map");
+    q7.bindValue(":map", player->_map);
+    q7.bindValue(":data", data);
+    q7.exec();
     //
     data1[pos] = symbol;
     player->_map = last;

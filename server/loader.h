@@ -16,6 +16,7 @@ public:
     void GenerateTables();
     QString Bufferize(Player *player);
     void GenerateLeftMap(Player *player);
+    void GenerateRightMap(Player *player);
 private:
     QSqlDatabase _db;
 };
