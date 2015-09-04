@@ -19,7 +19,7 @@ MainWindow::MainWindow(int _width, int _height, bool game_mode, bool edit_mode, 
     if (_game_mode)
     {
         _net = new Net();
-        _base = new Base(this, _net);
+        _base = new Base(this, _net, this);
         _state = 0;
         connect(&_process, SIGNAL(finished(int)), SLOT(OnExit()));
         if (!_net->VKConnected())
@@ -29,10 +29,12 @@ MainWindow::MainWindow(int _width, int _height, bool game_mode, bool edit_mode, 
 #else
         _process.start("./fancybrowser");
 #endif
+            _sec = 40000;
         } else
         {
             _state = 1;
             renderNow();
+            _sec = 5000;
         }
         _end_timer_edit = false;
         _start_timer_edit = true;
@@ -112,7 +114,7 @@ void MainWindow::render(QPainter *painter)
         {
             if (_start_timer_edit)
             {
-                _timer_edit.start(5000, this);
+                _timer_edit.start(_sec, this);
                 _start_timer_edit = false;
             }
             switch(_state)

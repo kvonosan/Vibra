@@ -1,6 +1,6 @@
 #include "fly.h"
 
-Fly::Fly(QWindow *parent, Base *base)
+Fly::Fly(Net *net, QWindow *parent, Base *base)
 {
     if (parent == NULL)
     {
@@ -14,6 +14,12 @@ Fly::Fly(QWindow *parent, Base *base)
         exit(-1);
     }
     _base = base;
+    if (net == NULL)
+    {
+        qDebug() << "Error. net == NULL.";
+        exit(-1);
+    }
+    _net = net;
     _menu = false;
     int menu_num = 8;
     _compute = false;
@@ -85,6 +91,7 @@ void Fly::Click(int x, int y)
     {
         if (_quit.contains(x, y))
         {
+            _net->_disconnect = false;
             _parent->close();
         }
     }
@@ -97,6 +104,26 @@ void Fly::KeyPress(int key)
         if (key == Qt::Key_Escape)
         {
             _menu = !_menu;
+        }
+        if (key == Qt::Key_W)
+        {
+            _net->Top();
+            _net->BufferizeMap();
+        }
+        if (key == Qt::Key_S)
+        {
+            _net->Bottom();
+            _net->BufferizeMap();
+        }
+        if (key == Qt::Key_A)
+        {
+            _net->Left();
+            _net->BufferizeMap();
+        }
+        if (key == Qt::Key_D)
+        {
+            _net->Right();
+            _net->BufferizeMap();
         }
     }
 }

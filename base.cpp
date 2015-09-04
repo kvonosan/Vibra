@@ -1,19 +1,25 @@
 #include "base.h"
 
-Base::Base(QWindow *parent, Net *net)
+Base::Base(QWindow *parent, Net *net, MainWindow *mainwindow)
 {
     if (parent == NULL)
     {
-        qDebug() << "Error. parent == NULL.";
+        qDebug() << "Error: parent == NULL.";
         exit(-1);
     }
     _parent = parent;
     if (net == NULL)
     {
-        qDebug() << "Error. net == NULL.";
+        qDebug() << "Error: net == NULL.";
         exit(-1);
     }
     _net = net;
+    if (mainwindow == NULL)
+    {
+        qDebug() << "Error: mainwindow == NULL.";
+        exit(-1);
+    }
+    _mainwindow = mainwindow;
     _font.setPixelSize(32);
     _bank = QRect(10, 10, 80, 70);
     _magazine = QRect(100, 10, 130, 70);
@@ -33,7 +39,7 @@ Base::Base(QWindow *parent, Net *net)
     _honors_obj = new Honors(_parent, this);
     _rating_obj = new Rating(_parent, this);
     _bank_obj = new Bank(_parent, this);
-    _fly = new Fly(_parent, this);
+    _fly = new Fly(_net, _parent, this);
 }
 
 Base::~Base()
@@ -199,6 +205,7 @@ void Base::Click(int x, int y)
            _net->BufferizeMap();
         } else if (_quit.contains(x,y))
         {
+            _net->_disconnect = false;
             _parent->close();
         } else if (_generator.contains(x, y))
         {

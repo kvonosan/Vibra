@@ -157,12 +157,58 @@ void Player::AddToMap()
         data[i] = class1[0];
         QSqlQuery q5;
         q5.prepare("UPDATE player SET map=1, pos=:pos WHERE player_id=:id");
+        _pos = i;
+        _map = map;
         q5.bindValue(":pos", i);
         q5.bindValue(":id", _player_id);
         q5.exec();
         QSqlQuery q6;
         q6.prepare("UPDATE map SET data=:data WHERE map_id=:id");
         q6.bindValue(":id", 1);
+        q6.bindValue(":data", data);
+        q6.exec();
+    } else
+    {
+        _map = map;
+        QSqlQuery q1;
+        q1.prepare("SELECT pos FROM player WHERE player_id=:id");
+        q1.bindValue(":id", _player_id);
+        q1.exec();
+        if (q1.next())
+        {
+            _pos = q1.value(0).toInt();
+        }
+        QSqlQuery q4;
+        q4.prepare("SELECT ship_body FROM ship WHERE player_id=:id");
+        q4.bindValue(":id", _player_id);
+        q4.exec();
+        int body = 0;
+        if (q4.next())
+        {
+            body = q4.value(0).toInt();
+        }
+        QSqlQuery q2;
+        q2.prepare("SELECT class FROM ship_body WHERE body_id=:body");
+        q2.bindValue(":body", body);
+        q2.exec();
+        QString class1;
+        if (q2.next())
+        {
+            class1 = q2.value(0).toString();
+        }
+        QSqlQuery q3;
+        q3.prepare("SELECT data FROM map WHERE map_id=:id");
+        q3.bindValue(":id", _map);
+        q3.exec();
+        QString data;
+        if (q3.next())
+        {
+            data = q3.value(0).toString();
+        }
+        data[_pos] = class1[0];
+        QSqlQuery q6;
+        q6.prepare("UPDATE map SET data=:data WHERE map_id=:id");
+        q6.bindValue(":id", _map);
         q6.bindValue(":data", data);
         q6.exec();
     }

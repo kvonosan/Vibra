@@ -127,10 +127,11 @@ QString Loader::Generate768d()
             }
                 break;
             }
-            str += QString(symbol);
+            //str += QString(symbol);
+            str += ' ';
             i++;
         }
-        return str;
+        return str + '.';
 }
 
 QString Loader::Bufferize(Player *player)

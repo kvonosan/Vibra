@@ -11,6 +11,7 @@
 #include "rating.h"
 #include "honors.h"
 #include "magazine.h"
+#include "mainwindow.h"
 
 class Net;
 class Fly;
@@ -19,12 +20,13 @@ class Hero;
 class Honors;
 class Rating;
 class Magazine;
+class MainWindow;
 
 class Base
 {
 public:
     ~Base();
-    Base(QWindow *parent, Net *net);
+    Base(QWindow *parent, Net *net, MainWindow *mainwindow);
     void KeyPress(int key);
     void Click(int x, int y);
     void MouseMove(int x, int y);
@@ -33,6 +35,7 @@ public:
     int _state;
     Frame *_frame;
     Hero *_hero_obj;
+    MainWindow *_mainwindow;
 private:
     Net *_net;
     QFont _font;

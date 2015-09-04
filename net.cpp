@@ -1,12 +1,15 @@
 #include "net.h"
 #include "hero.h"
 #include "frame.h"
+#include <QMessageBox>
 
 Net::Net()
 {
     _port = 33333;
     _connected = false;
     _tcp = new QTcpSocket();
+    _vk_connected = false;
+    _disconnect = true;
 }
 
 Net::~Net()
@@ -16,6 +19,10 @@ Net::~Net()
 
 bool Net::VKConnected()
 {
+    if (_vk_connected)
+    {
+        return true;
+    }
     QString filename = "token.txt";
     QFile file( filename );
     QString token;
@@ -43,6 +50,7 @@ bool Net::VKConnected()
         QString reply = netReply->readAll();
         if (reply.contains("response"))
         {
+            _vk_connected = true;
             return true;
         } else
         {
@@ -83,6 +91,7 @@ void Net::NetConnect(Base *base)
     }
     _base = base;
     connect(_tcp, SIGNAL(connected()), this, SLOT(Connected()));
+    connect(_tcp, SIGNAL(disconnected()), this, SLOT(Disconnected()));
     _tcp->connectToHost("91.215.138.69", _port);
     _tcp->waitForConnected(2000);
     _tcp->connectToHost("127.0.0.1", _port);
@@ -95,6 +104,22 @@ void Net::Connected()
     QString str = "token " + _access_token;
     _tcp->write(str.toUtf8());
     connect(_tcp, SIGNAL(readyRead()), this, SLOT(readyRead()));
+}
+
+void Net::Disconnected()
+{
+    if (_disconnect)
+    {
+        QMessageBox* pmbx = new QMessageBox("Соединение с сервером",
+                            "<b>Соединение прервано!</b>",
+                            QMessageBox::Information,
+                            QMessageBox::NoButton,
+                            QMessageBox::Ok,
+                            QMessageBox::NoButton);
+        pmbx->exec();
+        delete pmbx;
+        exit(-1);
+    }
 }
 
 void Net::readyRead()
@@ -158,16 +183,45 @@ void Net::readyRead()
                 _base->_fly->_grid->GetSymbolAt(i, j)->symbol = str[g];
                 g++;
             }
+        _base->_mainwindow->renderNow();
     }
 }
 
 void Net::BufferizeMap()
 {
     QJsonObject obj;
-    obj["screen_width"] = _base->_frame->GetWidth();
-    obj["screen_height"] = _base->_frame->GetHeight();
-    obj["len"] = 2;
+    //obj["screen_width"] = _base->_frame->GetWidth();
+    //obj["screen_height"] = _base->_frame->GetHeight();
+    //obj["len"] = 2;
     QJsonDocument doc(obj);
     QString str = QString("getmap") + " " + QString::fromUtf8(doc.toJson(QJsonDocument::Compact).toStdString().c_str());
     _tcp->write(str.toUtf8());
+}
+
+void Net::Left()
+{
+    QString str = "left";
+    _tcp->write(str.toUtf8());
+    _tcp->flush();
+}
+
+void Net::Right()
+{
+    QString str = "right";
+    _tcp->write(str.toUtf8());
+    _tcp->flush();
+}
+
+void Net::Top()
+{
+    QString str = "top";
+    _tcp->write(str.toUtf8());
+    _tcp->flush();
+}
+
+void Net::Bottom()
+{
+    QString str = "bottom";
+    _tcp->write(str.toUtf8());
+    _tcp->flush();
 }

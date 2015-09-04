@@ -1,12 +1,14 @@
 #ifndef FLY
 #define FLY
 
+#include "net.h"
 #include <QtGui>
 #include "base.h"
 #include "grid.h"
 #include "frame.h"
 
 class Base;
+class Net;
 
 class Fly
 {
@@ -15,9 +17,10 @@ public:
     void KeyPress(int key);
     void Click(int x, int y);
     void Paint(QPainter *painter);
-    Fly(QWindow *parent, Base *base);
+    Fly(Net *net, QWindow *parent, Base *base);
     Grid *_grid;
 private:
+    Net *_net;
     Base *_base;
     Frame *_frame;
     QWindow *_parent;

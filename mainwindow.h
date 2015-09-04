@@ -6,6 +6,8 @@
 #include "base.h"
 #include "buttonpanel.h"
 
+class Net;
+
 class MainWindow : public QWindow
 {
     Q_OBJECT
@@ -27,7 +29,7 @@ private:
     void mousePressEvent(QMouseEvent *event);
     void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
     Net *_net;
-    int _state;
+    int _state, _sec;
     Base *_base;
     Grid *_grid;
     QProcess _process;
