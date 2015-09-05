@@ -178,10 +178,14 @@ void Net::readyRead()
         for(int j=0; j < _base->_fly->_grid->GetSizeY(); j++)
             for(int i=0; i < _base->_fly->_grid->GetSizeX(); i++)
             {
-                _base->_fly->_grid->GetSymbolAt(i, j)->symbol = str[g];
+                _base->_fly->_grid->GetSymbolAt(i, j)->_symbol = str[g];
                 g++;
             }
         _base->_mainwindow->renderNow();
+    } else if (str.startsWith("yourpos"))
+    {
+        str.replace("yourpos ", "");
+        _mypos = str.toInt();
     }
 }
 
@@ -217,4 +221,12 @@ void Net::Bottom()
     QString str = "bottom";
     _tcp->write(str.toUtf8());
     _tcp->flush();
+}
+
+void Net::GetMyPos()
+{
+    QString str = "getmypos";
+    _tcp->write(str.toUtf8());
+    _tcp->flush();
+    _tcp->waitForReadyRead(3000);
 }

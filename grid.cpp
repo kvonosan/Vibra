@@ -33,10 +33,10 @@ void Grid::Paint(QPainter *painter)
     for (int i = 0; i < _sizeX; i++)
         for(int j = 0; j < _sizeY; j++)
         {
-            if (_symbols[i][j].symbol != 0)
+            if (_symbols[i][j]._symbol != 0)
             {
                 painter->setPen(QPen(_symbols[i][j].TextColor));
-                painter->drawText(QRect(i*_font->pixelSize(), j*_font->pixelSize(), i*_font->pixelSize()+_font->pixelSize(), j*_font->pixelSize()+_font->pixelSize()), Qt::AlignAbsolute, _symbols[i][j].symbol);
+                painter->drawText(QRect(i*_font->pixelSize(), j*_font->pixelSize(), i*_font->pixelSize()+_font->pixelSize(), j*_font->pixelSize()+_font->pixelSize()), Qt::AlignAbsolute, _symbols[i][j]._symbol);
             }
         }
 }
@@ -70,9 +70,23 @@ void Grid::ComputeSize(int SizeX, int SizeY)
         {
             _symbols[i][j].GridColor = _defaultgridcolor;
             _symbols[i][j].TextColor = _defaulttextcolor;
-            _symbols[i][j].symbol = 0;
+            _symbols[i][j]._symbol = 0;
+
         }
     }
+    int g = 0;
+    for(int j=0; j < _sizeY; j++)
+        for(int i=0; i < _sizeX; i++)
+        {
+            _symbols[i][j]._number = g;
+            g++;
+        }
+    for(int i=0; i < _sizeX; i++)
+        for(int j=0; j < _sizeY; j++)
+        {
+            _symbols[i][j]._x = i;
+            _symbols[i][j]._y = j;
+        }
     _computed = true;
 }
 
@@ -143,6 +157,20 @@ Symbol* Grid::GetSymbolAtWH(int width, int heigth)
     return GetSymbolAt(x, y);
 }
 
+QVector<int> Grid::GetCoordForXY(int x, int y)
+{
+    QVector<int> coord;
+    int x0 = x*_font->pixelSize();
+    int x1 = (x+1)*_font->pixelSize();
+    int y0 = y*_font->pixelSize();
+    int y1 = (y+1)*_font->pixelSize();
+    coord.push_back(x0);//x0
+    coord.push_back(x1);//x1
+    coord.push_back(y0);//y0
+    coord.push_back(y1);//y1
+    return coord;
+}
+
 void Grid::PrintWordOnCenter(QPainter *painter, QString word, int line, QColor gridcolor, QColor textcolor)
 {
     int len = word.length();
@@ -165,7 +193,7 @@ void Grid::PrintWordOnCenter(QPainter *painter, QString word, int line, QColor g
     int ostatok = len%2, i = 0;
     while (start != 0)
     {
-        _symbols[_centrX - start][line].symbol = word[i];
+        _symbols[_centrX - start][line]._symbol = word[i];
         _symbols[_centrX - start][line].GridColor = gridcolor;
         _symbols[_centrX - start][line].TextColor = textcolor;
         start--;
@@ -177,7 +205,7 @@ void Grid::PrintWordOnCenter(QPainter *painter, QString word, int line, QColor g
     int j = 0;
     while (j < start)
     {
-        _symbols[_centrX + j][line].symbol = word[i];
+        _symbols[_centrX + j][line]._symbol = word[i];
         _symbols[_centrX + j][line].GridColor = gridcolor;
         _symbols[_centrX + j][line].TextColor = textcolor;
         j++;
@@ -207,7 +235,7 @@ void Grid::PrintWordOnRight(QPainter *painter, QString word, int line, QColor gr
     int i = 0;
     while (i < len)
     {
-        _symbols[_sizeX - start][line].symbol = word[i];
+        _symbols[_sizeX - start][line]._symbol = word[i];
         _symbols[_sizeX - start][line].GridColor = gridcolor;
         _symbols[_sizeX - start][line].TextColor = textcolor;
         start--;
@@ -238,7 +266,7 @@ void Grid::PrintWordOnLeft(QPainter *painter, QString word, int line, QColor gri
     int start = 0;
     while (start < len)
     {
-        _symbols[start][line].symbol = word[start];
+        _symbols[start][line]._symbol = word[start];
         _symbols[start][line].GridColor = gridcolor;
         _symbols[start][line].TextColor = textcolor;
         start++;
@@ -265,7 +293,7 @@ QVector<int> Grid::GetCoordForWord(QString word)
     {
         for (j = 0; j < _sizeY; j++)
         {
-            if (_symbols[i][j].symbol == word[k])
+            if (_symbols[i][j]._symbol == word[k])
             {
                 found = true;
             } else
@@ -279,7 +307,7 @@ QVector<int> Grid::GetCoordForWord(QString word)
                 {
                     k++;
                     o++;
-                    if (_symbols[o][j].symbol == word[k])
+                    if (_symbols[o][j]._symbol == word[k])
                     {
                         found = true;
                         if (k == word.length())

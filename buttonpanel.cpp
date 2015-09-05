@@ -100,7 +100,7 @@ void ButtonPanel::Paint(QPainter *painter)
                 {
                     mass[i][j].GridColor = _grid->GetSymbolAt(i,j)->GridColor;
                     mass[i][j].TextColor = _grid->GetSymbolAt(i,j)->TextColor;
-                    mass[i][j].symbol = _grid->GetSymbolAt(i,j)->symbol;
+                    mass[i][j]._symbol = _grid->GetSymbolAt(i,j)->_symbol;
                 }
             }
         }
@@ -114,13 +114,13 @@ void ButtonPanel::Paint(QPainter *painter)
                 {
                     _grid->GetSymbolAt(i,j)->GridColor = mass[i][j].GridColor;
                     _grid->GetSymbolAt(i,j)->TextColor = mass[i][j].TextColor;
-                    _grid->GetSymbolAt(i,j)->symbol = mass[i][j].symbol;
+                    _grid->GetSymbolAt(i,j)->_symbol = mass[i][j]._symbol;
                 }
         }
         _firstpaint = false;
         if (_mousepressed && _mousex >= 0 && _mousey >= 0 && _cursor == 2)
         {
-            (_grid->GetSymbolAtWH(_mousex, _mousey))->symbol = _paintsymbol;
+            (_grid->GetSymbolAtWH(_mousex, _mousey))->_symbol = _paintsymbol;
             (_grid->GetSymbolAtWH(_mousex, _mousey))->GridColor = _gridcolor;
             (_grid->GetSymbolAtWH(_mousex, _mousey))->TextColor = _textcolor;
         }
@@ -132,7 +132,7 @@ void ButtonPanel::Paint(QPainter *painter)
         }
         if (_mousepressed && _mousex >= 0 && _mousey >= 0 && _cursor == 3)
         {
-            (_grid->GetSymbolAtWH(_mousex, _mousey))->symbol = ' ';
+            (_grid->GetSymbolAtWH(_mousex, _mousey))->_symbol = ' ';
             (_grid->GetSymbolAtWH(_mousex, _mousey))->GridColor = _gridcolor;
             (_grid->GetSymbolAtWH(_mousex, _mousey))->TextColor = _textcolor;
         }
@@ -194,7 +194,7 @@ void ButtonPanel::Click(int x, int y)
                 for (int i=0; i<_grid->GetSizeX();i++)
                     for (int j=0;j<_grid->GetSizeY();j++)
                     {
-                        stream >> (_grid->GetSymbolAt(i,j)->symbol);
+                        stream >> (_grid->GetSymbolAt(i,j)->_symbol);
                     }
                 file.close();
             }
@@ -216,7 +216,7 @@ void ButtonPanel::Click(int x, int y)
                 for (int i=0;i<_grid->GetSizeX();i++)
                     for (int j=0;j<_grid->GetSizeY();j++)
                     {
-                        stream << (_grid->GetSymbolAt(i,j)->symbol);
+                        stream << (_grid->GetSymbolAt(i,j)->_symbol);
                     }
                 file.close();
             }

@@ -511,6 +511,10 @@ void MyClient::readyRead()
             q7.bindValue(":p", _player->_pos);
             q7.exec();
         }
+    } else if(str.startsWith("getmypos"))
+    {
+        QString send = QString("yourpos ") + QString::number(_player->_pos);
+        _socket->write(send.toUtf8());
     }
 }
 

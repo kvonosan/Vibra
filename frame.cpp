@@ -41,7 +41,7 @@ void Frame::SetAction()
     int g = 0;
     while(g!=result.length())
     {
-        (_grid->GetSymbolAt(posx+g, posy)->symbol) = result[g];
+        (_grid->GetSymbolAt(posx+g, posy)->_symbol) = result[g];
         g++;
     }
 }
@@ -54,7 +54,7 @@ void Frame::SetTarget()
     int g = 0;
     while(g!=result.length())
     {
-        (_grid->GetSymbolAt(posx+g, posy)->symbol) = result[g];
+        (_grid->GetSymbolAt(posx+g, posy)->_symbol) = result[g];
         g++;
     }
 }
@@ -67,7 +67,7 @@ void Frame::SetView()
     int g = 0;
     while(g!=result.length())
     {
-        (_grid->GetSymbolAt(posx+g, posy)->symbol) = result[g];
+        (_grid->GetSymbolAt(posx+g, posy)->_symbol) = result[g];
         g++;
     }
 }
@@ -80,7 +80,7 @@ void Frame::SetRank()
     int g = 0;
     while(g!=result.length())
     {
-        (_grid->GetSymbolAt(posx+g, posy)->symbol) = result[g];
+        (_grid->GetSymbolAt(posx+g, posy)->_symbol) = result[g];
         g++;
     }
 }
@@ -93,7 +93,7 @@ void Frame::SetShip()
     int g = 0;
     while(g!=result.length())
     {
-        (_grid->GetSymbolAt(posx+g, posy)->symbol) = result[g];
+        (_grid->GetSymbolAt(posx+g, posy)->_symbol) = result[g];
         g++;
     }
 }

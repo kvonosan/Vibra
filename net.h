@@ -16,6 +16,7 @@ public:
     void Left();
     void Right();
     void Bottom();
+    void GetMyPos();
     void GetVKName();
     bool VKConnected();
     void BufferizeMap();
@@ -23,6 +24,7 @@ public:
     bool _connected;
     bool _authorized;
     bool _disconnect;
+    int _mypos;
 private:
     int _port;
     Base *_base;

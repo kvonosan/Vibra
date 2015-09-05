@@ -8,6 +8,7 @@ class Grid
 {
 public:
     ~Grid();
+
     void Paint(QPainter *painter);
     int GetSizeX(){return _sizeX;}
     int GetSizeY(){return _sizeY;}
@@ -15,8 +16,9 @@ public:
     int GetCenterX(){return _sizeX / 2;}
     int GetCenterY(){return _sizeY / 2;}
     void ComputeSize(int SizeX, int SizeY);
-    Symbol *GetSymbolAtWH(int width, int heigth);
+    QVector<int> GetCoordForXY(int x, int y);
     QVector<int> GetCoordForWord(QString word);
+    Symbol *GetSymbolAtWH(int width, int heigth);
     QVector<int> GetCoordForWordInSymbols(QString word);
     void SetGridColor(QPainter *painter, QColor gridcolor);
     void SetTextColor(QPainter *painter, QColor textcolor);

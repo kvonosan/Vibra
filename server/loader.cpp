@@ -88,67 +88,43 @@ QString Loader::Generate768d()
         QChar symbol = ' ';
         while (i<768)
         {
-            g = rand()%30;
+            g = rand()%100;
             //qDebug() << g <<"\n";
-            switch(g)
-            {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-            case 20:
-            case 21:
-            case 22:
-            case 23:
-            case 24:
+            if (g >= 0 && g <=80)
             {
                 symbol = ' ';//No
-            }
-                break ;
-            case 25:
+            } else if (g == 81 || g == 82)
             {
-                symbol = 'p';//Planet
-            }
-                break;
-            case 26:
+                symbol = 'A';
+            } else if (g == 83 ||g == 84)
+            {
+                symbol = 'B';
+            } else if (g == 85 || g == 86)
+            {
+                symbol = 'C';
+            } else if (g == 87 || g == 88)
+            {
+                symbol = 'D';
+            } else if (g == 89 || g==90)
+            {
+                symbol = 'E';
+            } else if (g == 91 || g == 92)
+            {
+                //symbol = 'p';//Planet
+            } else if (g == 93 || g == 94)
             {
                 symbol = 'b';//Base
-            }
-                break;
-            case 27:
+            } else if (g == 95 || g == 96)
             {
                 symbol = 's';//Star
-            }
-                break;
-            case 28:
+            } else if (g == 97 || g == 98)
             {
-                symbol = 'a';//Asteroid
-            }
-                break;
-            case 29:
+                //symbol = 'a';//Asteroid
+            } else if (g == 99 || g == 100)
             {
                 symbol = 'r';//Resource
             }
-                break;
-            }
             str += QString(symbol);
-            //str += ' ';
             i++;
         }
         return str + '.';

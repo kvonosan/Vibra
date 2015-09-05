@@ -7,9 +7,10 @@ class Symbol{
 public:
     Symbol();
     ~Symbol();
-    QChar symbol;
+    QChar _symbol;
     QColor TextColor;
     QColor GridColor;
+    int _number, _x, _y;
 };
 
 #endif // SYMBOL_H
