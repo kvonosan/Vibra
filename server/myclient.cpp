@@ -1,3 +1,4 @@
+#include "player.h"
 #include "myclient.h"
 
 MyClient::MyClient(Loader *loader, QObject *parent) :
@@ -22,16 +23,12 @@ MyClient::~MyClient()
 void MyClient::setSocket(qintptr descriptor)
 {
     _socket = new QTcpSocket(this);
-
     qDebug() << "A new socket created!";
-
     connect(_socket, SIGNAL(connected()), this, SLOT(connected()));
     connect(_socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
     connect(_socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
-
     _socket->setSocketDescriptor(descriptor);
     _player = new Player();
-
     qDebug() << " Client connected at " << descriptor;
 }
 
@@ -316,7 +313,77 @@ void MyClient::readyRead()
         }
     } else if (str.startsWith("top"))
     {
-        if (_player->_pos-32 >= 0)
+        bool generate = false;
+        bool map_not_found = false;
+        bool hod = true;
+        QSqlQuery q8;
+        q8.prepare("SELECT intop FROM map WHERE map_id=:map_id");
+        q8.bindValue(":map_id", _player->_map);
+        q8.exec();
+        int intop = 0;
+        if (q8.next())
+        {
+            intop = q8.value(0).toInt();
+        }
+        if (intop == 0)
+        {
+            map_not_found = true;
+        }
+        if (_player->_pos-32<0 && map_not_found)
+        {
+            _loader->GenerateTopMap(_player);
+            generate = true;
+        } else
+        {
+            int pos = _player->_pos-32;
+            if (pos < 0)
+            {
+                hod = false;
+                int last_pos = _player->_pos;
+                _player->_pos = 768 - 32 + _player->_pos;
+                pos = _player->_pos;
+                QSqlQuery q2;
+                q2.prepare("UPDATE player SET map=:map,pos=:pos WHERE player_id = :id");
+                q2.bindValue(":map", intop);
+                q2.bindValue(":pos", pos);
+                q2.bindValue(":id", _player->_player_id);
+                q2.exec();
+                int last = _player->_map;
+                _player->_map = intop;
+                QSqlQuery q3;
+                q3.prepare("SELECT data FROM map WHERE map_id=:map_id");
+                q3.bindValue(":map_id", last);
+                q3.exec();
+                QString data;
+                if (q3.next())
+                {
+                    data = q3.value(0).toString();
+                }
+                QChar symbol = data[last_pos];
+                data[last_pos] = ' ';
+                QSqlQuery q5;
+                q5.prepare("UPDATE map SET data=:data WHERE map_id=:map_id");
+                q5.bindValue(":map_id", last);
+                q5.bindValue(":data", data);
+                q5.exec();
+                QSqlQuery q4;
+                q4.prepare("SELECT data FROM map WHERE map_id=:map_id");
+                q4.bindValue(":map_id", _player->_map);
+                q4.exec();
+                QString data1;
+                if (q4.next())
+                {
+                    data1 = q4.value(0).toString();
+                }
+                data1[pos] = symbol;
+                QSqlQuery q9;
+                q9.prepare("UPDATE map SET data=:data WHERE map_id=:map_id");
+                q9.bindValue(":map_id", _player->_map);
+                q9.bindValue(":data", data1);
+                q9.exec();
+            }
+        }
+        if (_player->_pos-32 >= 0 && !generate && hod)
         {
             QSqlQuery q1;
             q1.prepare("SELECT data FROM map WHERE map_id=:m");
@@ -346,7 +413,77 @@ void MyClient::readyRead()
         }
     } else if (str.startsWith("bottom"))
     {
-        if (_player->_pos+32 < 768)
+        bool generate = false;
+        bool map_not_found = false;
+        bool hod = true;
+        QSqlQuery q8;
+        q8.prepare("SELECT inbottom FROM map WHERE map_id=:map_id");
+        q8.bindValue(":map_id", _player->_map);
+        q8.exec();
+        int inbottom = 0;
+        if (q8.next())
+        {
+            inbottom = q8.value(0).toInt();
+        }
+        if (inbottom == 0)
+        {
+            map_not_found = true;
+        }
+        if (_player->_pos+32 > 768 && map_not_found)
+        {
+            _loader->GenerateBottomMap(_player);
+            generate = true;
+        } else
+        {
+            int pos = _player->_pos+32;
+            if (pos >= 768)
+            {
+                hod = false;
+                int last_pos = _player->_pos;
+                _player->_pos = _player->_pos+32-768;
+                pos = _player->_pos;
+                QSqlQuery q2;
+                q2.prepare("UPDATE player SET map=:map,pos=:pos WHERE player_id = :id");
+                q2.bindValue(":map", inbottom);
+                q2.bindValue(":pos", pos);
+                q2.bindValue(":id", _player->_player_id);
+                q2.exec();
+                int last = _player->_map;
+                _player->_map = inbottom;
+                QSqlQuery q3;
+                q3.prepare("SELECT data FROM map WHERE map_id=:map_id");
+                q3.bindValue(":map_id", last);
+                q3.exec();
+                QString data;
+                if (q3.next())
+                {
+                    data = q3.value(0).toString();
+                }
+                QChar symbol = data[last_pos];
+                data[last_pos] = ' ';
+                QSqlQuery q5;
+                q5.prepare("UPDATE map SET data=:data WHERE map_id=:map_id");
+                q5.bindValue(":map_id", last);
+                q5.bindValue(":data", data);
+                q5.exec();
+                QSqlQuery q4;
+                q4.prepare("SELECT data FROM map WHERE map_id=:map_id");
+                q4.bindValue(":map_id", _player->_map);
+                q4.exec();
+                QString data1;
+                if (q4.next())
+                {
+                    data1 = q4.value(0).toString();
+                }
+                data1[pos] = symbol;
+                QSqlQuery q9;
+                q9.prepare("UPDATE map SET data=:data WHERE map_id=:map_id");
+                q9.bindValue(":map_id", _player->_map);
+                q9.bindValue(":data", data1);
+                q9.exec();
+            }
+        }
+        if (_player->_pos+32 < 768 && !generate && hod)
         {
             QSqlQuery q1;
             q1.prepare("SELECT data FROM map WHERE map_id=:m");

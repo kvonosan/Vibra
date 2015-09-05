@@ -1,14 +1,9 @@
-// myclient.h
-
 #ifndef MYCLIENT_H
 #define MYCLIENT_H
 
 #include <QtSql>
-#include <QObject>
 #include <QtNetwork>
 #include <QThreadPool>
-#include "mytask.h"
-#include "player.h"
 #include "loader.h"
 
 class MyClient : public QObject

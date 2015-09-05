@@ -12,22 +12,22 @@ class Net : public QObject
 public:
     Net();
     ~Net();
-    void GetVKName();
-    void NetConnect(Base *base);
-    bool VKConnected();
-    void BufferizeMap();
+    void Top();
     void Left();
     void Right();
-    void Top();
     void Bottom();
+    void GetVKName();
+    bool VKConnected();
+    void BufferizeMap();
+    void NetConnect(Base *base);
     bool _connected;
     bool _authorized;
     bool _disconnect;
 private:
-    bool _vk_connected;
     int _port;
     Base *_base;
     QTcpSocket *_tcp;
+    bool _vk_connected;
     QNetworkReply *_reply;
     QString _firstName, _lastName;
     int _vk_player_id, _player_id;

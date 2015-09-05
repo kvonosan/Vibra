@@ -1,8 +1,8 @@
+#include <QtSql>
 #include "player.h"
 
 Player::Player()
 {
-    _bufferizeMap = 0;
 }
 
 Player::~Player()

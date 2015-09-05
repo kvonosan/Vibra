@@ -1,6 +1,5 @@
 #include "net.h"
 #include "hero.h"
-#include "frame.h"
 #include <QMessageBox>
 
 Net::Net()
@@ -35,7 +34,6 @@ bool Net::VKConnected()
         QString id = user_id.at(1);
         QStringList user_id_lst = id.split("\"");
         _vk_user_id = user_id_lst.at(0);
-        //qDebug() << _vk_user_id;
     }
     if (token.startsWith("error"))
     {
@@ -189,12 +187,7 @@ void Net::readyRead()
 
 void Net::BufferizeMap()
 {
-    QJsonObject obj;
-    //obj["screen_width"] = _base->_frame->GetWidth();
-    //obj["screen_height"] = _base->_frame->GetHeight();
-    //obj["len"] = 2;
-    QJsonDocument doc(obj);
-    QString str = QString("getmap") + " " + QString::fromUtf8(doc.toJson(QJsonDocument::Compact).toStdString().c_str());
+    QString str = QString("getmap");
     _tcp->write(str.toUtf8());
 }
 

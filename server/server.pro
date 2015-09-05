@@ -21,7 +21,6 @@ SOURCES += main.cpp \
     loader.cpp \
     net.cpp \
     myclient.cpp \
-    mytask.cpp \
     myserver.cpp
 
 HEADERS += \
@@ -29,5 +28,4 @@ HEADERS += \
     loader.h \
     net.h \
     myclient.h \
-    mytask.h \
     myserver.h

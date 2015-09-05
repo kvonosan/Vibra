@@ -1,5 +1,3 @@
-// myserver.cpp
-
 #include "myserver.h"
 
 MyServer::MyServer(Loader *loader, QObject *parent) :
@@ -36,8 +34,6 @@ void MyServer::startServer()
 
 void MyServer::incomingConnection(qintptr socketDescriptor)
 {
-    // At the incoming connection, make a client
-    // and set the socket
     MyClient *client = new MyClient(_loader, this);
     client->setSocket(socketDescriptor);
     _clients.push_back(client);

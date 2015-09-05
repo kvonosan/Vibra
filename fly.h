@@ -5,7 +5,6 @@
 #include <QtGui>
 #include "base.h"
 #include "grid.h"
-#include "frame.h"
 
 class Base;
 class Net;
@@ -22,7 +21,6 @@ public:
 private:
     Net *_net;
     Base *_base;
-    Frame *_frame;
     QWindow *_parent;
     bool _menu, _compute;
     QRect _state, _exp, _energy, _radar, _cartograph, _scaner, _hold, _quit;

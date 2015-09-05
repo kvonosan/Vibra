@@ -23,7 +23,6 @@ Fly::Fly(Net *net, QWindow *parent, Base *base)
     _menu = false;
     int menu_num = 8;
     _compute = false;
-    //_frame = new Frame(_parent);
     _grid = new Grid(Qt::black, Qt::white);
     _state = QRect(10, 10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
     _exp = QRect(10, _parent->geometry().height()/menu_num*1+10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
@@ -38,7 +37,6 @@ Fly::Fly(Net *net, QWindow *parent, Base *base)
 Fly::~Fly()
 {
     delete _grid;
-    //delete _frame;
 }
 
 void Fly::Paint(QPainter *painter)
@@ -54,7 +52,6 @@ void Fly::Paint(QPainter *painter)
     }
     _compute = true;
     _grid->Paint(painter);
-    //_frame->Paint(painter);
     if (_menu)
     {
         QPainterPath path;

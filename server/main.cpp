@@ -1,8 +1,7 @@
-#include <QCoreApplication>
-#include "player.h"
 #include "net.h"
 #include "loader.h"
 #include "myserver.h"
+#include <QCoreApplication>
 
 //copy c:\MySQL\lib\opt\libmysql.dll to build path
 //LD_LIBRARY_PATH=/usr/lib64

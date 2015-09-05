@@ -26,11 +26,11 @@ class Base
 {
 public:
     ~Base();
-    Base(QWindow *parent, Net *net, MainWindow *mainwindow);
     void KeyPress(int key);
     void Click(int x, int y);
     void MouseMove(int x, int y);
     void Paint(QPainter *painter);
+    Base(QWindow *parent, Net *net, MainWindow *mainwindow);
     Fly *_fly;
     int _state;
     Frame *_frame;

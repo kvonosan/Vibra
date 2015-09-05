@@ -4,7 +4,8 @@
 #include "symbol.h"
 #include <QVector>
 
-class Grid{
+class Grid
+{
 public:
     ~Grid();
     void Paint(QPainter *painter);
@@ -19,12 +20,12 @@ public:
     QVector<int> GetCoordForWordInSymbols(QString word);
     void SetGridColor(QPainter *painter, QColor gridcolor);
     void SetTextColor(QPainter *painter, QColor textcolor);
+    Grid(QColor defaultgridcolor, QColor defaulttextcolor);
     QVector <QVector<Symbol> >GetSymbols(){return _symbols;}
     void SetSymbols(QVector <QVector<Symbol> > symbols){_symbols = symbols;}
-    Grid(QColor defaultgridcolor, QColor defaulttextcolor);
-    void PrintWordOnCenter(QPainter *painter, QString word, int line, QColor gridcolor = Qt::black, QColor textcolor = Qt::white);
-    void PrintWordOnRight(QPainter *painter, QString word, int line, QColor gridcolor = Qt::black, QColor textcolor = Qt::white);
     void PrintWordOnLeft(QPainter *painter,QString word, int line, QColor gridcolor = Qt::black, QColor textcolor = Qt::white);
+    void PrintWordOnRight(QPainter *painter, QString word, int line, QColor gridcolor = Qt::black, QColor textcolor = Qt::white);
+    void PrintWordOnCenter(QPainter *painter, QString word, int line, QColor gridcolor = Qt::black, QColor textcolor = Qt::white);
     QFont *_font;
     bool _computed;
     int _width, _heigth;

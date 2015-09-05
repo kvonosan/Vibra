@@ -1,11 +1,9 @@
-// myserver.h
-
 #ifndef MYSERVER_H
 #define MYSERVER_H
 
 #include "loader.h"
-#include <QTcpServer>
 #include "myclient.h"
+#include <QTcpServer>
 
 class MyServer : public QTcpServer
 {
@@ -18,8 +16,8 @@ protected:
     void incomingConnection(qintptr socketDescriptor);
 private:
     void DeleteNotActive();
-    QVector <MyClient* > _clients;
     Loader *_loader;
+    QVector <MyClient* > _clients;
 };
 
 #endif // MYSERVER_H
