@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
     int result = a.exec();
 
     delete net;
+    delete loader;
     delete server;
 
     return result;
