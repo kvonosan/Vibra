@@ -158,6 +158,7 @@ void Player::AddToMap()
         QSqlQuery q5;
         q5.prepare("UPDATE player SET map=1, pos=:pos WHERE player_id=:id");
         _pos = i;
+        map = 1;
         _map = map;
         q5.bindValue(":pos", i);
         q5.bindValue(":id", _player_id);

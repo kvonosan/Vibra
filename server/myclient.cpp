@@ -83,7 +83,6 @@ void MyClient::VkAuth(QString access_token)
 
 void MyClient::readyRead()
 {
-    //qDebug() << "MyClient::readyRead()";
     QByteArray array = _socket->readAll();
     QString str = QString::fromUtf8(array.toStdString().c_str());
     //qDebug() << str;
@@ -103,12 +102,83 @@ void MyClient::readyRead()
     } else if (str.startsWith("left"))
     {
         bool generate = false;
-        if (_player->_pos%32 == 0)
+        bool map_not_found = false;
+        bool hod = true;
+        QSqlQuery q8;
+        q8.prepare("SELECT inleft FROM map WHERE map_id=:map_id");
+        q8.bindValue(":map_id", _player->_map);
+        q8.exec();
+        int inleft = 0;
+        if (q8.next())
+        {
+            inleft = q8.value(0).toInt();
+        }
+        if (inleft == 0)
+        {
+            map_not_found = true;
+        }
+        if (_player->_pos%32 == 0 && map_not_found)
         {
             _loader->GenerateLeftMap(_player);
             generate = true;
+        } else
+        {
+            int pos = _player->_pos-1;
+            int last_pos = _player->_pos;
+            if (pos == -1)
+            {
+                _player->_pos = 31;
+                pos = 31;
+            } else if (last_pos%32 == 0)
+            {
+                _player->_pos = _player->_pos+31;
+                pos = _player->_pos;
+            }
+            if (last_pos%32 == 0)
+            {
+                hod = false;
+                QSqlQuery q2;
+                q2.prepare("UPDATE player SET map=:map,pos=:pos WHERE player_id = :id");
+                q2.bindValue(":map", inleft);
+                q2.bindValue(":pos", pos);
+                q2.bindValue(":id", _player->_player_id);
+                q2.exec();
+                int last = _player->_map;
+                _player->_map = inleft;
+                QSqlQuery q3;
+                q3.prepare("SELECT data FROM map WHERE map_id=:map_id");
+                q3.bindValue(":map_id", last);
+                q3.exec();
+                QString data;
+                if (q3.next())
+                {
+                    data = q3.value(0).toString();
+                }
+                QChar symbol = data[last_pos];
+                data[last_pos] = ' ';
+                QSqlQuery q5;
+                q5.prepare("UPDATE map SET data=:data WHERE map_id=:map_id");
+                q5.bindValue(":map_id", last);
+                q5.bindValue(":data", data);
+                q5.exec();
+                QSqlQuery q4;
+                q4.prepare("SELECT data FROM map WHERE map_id=:map_id");
+                q4.bindValue(":map_id", _player->_map);
+                q4.exec();
+                QString data1;
+                if (q4.next())
+                {
+                    data1 = q4.value(0).toString();
+                }
+                data1[pos] = symbol;
+                QSqlQuery q9;
+                q9.prepare("UPDATE map SET data=:data WHERE map_id=:map_id");
+                q9.bindValue(":map_id", _player->_map);
+                q9.bindValue(":data", data1);
+                q9.exec();
+            }
         }
-        if (_player->_pos - 1 >= 0 && !generate)
+        if (_player->_pos - 1 >= 0 && !generate && hod)
         {
             int border = (_player->_pos - 1)%32;
             if (border != 31)
@@ -144,6 +214,7 @@ void MyClient::readyRead()
     {
         bool generate = false;
         bool map_not_found = false;
+        bool hod = true;
         QSqlQuery q8;
         q8.prepare("SELECT inright FROM map WHERE map_id=:map_id");
         q8.bindValue(":map_id", _player->_map);
@@ -166,10 +237,10 @@ void MyClient::readyRead()
             int pos = _player->_pos%32;
             if (pos == 31)
             {
+                hod = false;
                 int last_pos = _player->_pos;
                 _player->_pos = _player->_pos-31;
                 pos = _player->_pos;
-                //player map ==inright
                 QSqlQuery q2;
                 q2.prepare("UPDATE player SET map=:map,pos=:pos WHERE player_id = :id");
                 q2.bindValue(":map", inright);
@@ -178,7 +249,6 @@ void MyClient::readyRead()
                 q2.exec();
                 int last = _player->_map;
                 _player->_map = inright;
-                //remove and insert in new map
                 QSqlQuery q3;
                 q3.prepare("SELECT data FROM map WHERE map_id=:map_id");
                 q3.bindValue(":map_id", last);
@@ -212,7 +282,7 @@ void MyClient::readyRead()
                 q9.exec();
             }
         }
-        if (_player->_pos + 1 < 768 && !generate)
+        if (_player->_pos + 1 < 768 && !generate && hod)
         {
             int border = (_player->_pos + 1)%32;
             if (border != 0)
