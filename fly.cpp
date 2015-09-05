@@ -112,6 +112,16 @@ void Fly::Click(int x, int y)
             _net->_disconnect = false;
             _parent->close();
         }
+    } else if (_attack_menu.contains(x,y))
+    {
+        QVector<int> firecoords = _grid->GetCoordForXY(_current->_x, _current->_y);
+        Symbol *my = _grid->GetSymbolInPos(_net->_mypos);
+        if (my != NULL)
+        {
+            QVector<int> mycoords = _grid->GetCoordForXY(my->_x, my->_y);
+            //anim fire
+            //ot my to fire
+        }
     } else
     {
         _net->GetMyPos();
@@ -126,14 +136,6 @@ void Fly::Click(int x, int y)
             {
                 _attack = false;
                 _current = NULL;
-            }
-        }
-        if (_attack)
-        {
-            if (_attack_menu.contains(x,y))
-            {
-                //anim fire.
-                int i = 9;
             }
         }
     }

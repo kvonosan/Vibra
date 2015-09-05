@@ -3,7 +3,8 @@
 
 #include <QtGui>
 
-class Symbol{
+class Symbol
+{
 public:
     Symbol();
     ~Symbol();

@@ -362,3 +362,16 @@ QVector<int> Grid::GetCoordForWordInSymbols(QString word)
     }
     return old_coord;
 }
+
+Symbol *Grid::GetSymbolInPos(int mypos)
+{
+    for(int j=0; j < _sizeY; j++)
+        for(int i=0; i < _sizeX; i++)
+        {
+            if (_symbols[i][j]._number == mypos)
+            {
+                return &_symbols[i][j];
+            }
+        }
+    return NULL;
+}

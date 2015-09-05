@@ -16,6 +16,7 @@ public:
     int GetCenterX(){return _sizeX / 2;}
     int GetCenterY(){return _sizeY / 2;}
     void ComputeSize(int SizeX, int SizeY);
+    Symbol *GetSymbolInPos(int mypos);
     QVector<int> GetCoordForXY(int x, int y);
     QVector<int> GetCoordForWord(QString word);
     Symbol *GetSymbolAtWH(int width, int heigth);
