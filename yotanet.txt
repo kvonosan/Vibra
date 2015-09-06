@@ -174,3 +174,4 @@ resource(ресурс):resource_id, name, class
 help(справка):help_id, text, level
 accelerator(ускоритель):accelerator_id, name, class, points, credits, gold
 map(карта):map_id, inleft, inright, intop, inbottom, infront, inbehind, data
+ship_point(характеристики корабля):id, ship_id, life, energy, armor, fuel, life_gen, energy_gen, armor_gen, net_speed, cartograph_link, grab_poins, radar_ships, scaner_predm, fire, fire_speed, fire_link

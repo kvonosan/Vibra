@@ -21,6 +21,7 @@ Fly::Fly(Net *net, QWindow *parent, Base *base)
         exit(-1);
     }
     _net = net;
+    _fire = false;
     _menu = false;
     _attack = false;
     int menu_num = 8;
@@ -99,6 +100,9 @@ void Fly::Paint(QPainter *painter)
         painter->setFont(font);
         painter->drawText(_attack_menu, Qt::AlignCenter, QStringLiteral("Уничтожить"));
         painter->drawText(_duel_menu, Qt::AlignCenter, QStringLiteral("Уничтожить в режиме дуэль"));
+    } else if (_fire)
+    {
+        NextTime(painter);
     }
 }
 
@@ -112,17 +116,7 @@ void Fly::Click(int x, int y)
             _net->_disconnect = false;
             _parent->close();
         }
-    } else if (_attack_menu.contains(x,y))
-    {
-        QVector<int> firecoords = _grid->GetCoordForXY(_current->_x, _current->_y);
-        Symbol *my = _grid->GetSymbolInPos(_net->_mypos);
-        if (my != NULL)
-        {
-            QVector<int> mycoords = _grid->GetCoordForXY(my->_x, my->_y);
-            //anim fire
-            //ot my to fire
-        }
-    } else
+    } else if (!_attack)
     {
         _net->GetMyPos();
         _current = _grid->GetSymbolAtWH(x, y);
@@ -132,12 +126,23 @@ void Fly::Click(int x, int y)
                     _current->_symbol == 'D' || _current->_symbol == 'E')
             {
                 _attack = true;
-            } else
-            {
-                _attack = false;
-                _current = NULL;
             }
         }
+    }else if (_attack)
+    {
+        if (_attack_menu.contains(x,y))
+        {
+            _firecoords = _grid->GetCoordForXY(_current->_x, _current->_y);
+            Symbol *my = _grid->GetSymbolInPos(_net->_mypos);
+            if (my != NULL)
+            {
+                _mycoords = _grid->GetCoordForXY(my->_x, my->_y);
+                _fire = true;
+                //_time.start();
+                _time.restart();
+            }
+        }
+        _attack = false;
     }
 }
 
@@ -169,6 +174,49 @@ void Fly::KeyPress(int key)
         {
             _net->Right();
             _net->BufferizeMap();
+        }
+    }
+}
+
+void Fly::NextTime(QPainter *painter)
+{
+    if (_fire)
+    {
+        int centrX = (_mycoords[1] - _mycoords[0])/2;
+        //int centrY = (_mycoords[3] - _mycoords[2])/2;
+        int centrFireX = (_firecoords[1] - _firecoords[0])/2;
+        //int centrFireY = (_firecoords[3] - _firecoords[2])/2;
+        int time, lineX, lineY, posX, posY;
+        if (_time.elapsed() < 1000)
+        {
+            time = _time.elapsed()/100;//1..10
+            lineX = abs((_mycoords[0] + centrX) - (_firecoords[0] + centrFireX));
+            lineY = abs((_mycoords[2] + centrX) - (_firecoords[2] + centrFireX));
+            posX = lineX / 10 * time;
+            posY = lineY / 10 * time;
+        } else
+        {
+            _fire = false;
+        }
+        if (_fire)
+        {
+            qDebug() << "posX = " << posX << "posY = " << posY;
+            int mnX, mnY;
+            if (_mycoords[0] <= _firecoords[0])
+            {
+                mnX = 1;
+            } else
+            {
+                mnX = -1;
+            }
+            if (_mycoords[2] <= _firecoords[2])
+            {
+                mnY = 1;
+            } else
+            {
+                mnY = -1;
+            }
+            painter->drawText(QRect(_mycoords[0]+posX*mnX, _mycoords[2]+posY*mnY, 32, 32),"*");
         }
     }
 }

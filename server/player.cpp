@@ -100,6 +100,43 @@ void Player::newPlayer()
         q5.bindValue(":rating1", rating1);
         q5.bindValue(":id", _player_id);
         q5.exec();
+        QSqlQuery q7;
+        q7.prepare("SELECT life FROM ship_body WHERE body_id=1");
+        q7.exec();
+        int life = 0;
+        if (q7.next())
+        {
+            life = q7.value(0).toInt();
+        }
+        if (life == 0)
+        {
+            qDebug() << "Error life = 0.";
+            exit(-1);
+        }
+        QSqlQuery q8;
+        q8.prepare("SELECT penta FROM fuel_tank WHERE fuel_tank_id=1");
+        q8.exec();
+        int fuel = 0;
+        if (q8.next())
+        {
+            fuel = q8.value(0).toInt();
+        }
+        if (fuel == 0)
+        {
+            qDebug() << "Error fuel = 0.";
+            exit(-1);
+        }
+        life = (life - 100) + rand()%100;
+        fuel = (fuel - 5) + rand()%5;
+        QSqlQuery q6;
+        q6.prepare("INSERT INTO ship_point(ship_id, life, energy, armor, fuel, life_gen, "
+                   "energy_gen, armor_gen, net_speed, cartograph_link, grab_points, "
+                   "radar_ships, scaner_predm, fire, fire_speed, fire_link) VALUES("
+                   ":ship_id, :life, 0, 0, :fuel, 0, 0,0,0,0,0,0,0,0,0,0)");
+        q6.bindValue(":ship_id", ship_id);
+        q6.bindValue(":life", life);
+        q6.bindValue(":fuel", fuel);
+        q6.exec();
     } else
     {
         qDebug() << "player_id = " + QString::number(_player_id) + " already created.";

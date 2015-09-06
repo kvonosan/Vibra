@@ -38,7 +38,16 @@ MainWindow::MainWindow(int _width, int _height, bool game_mode, bool edit_mode, 
         }
         _end_timer_edit = false;
         _start_timer_edit = true;
+        _render.setInterval(10);
+        _render.start();
+        this->connect(&_render, SIGNAL(timeout()), this, SLOT(update()));
     }
+}
+
+void MainWindow::update()
+{
+    renderNow();
+    _render.start();
 }
 
 MainWindow::~MainWindow()

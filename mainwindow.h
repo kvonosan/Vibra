@@ -4,6 +4,7 @@
 #include <QtGui>
 #include "net.h"
 #include "base.h"
+#include <QTimer>
 #include "buttonpanel.h"
 
 class Net;
@@ -23,6 +24,7 @@ public:
     bool _edit_mode, _game_mode;
 private slots:
     void OnExit();
+    void update();
 private:
     void keyPressEvent(QKeyEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
@@ -32,6 +34,7 @@ private:
     int _state, _sec;
     Base *_base;
     Grid *_grid;
+    QTimer _render;
     QProcess _process;
     int _width, _height;
     ButtonPanel *_panel;

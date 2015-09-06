@@ -21,6 +21,7 @@ public slots:
     void readyRead();
     void disconnected();
 private:
+    void Generate();
     Loader *_loader;
     Player *_player;
     QTcpSocket *_socket;

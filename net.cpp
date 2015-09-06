@@ -178,7 +178,15 @@ void Net::readyRead()
         for(int j=0; j < _base->_fly->_grid->GetSizeY(); j++)
             for(int i=0; i < _base->_fly->_grid->GetSizeX(); i++)
             {
-                _base->_fly->_grid->GetSymbolAt(i, j)->_symbol = str[g];
+                Symbol *sym = _base->_fly->_grid->GetSymbolAt(i, j);
+                sym->_symbol = str[g];
+                if (str[g] == 'A' || str[g] == 'B' || str[g] == 'C'
+                        || str[g] == 'D' || str[g] == 'E')
+                {
+                    sym->_attacked = true;
+                    sym->_hp = 1000;
+                    sym->_armor = 1000;
+                }
                 g++;
             }
         _base->_mainwindow->renderNow();

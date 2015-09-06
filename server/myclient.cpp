@@ -515,6 +515,9 @@ void MyClient::readyRead()
     {
         QString send = QString("yourpos ") + QString::number(_player->_pos);
         _socket->write(send.toUtf8());
+    } else if (str.startsWith("generate"))
+    {
+        Generate();
     }
 }
 
@@ -585,4 +588,10 @@ void MyClient::SendInfo()
         QString str = QString("info") + " " + QString::fromUtf8(doc.toJson(QJsonDocument::Compact).toStdString().c_str());
         _socket->write(str.toUtf8());
     }
+}
+
+void MyClient::Generate()
+{
+    //generate
+    //send
 }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Сен 04 2015 г., 10:33
+-- Время создания: Сен 06 2015 г., 09:07
 -- Версия сервера: 5.5.44-MariaDB
 -- Версия PHP: 5.4.16
 
@@ -131,10 +131,10 @@ CREATE TABLE IF NOT EXISTS `engine` (
 --
 
 INSERT INTO `engine` (`engine_id`, `name`, `class`) VALUES
-(2, 'Позитронный', 'A'),
-(3, 'Нейронный', 'B'),
-(4, 'Фильтронный', 'C'),
-(5, 'Оксонный', 'D');
+(1, 'Позитронный', 'A'),
+(2, 'Нейронный', 'B'),
+(3, 'Фильтронный', 'C'),
+(4, 'Оксонный', 'D');
 
 -- --------------------------------------------------------
 
@@ -677,6 +677,32 @@ INSERT INTO `ship_body` (`body_id`, `name`, `class`, `energy`, `life`, `credits`
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `ship_point`
+--
+
+CREATE TABLE IF NOT EXISTS `ship_point` (
+  `id` int(10) NOT NULL,
+  `ship_id` int(10) NOT NULL,
+  `life` int(10) NOT NULL,
+  `energy` int(10) NOT NULL,
+  `armor` int(10) NOT NULL,
+  `fuel` int(10) NOT NULL,
+  `life_gen` int(10) NOT NULL,
+  `energy_gen` int(10) NOT NULL,
+  `armor_gen` int(10) NOT NULL,
+  `net_speed` int(10) NOT NULL,
+  `cartograph_link` int(10) NOT NULL,
+  `grab_poins` int(10) NOT NULL,
+  `radar_ships` int(10) NOT NULL,
+  `scaner_predm` int(10) NOT NULL,
+  `fire` int(10) NOT NULL,
+  `fire_speed` int(10) NOT NULL,
+  `fire_link` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `spec`
 --
 
@@ -1002,6 +1028,12 @@ ALTER TABLE `ship_body`
   ADD PRIMARY KEY (`body_id`);
 
 --
+-- Индексы таблицы `ship_point`
+--
+ALTER TABLE `ship_point`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `spec`
 --
 ALTER TABLE `spec`
@@ -1210,6 +1242,11 @@ ALTER TABLE `ship`
 --
 ALTER TABLE `ship_body`
   MODIFY `body_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT для таблицы `ship_point`
+--
+ALTER TABLE `ship_point`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT для таблицы `spec`
 --
