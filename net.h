@@ -18,13 +18,14 @@ public:
     void Bottom();
     void GetMyPos();
     void GetVKName();
+    void Fire(int pos);
     bool VKConnected();
     void BufferizeMap();
     void NetConnect(Base *base);
     bool _connected;
     bool _authorized;
     bool _disconnect;
-    int _mypos;
+    int _mypos, _firepos;
 private:
     int _port;
     Base *_base;

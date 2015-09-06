@@ -194,6 +194,10 @@ void Net::readyRead()
     {
         str.replace("yourpos ", "");
         _mypos = str.toInt();
+    } else if (str.startsWith("fire"))
+    {
+        str.replace("fire ", "");
+        _firepos = str.toInt();
     }
 }
 
@@ -237,4 +241,12 @@ void Net::GetMyPos()
     _tcp->write(str.toUtf8());
     _tcp->flush();
     _tcp->waitForReadyRead(3000);
+}
+
+void Net::Fire(int pos)
+{
+    _firepos = -1;
+    QString str = "fire " + QString::number(pos);
+    _tcp->write(str.toUtf8());
+    _tcp->flush();
 }

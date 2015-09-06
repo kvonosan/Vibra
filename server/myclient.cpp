@@ -4,7 +4,6 @@
 MyClient::MyClient(Loader *loader, QObject *parent) :
     QObject(parent)
 {
-    QThreadPool::globalInstance()->setMaxThreadCount(5);
     _delete = false;
     if (loader == NULL)
     {
@@ -515,9 +514,23 @@ void MyClient::readyRead()
     {
         QString send = QString("yourpos ") + QString::number(_player->_pos);
         _socket->write(send.toUtf8());
-    } else if (str.startsWith("generate"))
+    } else if (str.startsWith("fire"))
     {
-        Generate();
+        str.replace("fire ", "");
+        if (_fireNpc == NULL)
+        {
+            _fireNpc = new Npc(_player);
+        }
+        if (_fireNpc->fireToNpc(str.toInt()))
+        {
+            QString str = "fire " + str;
+            _socket->write(str.toUtf8());
+        }
+        if (_fireNpc->_killed)
+        {
+            delete _fireNpc;
+            _fireNpc = NULL;
+        }
     }
 }
 
@@ -590,8 +603,3 @@ void MyClient::SendInfo()
     }
 }
 
-void MyClient::Generate()
-{
-    //generate
-    //send
-}

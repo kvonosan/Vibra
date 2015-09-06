@@ -13,7 +13,7 @@ public:
     QColor GridColor;
     int _number, _x, _y;
     bool _attacked;
-    int _life, _energy, _armor, _fuel;
+    int _life, _energy, _armor, _fuel, _fire;
 };
 
 #endif // SYMBOL_H

@@ -143,6 +143,7 @@ void Fly::Click(int x, int y)
             }
         }
         _attack = false;
+        _net->Fire(_current->_number);
     }
 }
 
@@ -180,7 +181,7 @@ void Fly::KeyPress(int key)
 
 void Fly::NextTime(QPainter *painter)
 {
-    if (_fire)
+    if (_fire && _net->_firepos == _current->_number)
     {
         int centrX = (_mycoords[1] - _mycoords[0])/2;
         //int centrY = (_mycoords[3] - _mycoords[2])/2;

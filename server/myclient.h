@@ -1,10 +1,10 @@
 #ifndef MYCLIENT_H
 #define MYCLIENT_H
 
+#include "npc.h"
 #include <QtSql>
-#include <QtNetwork>
-#include <QThreadPool>
 #include "loader.h"
+#include <QtNetwork>
 
 class MyClient : public QObject
 {
@@ -21,7 +21,7 @@ public slots:
     void readyRead();
     void disconnected();
 private:
-    void Generate();
+    Npc *_fireNpc;
     Loader *_loader;
     Player *_player;
     QTcpSocket *_socket;

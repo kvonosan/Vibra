@@ -21,11 +21,13 @@ SOURCES += main.cpp \
     loader.cpp \
     net.cpp \
     myclient.cpp \
-    myserver.cpp
+    myserver.cpp \
+    npc.cpp
 
 HEADERS += \
     player.h \
     loader.h \
     net.h \
     myclient.h \
-    myserver.h
+    myserver.h \
+    npc.h
