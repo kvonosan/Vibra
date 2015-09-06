@@ -57,7 +57,7 @@ void Player::newPlayer()
         q1.prepare("INSERT INTO ship(player_id, engine, fuel_tank, ship_body, generator,"
                    " cartograph, yotanet, radar, scaner, chinilka, grab, "
                    "weapons, improvement, accelerator) VALUES(:id, 1, 1, 1, 0, 0, 0"
-                   ", 0, 0, 0, 0, 0, 0, 0)");
+                   ", 0, 0, 0, 0, 1, 0, 0)");
         q1.bindValue(":id", _player_id);
         q1.exec();
         QSqlQuery q2;
@@ -137,6 +137,10 @@ void Player::newPlayer()
         q6.bindValue(":life", life);
         q6.bindValue(":fuel", fuel);
         q6.exec();
+        QSqlQuery q9;
+        q9.prepare("UPDATE ship_point SET fire=10, fire_speed=1, fire_link=768 WHERE ship_id=:ship_id");
+        q9.bindValue(":ship_id", ship_id);
+        q9.exec();
     } else
     {
         qDebug() << "player_id = " + QString::number(_player_id) + " already created.";
