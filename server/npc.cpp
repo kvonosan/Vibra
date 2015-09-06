@@ -118,6 +118,7 @@ bool Npc::fireToNpc(int pos)
         q9.exec();
         opit = 20;
         kills = 1;
+        _killed = true;
     } else
     {
         QSqlQuery q8;

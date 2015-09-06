@@ -9,6 +9,7 @@ Net::Net()
     _tcp = new QTcpSocket();
     _vk_connected = false;
     _disconnect = true;
+    _killed = false;
 }
 
 Net::~Net()
@@ -198,6 +199,9 @@ void Net::readyRead()
     {
         str.replace("fire ", "");
         _firepos = str.toInt();
+    } else if (str.startsWith("killed"))
+    {
+        _killed = true;
     }
 }
 

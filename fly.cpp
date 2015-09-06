@@ -220,4 +220,8 @@ void Fly::NextTime(QPainter *painter)
             painter->drawText(QRect(_mycoords[0]+posX*mnX, _mycoords[2]+posY*mnY, 32, 32),"*");
         }
     }
+    if (_net->_killed)
+    {
+        _current->Symbol._symbol = ' ';
+    }
 }

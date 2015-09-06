@@ -530,6 +530,8 @@ void MyClient::readyRead()
         {
             delete _fireNpc;
             _fireNpc = NULL;
+            QString str = "killed";
+            _socket->write(str.toUtf8());
         }
     }
 }
