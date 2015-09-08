@@ -22,7 +22,7 @@ public:
     bool VKConnected();
     void BufferizeMap();
     void NetConnect(Base *base);
-    bool _connected, _authorized, _disconnect, _killed;
+    bool _connected, _authorized, _disconnect, _killed, _fire;
     int _mypos, _firepos;
 private:
     int _port;

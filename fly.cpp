@@ -21,7 +21,7 @@ Fly::Fly(Net *net, QWindow *parent, Base *base)
         exit(-1);
     }
     _net = net;
-    _fire = false;
+    _net->_fire = false;
     _menu = false;
     _attack = false;
     int menu_num = 8;
@@ -100,7 +100,7 @@ void Fly::Paint(QPainter *painter)
         painter->setFont(font);
         painter->drawText(_attack_menu, Qt::AlignCenter, QStringLiteral("Уничтожить"));
         painter->drawText(_duel_menu, Qt::AlignCenter, QStringLiteral("Уничтожить в режиме дуэль"));
-    } else if (_fire)
+    } else if (_net->_fire)
     {
         NextTime(painter);
     }
@@ -108,6 +108,10 @@ void Fly::Paint(QPainter *painter)
 
 void Fly::Click(int x, int y)
 {
+    if (_net->_fire)
+    {
+        return;
+    }
     if (_menu)
     {
         _attack = false;
@@ -137,8 +141,7 @@ void Fly::Click(int x, int y)
             if (my != NULL)
             {
                 _mycoords = _grid->GetCoordForXY(my->_x, my->_y);
-                _fire = true;
-                //_time.start();
+                _net->_fire = true;
                 _time.restart();
             }
         }
@@ -151,42 +154,43 @@ void Fly::KeyPress(int key)
 {
     if (_base->_state == 6)
     {
-        if (key == Qt::Key_Escape)
+        if (!_net->_fire)
         {
-            _menu = !_menu;
-            _attack = false;
-        }
-        if (key == Qt::Key_W)
-        {
-            _net->Top();
-            _net->BufferizeMap();
-        }
-        if (key == Qt::Key_S)
-        {
-            _net->Bottom();
-            _net->BufferizeMap();
-        }
-        if (key == Qt::Key_A)
-        {
-            _net->Left();
-            _net->BufferizeMap();
-        }
-        if (key == Qt::Key_D)
-        {
-            _net->Right();
-            _net->BufferizeMap();
+            if (key == Qt::Key_Escape)
+            {
+                _menu = !_menu;
+                _attack = false;
+            }
+            if (key == Qt::Key_W)
+            {
+                _net->Top();
+                _net->BufferizeMap();
+            }
+            if (key == Qt::Key_S)
+            {
+                _net->Bottom();
+                _net->BufferizeMap();
+            }
+            if (key == Qt::Key_A)
+            {
+                _net->Left();
+                _net->BufferizeMap();
+            }
+            if (key == Qt::Key_D)
+            {
+                _net->Right();
+                _net->BufferizeMap();
+            }
         }
     }
 }
 
 void Fly::NextTime(QPainter *painter)
 {
-    if (_fire && _net->_firepos == _current->_number)
+    if (_net->_fire && _net->_firepos == _current->_number)
     {
         int centrX = (_mycoords[1] - _mycoords[0])/2;
-        //int centrY = (_mycoords[3] - _mycoords[2])/2;
         int centrFireX = (_firecoords[1] - _firecoords[0])/2;
-        //int centrFireY = (_firecoords[3] - _firecoords[2])/2;
         int time, lineX, lineY, posX, posY;
         if (_time.elapsed() < 1000)
         {
@@ -195,13 +199,9 @@ void Fly::NextTime(QPainter *painter)
             lineY = abs((_mycoords[2] + centrX) - (_firecoords[2] + centrFireX));
             posX = lineX / 10 * time;
             posY = lineY / 10 * time;
-        } /*else
+        }
+        if (_net->_fire)
         {
-            _fire = false;
-        }*/
-        if (_fire)
-        {
-            //qDebug() << "posX = " << posX << "posY = " << posY;
             int mnX, mnY;
             if (_mycoords[0] <= _firecoords[0])
             {
@@ -218,7 +218,7 @@ void Fly::NextTime(QPainter *painter)
                 mnY = -1;
             }
             painter->drawText(QRect(_mycoords[0]+posX*mnX, _mycoords[2]+posY*mnY, 32, 32),"*");
-            if (_mycoords[0]+posX*mnX+16 >= _firecoords[0] && _mycoords[2]+posY*mnY+16 >= _firecoords[2])
+            if (posX >= lineX && posY >= lineY)
             {
                 _net->Fire(_current->_number);
                 _time.restart();
@@ -229,10 +229,7 @@ void Fly::NextTime(QPainter *painter)
     if (_net->_killed)
     {
         _current->_symbol = ' ';
-        _fire = false;
+        _net->_fire = false;
         _net->_killed = false;
-        _net->BufferizeMap();
-        qDebug() << "del " << _current->_symbol << "|";
     }
-    qDebug() << "current" << _current->_symbol;
 }

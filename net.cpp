@@ -125,7 +125,7 @@ void Net::readyRead()
 {
     QByteArray array = _tcp->readAll();
     QString str = QString::fromUtf8(array.toStdString().c_str());
-    qDebug() << str;
+    //qDebug() << str;
     if (str.startsWith("id"))
     {
         QStringList list = str.split(" ");
@@ -214,30 +214,42 @@ void Net::BufferizeMap()
 
 void Net::Left()
 {
-    QString str = "left";
-    _tcp->write(str.toUtf8());
-    _tcp->flush();
+    if (!_fire)
+    {
+        QString str = "left";
+        _tcp->write(str.toUtf8());
+        _tcp->flush();
+    }
 }
 
 void Net::Right()
 {
-    QString str = "right";
-    _tcp->write(str.toUtf8());
-    _tcp->flush();
+    if (!_fire)
+    {
+        QString str = "right";
+        _tcp->write(str.toUtf8());
+        _tcp->flush();
+    }
 }
 
 void Net::Top()
 {
-    QString str = "top";
-    _tcp->write(str.toUtf8());
-    _tcp->flush();
+    if (!_fire)
+    {
+        QString str = "top";
+        _tcp->write(str.toUtf8());
+        _tcp->flush();
+    }
 }
 
 void Net::Bottom()
 {
-    QString str = "bottom";
-    _tcp->write(str.toUtf8());
-    _tcp->flush();
+    if (!_fire)
+    {
+        QString str = "bottom";
+        _tcp->write(str.toUtf8());
+        _tcp->flush();
+    }
 }
 
 void Net::GetMyPos()

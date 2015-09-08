@@ -526,16 +526,15 @@ void MyClient::readyRead()
         {
             delete _fireNpc;
             _fireNpc = NULL;
-            QString str2 = QString("killed");
-            _socket->write(str2.toUtf8());
-            qDebug() << "write killed.";
+            QString str1 = "killed";
+            _socket->write(str1.toUtf8());
             _socket->flush();
         }
         if (_fireNpc != NULL)
         {
             if (_fireNpc->fireToNpc(str.toInt()))
             {
-                QString str1 = QString("fire ") + str;
+                QString str1 = "fire " + str;
                 _socket->write(str1.toUtf8());
                 _socket->flush();
             }
