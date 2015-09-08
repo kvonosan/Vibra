@@ -11,6 +11,7 @@ Npc::Npc(Player *player)
     }
     _player = player;
     _found = false;
+    _killed = false;
 }
 
 Npc::~Npc()
@@ -18,22 +19,23 @@ Npc::~Npc()
 
 bool Npc::fireToNpc(int pos)
 {
+    QChar fireToClass = ' ';
+    QSqlQuery q1;
+    q1.prepare("SELECT data FROM map WHERE map_id=:map_id");
+    q1.bindValue(":map_id", _player->_map);
+    q1.exec();
+    QString data = "";
+    if (q1.next())
+    {
+        data = q1.value(0).toString();
+    }
+    if (data == "")
+    {
+        return false;
+    }
+    fireToClass = data[pos];
     if (!_found)
     {
-        QSqlQuery q1;
-        q1.prepare("SELECT data FROM map WHERE map_id=:map_id");
-        q1.bindValue(":map_id", _player->_map);
-        q1.exec();
-        QString data = "";
-        if (q1.next())
-        {
-            data = q1.value(0).toString();
-        }
-        if (data == "")
-        {
-            return false;
-        }
-        QChar fireToClass = data[pos];
         QSqlQuery q2;
         q2.prepare("SELECT life FROM ship_body WHERE class=:fireclass");
         q2.bindValue(":fireclass", fireToClass);
@@ -48,6 +50,7 @@ bool Npc::fireToNpc(int pos)
             return false;
         }
         life = (life - 100) + rand()%100;
+        QSqlQuery q6;
         q6.prepare("INSERT INTO ship_point(ship_id, life, energy, armor, fuel, life_gen, "
                    "energy_gen, armor_gen, net_speed, cartograph_link, grab_points, "
                    "radar_ships, scaner_predm, fire, fire_speed, fire_link) VALUES("
@@ -57,7 +60,7 @@ bool Npc::fireToNpc(int pos)
         q6.bindValue(":fuel", 25);
         q6.exec();
         QSqlQuery q5;
-        q5.prepare("SELECT ship_id FROM ship_point ORDER BY ship_id DESC LIMIT 1");
+        q5.prepare("SELECT id FROM ship_point ORDER BY id DESC LIMIT 1");
         q5.exec();
         _id = 0;
         if (q5.next())
@@ -97,8 +100,8 @@ bool Npc::fireToNpc(int pos)
         return false;
     }
     QSqlQuery q7;
-    q7.prepare("SELECT life FROM ship_point WHERE ship_id=:ship_id");
-    q7.bindValue(":ship_id", ship_id);
+    q7.prepare("SELECT life FROM ship_point WHERE id=:id");
+    q7.bindValue(":id", _id);
     q7.exec();
     int npc_life = 0;
     if (q7.next())
@@ -114,19 +117,40 @@ bool Npc::fireToNpc(int pos)
     if (npc_life <= 0)
     {
         QSqlQuery q9;
-        q9.prepare("DELETE FROM ship_point WHERE ship_id=:ship_id");
+        q9.prepare("DELETE FROM ship_point WHERE id=:id");
+        q9.bindValue(":id",_id);
         q9.exec();
         opit = 20;
         kills = 1;
         _killed = true;
+        qDebug() << "fire to " << fireToClass << " killed.";
+        /*QSqlQuery q12;
+        q12.prepare("DELETE FROM ship_point WHERE ship_id=0");
+        q12.exec();*/
+        QSqlQuery q13;
+        q13.prepare("SELECT data FROM map WHERE map_id=:id");
+        q13.bindValue(":id", _player->_map);
+        q13.exec();
+        QString data;
+        if (q13.next())
+        {
+            data = q13.value(0).toString();
+        }
+        data[pos] = ' ';
+        QSqlQuery q16;
+        q16.prepare("UPDATE map SET data=:data WHERE map_id=:id");
+        q16.bindValue(":id", _player->_map);
+        q16.bindValue(":data", data);
+        q16.exec();
     } else
     {
         QSqlQuery q8;
-        q8.prepare("UPDATE ship_point SET life=:life WHERE ship_id=:ship_id");
-        q8.bindValue(":ship_id", ship_id);
+        q8.prepare("UPDATE ship_point SET life=:life WHERE id=:id");
+        q8.bindValue(":id", _id);
         q8.bindValue(":life", npc_life);
         q8.exec();
         opit = 10;
+        qDebug() << "fire to " << fireToClass << " damage = " << fire;
     }
     QSqlQuery q10;
     q10.prepare("SELECT exp, kills FROM rating WHERE player_id=:player_id");
@@ -138,10 +162,13 @@ bool Npc::fireToNpc(int pos)
         exp = q10.value(0).toInt();
         kills_base = q10.value(1).toInt();
     }
+    exp+=opit;
+    kills_base+=kills;
     QSqlQuery q11;
     q11.prepare("UPDATE rating SET exp=:exp, kills=:kills WHERE player_id=:player_id");
-    q11.bindValue(":exp", exp + opit);
-    q11.bindValue(":kills", kills_base + kills);
+    q11.bindValue(":exp", exp);
+    q11.bindValue(":kills", kills_base);
+    q11.bindValue(":player_id", _player->_player_id);
     q11.exec();
     return true;
 }

@@ -195,13 +195,13 @@ void Fly::NextTime(QPainter *painter)
             lineY = abs((_mycoords[2] + centrX) - (_firecoords[2] + centrFireX));
             posX = lineX / 10 * time;
             posY = lineY / 10 * time;
-        } else
+        } /*else
         {
             _fire = false;
-        }
+        }*/
         if (_fire)
         {
-            qDebug() << "posX = " << posX << "posY = " << posY;
+            //qDebug() << "posX = " << posX << "posY = " << posY;
             int mnX, mnY;
             if (_mycoords[0] <= _firecoords[0])
             {
@@ -218,10 +218,21 @@ void Fly::NextTime(QPainter *painter)
                 mnY = -1;
             }
             painter->drawText(QRect(_mycoords[0]+posX*mnX, _mycoords[2]+posY*mnY, 32, 32),"*");
+            if (_mycoords[0]+posX*mnX+16 >= _firecoords[0] && _mycoords[2]+posY*mnY+16 >= _firecoords[2])
+            {
+                _net->Fire(_current->_number);
+                _time.restart();
+
+            }
         }
     }
     if (_net->_killed)
     {
-        _current->Symbol._symbol = ' ';
+        _current->_symbol = ' ';
+        _fire = false;
+        _net->_killed = false;
+        _net->BufferizeMap();
+        qDebug() << "del " << _current->_symbol << "|";
     }
+    qDebug() << "current" << _current->_symbol;
 }

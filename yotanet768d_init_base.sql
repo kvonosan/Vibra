@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Сен 06 2015 г., 09:07
+-- Время создания: Сен 08 2015 г., 05:53
 -- Версия сервера: 5.5.44-MariaDB
 -- Версия PHP: 5.4.16
 
@@ -324,13 +324,6 @@ CREATE TABLE IF NOT EXISTS `map` (
   `data` mediumtext NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `map`
---
-
-INSERT INTO `map` (`map_id`, `inleft`, `inright`, `intop`, `inbottom`, `infront`, `inbehind`, `data`) VALUES
-(1, 0, 0, 0, 0, 0, 0, '                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                .');
-
 -- --------------------------------------------------------
 
 --
@@ -389,13 +382,6 @@ CREATE TABLE IF NOT EXISTS `player` (
   `map` int(10) NOT NULL,
   `pos` int(10) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `player`
---
-
-INSERT INTO `player` (`player_id`, `vk_id`, `gold`, `credits`, `race`, `ship`, `spec`, `rank`, `escadra`, `rating`, `screen`, `level`, `map`, `pos`) VALUES
-(1, 164605891, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -692,7 +678,7 @@ CREATE TABLE IF NOT EXISTS `ship_point` (
   `armor_gen` int(10) NOT NULL,
   `net_speed` int(10) NOT NULL,
   `cartograph_link` int(10) NOT NULL,
-  `grab_poins` int(10) NOT NULL,
+  `grab_points` int(10) NOT NULL,
   `radar_ships` int(10) NOT NULL,
   `scaner_predm` int(10) NOT NULL,
   `fire` int(10) NOT NULL,

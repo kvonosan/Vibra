@@ -24,7 +24,8 @@ void Player::Search()
     if (count == 0)
     {
         QSqlQuery q1;
-        q1.prepare("INSERT INTO player (vk_id) VALUES(:id)");
+        q1.prepare("INSERT INTO player (vk_id, gold, credits, race, ship, spec, rank, escadra, "
+                   "rating, screen, level, map, pos) VALUES(:id, 0,0,0,0,0,0,0,0,0,0,0,0)");
         q1.bindValue(":id", _player_id_vk);
         q1.exec();
         q.bindValue(":id", _player_id_vk);
@@ -32,7 +33,7 @@ void Player::Search()
         if (q.next())
         {
             _player_id = q.value(1).toInt();
-            qDebug() << "Added new player with id = " + _player_id;
+            qDebug() << "Added new player with id = " + QString::number(_player_id);
         }
     } else
     {
@@ -178,9 +179,17 @@ void Player::AddToMap()
         {
             class1 = q2.value(0).toString();
         }
+        QSqlQuery q;
+        q.prepare("SELECT map_id FROM map ORDER BY map_id DESC LIMIT 1");
+        q.exec();
+        int last = 0;
+        if (q.next())
+        {
+            last = q.value(0).toInt();
+        }
         QSqlQuery q3;
         q3.prepare("SELECT data FROM map WHERE map_id=:id");
-        q3.bindValue(":id", 1);
+        q3.bindValue(":id", last);
         q3.exec();
         QString data;
         if (q3.next())
@@ -196,19 +205,19 @@ void Player::AddToMap()
             }
         }
         data[i] = class1[0];
-        QSqlQuery q5;
-        q5.prepare("UPDATE player SET map=1, pos=:pos WHERE player_id=:id");
         _pos = i;
-        map = 1;
-        _map = map;
+        _map = last;
+        QSqlQuery q6;
+        q6.prepare("UPDATE map SET data=:data WHERE map_id=:id");
+        q6.bindValue(":id", last);
+        q6.bindValue(":data", data);
+        q6.exec();
+        QSqlQuery q5;
+        q5.prepare("UPDATE player SET map=:map, pos=:pos WHERE player_id=:id");
+        q5.bindValue(":map", last);
         q5.bindValue(":pos", i);
         q5.bindValue(":id", _player_id);
         q5.exec();
-        QSqlQuery q6;
-        q6.prepare("UPDATE map SET data=:data WHERE map_id=:id");
-        q6.bindValue(":id", 1);
-        q6.bindValue(":data", data);
-        q6.exec();
     } else
     {
         _map = map;

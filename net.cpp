@@ -125,6 +125,7 @@ void Net::readyRead()
 {
     QByteArray array = _tcp->readAll();
     QString str = QString::fromUtf8(array.toStdString().c_str());
+    qDebug() << str;
     if (str.startsWith("id"))
     {
         QStringList list = str.split(" ");
@@ -185,8 +186,8 @@ void Net::readyRead()
                         || str[g] == 'D' || str[g] == 'E')
                 {
                     sym->_attacked = true;
-                    sym->_hp = 1000;
-                    sym->_armor = 1000;
+                    //sym->_life = 1000;
+                    //sym->_armor = 1000;
                 }
                 g++;
             }

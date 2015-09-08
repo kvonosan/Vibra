@@ -11,6 +11,7 @@ MyClient::MyClient(Loader *loader, QObject *parent) :
         exit(-1);
     }
     _loader = loader;
+    _fireNpc = NULL;
 }
 
 MyClient::~MyClient()
@@ -521,17 +522,23 @@ void MyClient::readyRead()
         {
             _fireNpc = new Npc(_player);
         }
-        if (_fireNpc->fireToNpc(str.toInt()))
-        {
-            QString str = "fire " + str;
-            _socket->write(str.toUtf8());
-        }
         if (_fireNpc->_killed)
         {
             delete _fireNpc;
             _fireNpc = NULL;
-            QString str = "killed";
-            _socket->write(str.toUtf8());
+            QString str2 = QString("killed");
+            _socket->write(str2.toUtf8());
+            qDebug() << "write killed.";
+            _socket->flush();
+        }
+        if (_fireNpc != NULL)
+        {
+            if (_fireNpc->fireToNpc(str.toInt()))
+            {
+                QString str1 = QString("fire ") + str;
+                _socket->write(str1.toUtf8());
+                _socket->flush();
+            }
         }
     }
 }
