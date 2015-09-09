@@ -11,7 +11,7 @@ MainWindow::MainWindow(int _width, int _height, bool game_mode, bool edit_mode, 
     _game_mode = game_mode;
     if (_edit_mode)
     {
-        _grid = new Grid(Qt::gray, Qt::black);
+        _grid = new Grid(this);
         _panel = new ButtonPanel(this, _grid);
         _end_timer_edit = false;
         _start_timer_edit = true;
@@ -108,7 +108,7 @@ void MainWindow::renderNow()
     QPainter painter(device);
 
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.fillRect(0, 0, width(), height(), Qt::gray);
+    painter.fillRect(0, 0, width(), height(), Qt::black);
     render(&painter);
 
     _m_backingStore->endPaint();

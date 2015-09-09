@@ -23,7 +23,6 @@ private:
     QChar _paintsymbol;
     QProcess *_process;
     int _width, _height;
-    QColor _gridcolor, _textcolor;
     int _mousex, _mousey, _cursor;
     bool _panelside, _firstpaint, _mousepressed;
     QRect _arrow, _pencil, _rubber, _fill, _letter, _quit, _open, _save;

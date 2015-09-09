@@ -13,8 +13,6 @@ ButtonPanel::ButtonPanel(QWindow *parent, Grid *grid)
     _quit = QRect(350, 10, 80, 30);
     _open = QRect(10, 70, 80, 30);
     _save = QRect(100, 70, 80, 30);
-    _gridcolor = Qt::black;
-    _textcolor = Qt::white;
     if (grid == NULL)
     {
         qDebug() << "Error grid == NULL.";
@@ -89,53 +87,6 @@ void ButtonPanel::Paint(QPainter *painter)
         painter->drawText(_save, Qt::AlignCenter, QStringLiteral("Save"));//save file
     } else
     {
-        QVector <QVector<Symbol> > mass;
-        if (_grid->_computed)
-        {
-            mass.resize(_grid->GetSizeX());
-            for(int i=0; i < _grid->GetSizeX(); i++)
-            {
-                mass[i].resize(_grid->GetSizeY());
-                for(int j=0; j < _grid->GetSizeY(); j++)
-                {
-                    mass[i][j].GridColor = _grid->GetSymbolAt(i,j)->GridColor;
-                    mass[i][j].TextColor = _grid->GetSymbolAt(i,j)->TextColor;
-                    mass[i][j]._symbol = _grid->GetSymbolAt(i,j)->_symbol;
-                }
-            }
-        }
-        _grid->ComputeSize(_width, _height);
-        _grid->SetGridColor(painter, _gridcolor);
-        _grid->SetTextColor(painter, _textcolor);
-        if (!_firstpaint)
-        {
-            for(int i=0; i < _grid->GetSizeX(); i++)
-                for(int j=0; j < _grid->GetSizeY(); j++)
-                {
-                    _grid->GetSymbolAt(i,j)->GridColor = mass[i][j].GridColor;
-                    _grid->GetSymbolAt(i,j)->TextColor = mass[i][j].TextColor;
-                    _grid->GetSymbolAt(i,j)->_symbol = mass[i][j]._symbol;
-                }
-        }
-        _firstpaint = false;
-        if (_mousepressed && _mousex >= 0 && _mousey >= 0 && _cursor == 2)
-        {
-            (_grid->GetSymbolAtWH(_mousex, _mousey))->_symbol = _paintsymbol;
-            (_grid->GetSymbolAtWH(_mousex, _mousey))->GridColor = _gridcolor;
-            (_grid->GetSymbolAtWH(_mousex, _mousey))->TextColor = _textcolor;
-        }
-        if (_mousepressed && _mousex >= 0 && _mousey >= 0 && _cursor == 4)
-        {
-            _grid->ComputeSize(_width, _height);
-            _grid->SetGridColor(painter, _gridcolor);
-            _grid->SetTextColor(painter, _textcolor);
-        }
-        if (_mousepressed && _mousex >= 0 && _mousey >= 0 && _cursor == 3)
-        {
-            (_grid->GetSymbolAtWH(_mousex, _mousey))->_symbol = ' ';
-            (_grid->GetSymbolAtWH(_mousex, _mousey))->GridColor = _gridcolor;
-            (_grid->GetSymbolAtWH(_mousex, _mousey))->TextColor = _textcolor;
-        }
         _grid->Paint(painter);
     }
 }
@@ -191,8 +142,8 @@ void ButtonPanel::Click(int x, int y)
             if (file.open(QIODevice::ReadWrite))
             {
                 QTextStream stream(&file);
-                for (int i=0; i<_grid->GetSizeX();i++)
-                    for (int j=0;j<_grid->GetSizeY();j++)
+                for (int i=0; i<32;i++)
+                    for (int j=0;j<24;j++)
                     {
                         stream >> (_grid->GetSymbolAt(i,j)->_symbol);
                     }
@@ -213,8 +164,8 @@ void ButtonPanel::Click(int x, int y)
             if (file.open(QIODevice::ReadWrite))
             {
                 QTextStream stream(&file);
-                for (int i=0;i<_grid->GetSizeX();i++)
-                    for (int j=0;j<_grid->GetSizeY();j++)
+                for (int i=0;i<32;i++)
+                    for (int j=0;j<24;j++)
                     {
                         stream << (_grid->GetSymbolAt(i,j)->_symbol);
                     }
@@ -263,4 +214,12 @@ void ButtonPanel::SetMousePressed(bool pressed, int x, int y)
     _mousepressed = pressed;
     _mousex = x;
     _mousey = y;
+    if (_mousepressed)
+    {
+        Symbol *current = _grid->GetSymbolAtWH(x, y);
+        if (current != NULL)
+        {
+            current->_symbol = _paintsymbol;
+        }
+    }
 }

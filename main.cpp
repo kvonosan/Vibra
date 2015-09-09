@@ -1,8 +1,8 @@
 #include <QDebug>
 #include <QGLFormat>
 #include <QApplication>
-#include <QDesktopWidget>
 #include "mainwindow.h"
+#include <QDesktopWidget>
 
 int main(int argc, char **argv)
 {

@@ -26,7 +26,7 @@ Fly::Fly(Net *net, QWindow *parent, Base *base)
     _attack = false;
     int menu_num = 8;
     _compute = false;
-    _grid = new Grid(Qt::black, Qt::white);
+    _grid = new Grid(_parent);
     _state = QRect(10, 10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
     _exp = QRect(10, _parent->geometry().height()/menu_num*1+10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
     _energy = QRect(10, _parent->geometry().height()/menu_num*2+10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
@@ -52,11 +52,6 @@ void Fly::Paint(QPainter *painter)
         qDebug() << "Error. Painter == NULL.";
         exit(-1);
     }
-    if (!_compute)
-    {
-        _grid->ComputeSize(_parent->geometry().width(), _parent->geometry().height());
-    }
-    _compute = true;
     _grid->Paint(painter);
     if (_menu)
     {
