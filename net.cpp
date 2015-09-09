@@ -177,8 +177,8 @@ void Net::readyRead()
     {
         str.replace("map ", "");
         int g=0;
-        for(int j=0; j < 32; j++)
-            for(int i=0; i < 24; i++)
+        for(int j=0; j < 24; j++)
+            for(int i=0; i < 32; i++)
             {
                 Symbol *sym = _base->_fly->_grid->GetSymbolAt(i, j);
                 sym->_symbol = str[g];

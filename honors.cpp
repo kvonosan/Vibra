@@ -50,6 +50,7 @@ void Honors::Paint(QPainter *painter)
     font.setPixelSize(32);
     painter->setFont(font);
     painter->drawText(_back, Qt::AlignCenter, QStringLiteral("Назад"));
+    painter->setPen(QPen(Qt::lightGray));
     painter->drawText(_ramka1_capt, Qt::AlignCenter, QStringLiteral("В бою"));
     painter->drawText(_ramka2_capt, Qt::AlignCenter, QStringLiteral("За специальность"));
     painter->drawText(_ramka3_capt, Qt::AlignCenter, QStringLiteral("Награды расы"));

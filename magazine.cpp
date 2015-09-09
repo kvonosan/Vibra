@@ -78,6 +78,7 @@ void Magazine::Paint(QPainter *painter)
     {
     case 0:
     {
+        painter->setPen(QPen(Qt::lightGray));
         font.setPixelSize(24);
         painter->setFont(font);
         painter->drawText(_capt_one, Qt::AlignCenter, QStringLiteral("Корабль"));
@@ -88,6 +89,7 @@ void Magazine::Paint(QPainter *painter)
         break;
     case 1:
     {
+        painter->setPen(QPen(Qt::lightGray));
         font.setPixelSize(24);
         painter->setFont(font);
         painter->drawText(_capt_one, Qt::AlignCenter, QStringLiteral("Генератор энергии"));
@@ -98,6 +100,7 @@ void Magazine::Paint(QPainter *painter)
         break;
     case 2:
     {
+        painter->setPen(QPen(Qt::lightGray));
         font.setPixelSize(24);
         painter->setFont(font);
         painter->drawText(_capt_one, Qt::AlignCenter, QStringLiteral("Сканер"));
