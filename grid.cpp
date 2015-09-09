@@ -19,7 +19,6 @@ Grid::Grid(QWindow *parent)
         _otstupX = 0;
         _otstupY = 0;
     }
-    int g=0;
     _symbols.resize(32);
     for (int i=0; i<_symbols.size(); i++)
     {
@@ -31,10 +30,15 @@ Grid::Grid(QWindow *parent)
             _symbols[i][j]._symbol = ' ';
             _symbols[i][j]._x = i;
             _symbols[i][j]._y = j;
+        }
+    }
+    int g = 0;
+    for(int j=0; j < 24; j++)
+        for(int i=0; i < 32; i++)
+        {
             _symbols[i][j]._number = g;
             g++;
         }
-    }
 }
 
 Grid::~Grid()
@@ -78,10 +82,10 @@ Symbol *Grid::GetSymbolAtWH(int width, int heigth)
 QVector<int> Grid::GetCoordForXY(int x, int y)
 {
     QVector<int> coord;
-    int x0 = x*32;
-    int x1 = (x+1)*32;
-    int y0 = y*32;
-    int y1 = (y+1)*32;
+    int x0 = _otstupX + x*32;
+    int x1 = _otstupX + (x+1)*32;
+    int y0 = _otstupY + y*32;
+    int y1 = _otstupY + (y+1)*32;
     coord.push_back(x0);//x0
     coord.push_back(x1);//x1
     coord.push_back(y0);//y0
@@ -91,8 +95,8 @@ QVector<int> Grid::GetCoordForXY(int x, int y)
 
 Symbol *Grid::GetSymbolInPos(int mypos)
 {
-    for(int j=0; j < 32; j++)
-        for(int i=0; i < 24; i++)
+    for(int i=0; i < 32; i++)
+        for(int j=0; j < 24; j++)
         {
             if (_symbols[i][j]._number == mypos)
             {
