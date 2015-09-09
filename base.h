@@ -7,7 +7,6 @@
 #include "grid.h"
 #include "bank.h"
 #include "hero.h"
-#include "frame.h"
 #include "rating.h"
 #include "honors.h"
 #include "magazine.h"
@@ -33,7 +32,6 @@ public:
     Base(QWindow *parent, Net *net, MainWindow *mainwindow);
     Fly *_fly;
     int _state;
-    Frame *_frame;
     Hero *_hero_obj;
     MainWindow *_mainwindow;
 private:

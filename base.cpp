@@ -32,7 +32,6 @@ Base::Base(QWindow *parent, Net *net, MainWindow *mainwindow)
     _generator = QRect(10, 170, 330, 70);
     _news = QRect(350, 170, 220, 70);
     _improvement = QRect(10, 250, 220, 70);
-    _frame = new Frame(_parent);
     _state = 0;
     _magazine_obj = new Magazine(_parent, this);
     _hero_obj = new Hero(_parent, this);
@@ -44,7 +43,6 @@ Base::Base(QWindow *parent, Net *net, MainWindow *mainwindow)
 
 Base::~Base()
 {
-    delete _frame;
     delete _magazine_obj;
     delete _hero_obj;
     delete _honors_obj;
@@ -64,11 +62,6 @@ void Base::Paint(QPainter *painter)
     {
     case 0:
     {
-        _frame->_action = "стоять";
-        _frame->_view = "база";
-        _frame->_rank = "новобранец";
-        _frame->_ship = "класс А";
-        _frame->Paint(painter);
         QPainterPath path;
         path.addRoundedRect(_bank, 10, 10);
         path.addRoundedRect(_magazine, 10, 10);
@@ -124,55 +117,6 @@ void Base::Paint(QPainter *painter)
         _fly->Paint(painter);
     } break;
     }
-}
-
-void Base::MouseMove(int x, int y)
-{
-    switch (_state)
-    {
-    case 0:
-    {
-        if (_bank.contains(x,y))
-        {
-            _frame->_target = "банк";
-        } else if (_magazine.contains(x,y))
-        {
-            _frame->_target = "магазин";
-        } else if (_hero.contains(x,y))
-        {
-            _frame->_target="герой";
-        }else if (_bar.contains(x,y))
-        {
-            _frame->_target = "бар";
-        }else if (_honors.contains(x,y))
-        {
-            _frame->_target = "награды";
-        } else if (_rating.contains(x,y))
-        {
-            _frame->_target = "рейтинг";
-        } else if (_flight.contains(x,y))
-        {
-            _frame->_target = "вылет";
-        } else if (_quit.contains(x,y))
-        {
-            _frame->_target = "выход";
-        } else if(_generator.contains(x, y))
-        {
-            _frame->_target = "генератор";
-        } else if (_news.contains(x, y))
-        {
-            _frame->_target = "новости";
-        } else if(_improvement.contains(x, y))
-        {
-            _frame->_target = "улучшения";
-        } else
-        {
-            _frame->_target = "";
-        }
-    }
-        break;
-    }
-
 }
 
 void Base::Click(int x, int y)

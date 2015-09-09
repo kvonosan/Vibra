@@ -532,11 +532,15 @@ void MyClient::readyRead()
         }
         if (_fireNpc != NULL)
         {
-            if (_fireNpc->fireToNpc(str.toInt()))
+            int num = str.toInt();
+            if (num != _player->_pos && num > -1 && num <=768)
             {
-                QString str1 = "fire " + str;
-                _socket->write(str1.toUtf8());
-                _socket->flush();
+                if (_fireNpc->fireToNpc(num))
+                {
+                    QString str1 = "fire " + str;
+                    _socket->write(str1.toUtf8());
+                    _socket->flush();
+                }
             }
         }
     }

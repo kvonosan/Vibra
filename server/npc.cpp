@@ -123,7 +123,7 @@ bool Npc::fireToNpc(int pos)
         opit = 20;
         kills = 1;
         _killed = true;
-        qDebug() << "fire to " << fireToClass << " killed.";
+        qDebug() << "[" << _player->_player_id << "]" << "fire to " << fireToClass << " killed.";
         /*QSqlQuery q12;
         q12.prepare("DELETE FROM ship_point WHERE ship_id=0");
         q12.exec();*/
@@ -150,7 +150,7 @@ bool Npc::fireToNpc(int pos)
         q8.bindValue(":life", npc_life);
         q8.exec();
         opit = 10;
-        qDebug() << "fire to " << fireToClass << " damage = " << fire;
+        qDebug() << "[" << _player->_player_id << "]" << "fire to " << fireToClass << " damage = " << fire;
     }
     QSqlQuery q10;
     q10.prepare("SELECT exp, kills FROM rating WHERE player_id=:player_id");

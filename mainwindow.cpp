@@ -217,18 +217,7 @@ void MainWindow::resizeEvent(QResizeEvent *resizeEvent)
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    if (_game_mode)
-    {
-        switch(_state)
-        {
-        case 1:
-        {
-            _base->MouseMove(event->x(), event->y());
-            renderNow();
-        } break;
-        }
-    }
-    else if (_edit_mode)
+    if (_edit_mode)
     {
         if (event->buttons() == Qt::LeftButton)
         {

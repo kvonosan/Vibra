@@ -18,7 +18,6 @@ SOURCES += \
     grid.cpp \
     buttonpanel.cpp \
     base.cpp \
-    frame.cpp \
     magazine.cpp \
     hero.cpp \
     honors.cpp \
@@ -33,7 +32,6 @@ HEADERS  += \
     grid.h \
     buttonpanel.h \
     base.h \
-    frame.h \
     magazine.h \
     hero.h \
     honors.h \
