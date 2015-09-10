@@ -6,6 +6,7 @@
 #include <QtGui>
 #include "base.h"
 #include "grid.h"
+#include "popup.h"
 #include "symbol.h"
 
 class Base;
@@ -25,6 +26,7 @@ private:
     Net *_net;
     QTime _time;
     Base *_base;
+    Popup *_popup;
     Symbol *_current;
     QWindow *_parent;
     QVector<int> _firecoords, _mycoords;

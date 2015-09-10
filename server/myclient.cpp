@@ -543,6 +543,9 @@ void MyClient::readyRead()
                 }
             }
         }
+    } else if (str.startsWith("getparams"))
+    {
+
     }
 }
 
@@ -615,3 +618,47 @@ void MyClient::SendInfo()
     }
 }
 
+void MyClient::SendParams()
+{
+    QSqlQuery q1;
+    q1.prepare("SELECT ship FROM player WHERE player_id=:id");
+    q1.bindValue(":id", _player->_player_id);
+    q1.exec();
+    int ship_id = 0;
+    if (q1.next())
+    {
+        ship_id = q1.value(0).toInt();
+    }
+    if (ship_id == 0)
+    {
+        qDebug() << "Corrupted ship_id on player_id = " <<  _player->_player_id;
+    } else
+    {
+        QSqlQuery q2;
+        q2.prepare("SELECT life, energy, fuel, armor, fire FROM ship_point WHERE ship_id=:id");
+        q2.bindValue(":id", ship_id);
+        q2.exec();
+        int life = 0, energy = 0, fuel = 0, armor = 0, fire;
+        if (q2.next())
+        {
+            life = q2.value(0).toInt();
+            energy = q2.value(1).toInt();
+            fuel = q2.value(2).toInt();
+            armor = q2.value(3).toInt();
+            fire = q2.value(4).toInt();
+        }
+        if (life == 0)
+        {
+            qDebug() << "Corrupted life on ship_id = " <<  ship_id;
+        }
+        QJsonObject obj;
+        obj["life"] = life;
+        obj["energy"] = energy;
+        obj["fuel"] = fuel;
+        obj["armor"] = armor;
+        obj["fire"] = fire;
+        QJsonDocument doc(obj);
+        QString str = QString("params") + " " + QString::fromUtf8(doc.toJson(QJsonDocument::Compact).toStdString().c_str());
+        _socket->write(str.toUtf8());
+    }
+}

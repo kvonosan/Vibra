@@ -37,7 +37,7 @@ Fly::Fly(Net *net, QWindow *parent, Base *base)
     _scaner = QRect(10, _parent->geometry().height()/menu_num*5+10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
     _hold = QRect(10, _parent->geometry().height()/menu_num*6+10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
     _quit = QRect(10, _parent->geometry().height()/menu_num*7+10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
-
+    _popup = new Popup(_parent);
 }
 
 Fly::~Fly()
@@ -98,6 +98,18 @@ void Fly::Paint(QPainter *painter)
     } else if (_net->_fire)
     {
         NextTime(painter);
+        if (_current!= NULL)
+        {
+            if ((_firecoords[0] > _parent->width()-250 && _firecoords[2] > _parent->height()-100)
+                    || (_mycoords[0] > _parent->width()-250 && _mycoords[2] > _parent->height()-100))
+            {
+                _popup->_rightBottom = false;
+            } else
+            {
+                _popup->_rightBottom = true;
+            }
+        }
+        _popup->Paint(painter);
     }
 }
 
@@ -119,29 +131,40 @@ void Fly::Click(int x, int y)
     {
         _net->GetMyPos();
         _current = _grid->GetSymbolAtWH(x, y);
-        if (_current->_number!=_net->_mypos)
+        if (_current != NULL)
         {
-            if (_current->_symbol == 'A' || _current->_symbol == 'B' || _current->_symbol == 'C' ||
-                    _current->_symbol == 'D' || _current->_symbol == 'E')
+            if (_current->_number!=_net->_mypos)
             {
-                _attack = true;
+                if (_current->_symbol == 'A' || _current->_symbol == 'B' || _current->_symbol == 'C' ||
+                        _current->_symbol == 'D' || _current->_symbol == 'E')
+                {
+                    _attack = true;
+                }
             }
         }
     }else if (_attack)
     {
         if (_attack_menu.contains(x,y))
         {
-            _firecoords = _grid->GetCoordForXY(_current->_x, _current->_y);
-            Symbol *my = _grid->GetSymbolInPos(_net->_mypos);
-            if (my != NULL)
+            if (_current != NULL)
             {
-                _mycoords = _grid->GetCoordForXY(my->_x, my->_y);
-                _net->_fire = true;
-                _time.restart();
+                _firecoords = _grid->GetCoordForXY(_current->_x, _current->_y);
+                Symbol *my = _grid->GetSymbolInPos(_net->_mypos);
+                if (my != NULL)
+                {
+                    _mycoords = _grid->GetCoordForXY(my->_x, my->_y);
+                    _net->_fire = true;
+                    _time.restart();
+                }
             }
         }
         _attack = false;
-        _net->Fire(_current->_number);
+        if (_current != NULL)
+        {
+            _net->Fire(_current->_number);
+        }
+        _net->GetParams();
+        _popup->_life = _net->_life;
     }
 }
 
@@ -182,49 +205,52 @@ void Fly::KeyPress(int key)
 
 void Fly::NextTime(QPainter *painter)
 {
-    if (_net->_fire && _net->_firepos == _current->_number)
+    if (_current != NULL)
     {
-        int centrX = (_mycoords[1] - _mycoords[0])/2;
-        int centrFireX = (_firecoords[1] - _firecoords[0])/2;
-        int time, lineX, lineY, posX, posY;
-        if (_time.elapsed() < 1000)
+        if (_net->_fire && _net->_firepos == _current->_number)
         {
-            time = _time.elapsed()/100;//1..10
-            lineX = abs((_mycoords[0] + centrX) - (_firecoords[0] + centrFireX));
-            lineY = abs((_mycoords[2] + centrX) - (_firecoords[2] + centrFireX));
-            posX = lineX / 10 * time;
-            posY = lineY / 10 * time;
+            int centrX = (_mycoords[1] - _mycoords[0])/2;
+            int centrFireX = (_firecoords[1] - _firecoords[0])/2;
+            int time, lineX, lineY, posX, posY;
+            if (_time.elapsed() < 1000)
+            {
+                time = _time.elapsed()/100;//1..10
+                lineX = abs((_mycoords[0] + centrX) - (_firecoords[0] + centrFireX));
+                lineY = abs((_mycoords[2] + centrX) - (_firecoords[2] + centrFireX));
+                posX = lineX / 10 * time;
+                posY = lineY / 10 * time;
+            }
+            if (_net->_fire)
+            {
+                int mnX, mnY;
+                if (_mycoords[0] <= _firecoords[0])
+                {
+                    mnX = 1;
+                } else
+                {
+                    mnX = -1;
+                }
+                if (_mycoords[2] <= _firecoords[2])
+                {
+                    mnY = 1;
+                } else
+                {
+                    mnY = -1;
+                }
+                painter->drawText(QRect(_mycoords[0]+posX*mnX, _mycoords[2]+posY*mnY, 32, 32),"*");
+                if (posX >= lineX && posY >= lineY)
+                {
+                    _net->Fire(_current->_number);
+                    _time.restart();
+                    _net->_life -= _net->_shipfire;
+                }
+            }
         }
-        if (_net->_fire)
+        if (_net->_killed)
         {
-            int mnX, mnY;
-            if (_mycoords[0] <= _firecoords[0])
-            {
-                mnX = 1;
-            } else
-            {
-                mnX = -1;
-            }
-            if (_mycoords[2] <= _firecoords[2])
-            {
-                mnY = 1;
-            } else
-            {
-                mnY = -1;
-            }
-            painter->drawText(QRect(_mycoords[0]+posX*mnX, _mycoords[2]+posY*mnY, 32, 32),"*");
-            if (posX >= lineX && posY >= lineY)
-            {
-                _net->Fire(_current->_number);
-                _time.restart();
-
-            }
+            _current->_symbol = ' ';
+            _net->_fire = false;
+            _net->_killed = false;
         }
-    }
-    if (_net->_killed)
-    {
-        _current->_symbol = ' ';
-        _net->_fire = false;
-        _net->_killed = false;
     }
 }

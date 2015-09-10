@@ -203,6 +203,26 @@ void Net::readyRead()
     } else if (str.startsWith("killed"))
     {
         _killed = true;
+    } else if (str.startsWith("params"))
+    {
+        str.replace("params ", "");
+        QJsonObject object;
+        QJsonDocument document = QJsonDocument::fromJson(str.toUtf8());
+        if (!document.isNull())
+        {
+            if (document.isObject())
+            {
+                object = document.object();
+            }
+        } else
+        {
+            qDebug() << "Parse json error.";
+        }
+        _life = object["life"].toInt();
+        _energy = object["energy"].toInt();
+        _armor = object["armor"].toInt();
+        _fuel = object["fuel"].toInt();
+        _shipfire = object["_shipfire"].toInt();
     }
 }
 
@@ -266,4 +286,12 @@ void Net::Fire(int pos)
     QString str = "fire " + QString::number(pos);
     _tcp->write(str.toUtf8());
     _tcp->flush();
+}
+
+void Net::GetParams()
+{
+    QString str = "getparams";
+    _tcp->write(str.toUtf8());
+    _tcp->flush();
+    _tcp->waitForReadyRead(3000);
 }
