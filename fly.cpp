@@ -95,7 +95,7 @@ void Fly::Paint(QPainter *painter)
         font.setPixelSize(32);
         painter->setFont(font);
         painter->drawText(_attack_menu, Qt::AlignCenter, QStringLiteral("Уничтожить"));
-        painter->drawText(_duel_menu, Qt::AlignCenter, QStringLiteral("Уничтожить в режиме дуэль"));
+        painter->drawText(_duel_menu, Qt::AlignCenter, QStringLiteral("Отмена"));
     } else if (_net->_fire)
     {
         NextTime(painter);
@@ -140,6 +140,10 @@ void Fly::Click(int x, int y)
                         _current->_symbol == 'D' || _current->_symbol == 'E')
                 {
                     _attack = true;
+                }
+                if (_current->_symbol == 'b')
+                {
+                    _base->_state = 0;
                 }
             }
         }
