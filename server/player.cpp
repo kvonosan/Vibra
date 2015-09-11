@@ -132,8 +132,8 @@ void Player::newPlayer()
         QSqlQuery q6;
         q6.prepare("INSERT INTO ship_point(ship_id, life, energy, armor, fuel, life_gen, "
                    "energy_gen, armor_gen, net_speed, cartograph_link, grab_points, "
-                   "radar_ships, scaner_predm, fire, fire_speed, fire_link) VALUES("
-                   ":ship_id, :life, 0, 0, :fuel, 0, 0,0,0,0,0,0,0,0,0,0)");
+                   "radar_ships, scaner_predm, fire, fire_speed, fire_link, map, pos) VALUES("
+                   ":ship_id, :life, 0, 0, :fuel, 0, 0,0,0,0,0,0,0,0,0,0,0,0)");
         q6.bindValue(":ship_id", ship_id);
         q6.bindValue(":life", life);
         q6.bindValue(":fuel", fuel);
@@ -151,7 +151,7 @@ void Player::newPlayer()
 void Player::AddToMap()
 {
     QSqlQuery q4;
-    q4.prepare("SELECT map FROM player WHERE player_id=:id");
+    q4.prepare("SELECT map, ship FROM player WHERE player_id=:id");
     q4.bindValue(":id", _player_id);
     q4.exec();
     int map = 0;

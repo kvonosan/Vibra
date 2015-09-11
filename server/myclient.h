@@ -12,7 +12,7 @@ class MyClient : public QObject
 public:
     ~MyClient();
     void SendInfo();
-    void SendParams();
+    int GetLife(int pos);
     void VkAuth(QString access_token);
     void setSocket(qintptr Descriptor);
     explicit MyClient(Loader *loader, QObject *parent = 0);

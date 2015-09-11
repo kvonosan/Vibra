@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Сен 08 2015 г., 05:53
+-- Время создания: Сен 11 2015 г., 12:06
 -- Версия сервера: 5.5.44-MariaDB
 -- Версия PHP: 5.4.16
 
@@ -683,7 +683,9 @@ CREATE TABLE IF NOT EXISTS `ship_point` (
   `scaner_predm` int(10) NOT NULL,
   `fire` int(10) NOT NULL,
   `fire_speed` int(10) NOT NULL,
-  `fire_link` int(10) NOT NULL
+  `fire_link` int(10) NOT NULL,
+  `map` int(10) NOT NULL,
+  `pos` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

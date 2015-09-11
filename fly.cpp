@@ -161,10 +161,8 @@ void Fly::Click(int x, int y)
         _attack = false;
         if (_current != NULL)
         {
-            _net->Fire(_current->_number);
+            _net->Fire(_current->_number, _popup);
         }
-        _net->GetParams();
-        _popup->_life = _net->_life;
     }
 }
 
@@ -240,7 +238,7 @@ void Fly::NextTime(QPainter *painter)
                 painter->drawText(QRect(_mycoords[0]+posX*mnX, _mycoords[2]+posY*mnY, 32, 32),"*");
                 if (posX >= lineX && posY >= lineY)
                 {
-                    _net->Fire(_current->_number);
+                    _net->Fire(_current->_number, _popup);
                     _time.restart();
                     _net->_life -= _net->_shipfire;
                 }

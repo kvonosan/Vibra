@@ -199,30 +199,12 @@ void Net::readyRead()
     } else if (str.startsWith("fire"))
     {
         str.replace("fire ", "");
-        _firepos = str.toInt();
+        QStringList list = str.split(" ");
+        _firepos = list[0].toInt();
+        _popup->_life = list[1].toInt();
     } else if (str.startsWith("killed"))
     {
         _killed = true;
-    } else if (str.startsWith("params"))
-    {
-        str.replace("params ", "");
-        QJsonObject object;
-        QJsonDocument document = QJsonDocument::fromJson(str.toUtf8());
-        if (!document.isNull())
-        {
-            if (document.isObject())
-            {
-                object = document.object();
-            }
-        } else
-        {
-            qDebug() << "Parse json error.";
-        }
-        _life = object["life"].toInt();
-        _energy = object["energy"].toInt();
-        _armor = object["armor"].toInt();
-        _fuel = object["fuel"].toInt();
-        _shipfire = object["_shipfire"].toInt();
     }
 }
 
@@ -280,18 +262,16 @@ void Net::GetMyPos()
     _tcp->waitForReadyRead(3000);
 }
 
-void Net::Fire(int pos)
+void Net::Fire(int pos, Popup *popup)
 {
+    if (popup == NULL)
+    {
+        qDebug() << "Error: popup == NULL." ;
+        exit(-1);
+    }
+    _popup = popup;
     _firepos = -1;
     QString str = "fire " + QString::number(pos);
     _tcp->write(str.toUtf8());
     _tcp->flush();
-}
-
-void Net::GetParams()
-{
-    QString str = "getparams";
-    _tcp->write(str.toUtf8());
-    _tcp->flush();
-    _tcp->waitForReadyRead(3000);
 }

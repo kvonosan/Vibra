@@ -2,6 +2,7 @@
 #define NET
 
 #include "base.h"
+#include "popup.h"
 #include <QtNetwork>
 
 class Base;
@@ -18,16 +19,17 @@ public:
     void Bottom();
     void GetMyPos();
     void GetVKName();
-    void GetParams();
-    void Fire(int pos);
+    void Fire(int pos, Popup *popup);
     bool VKConnected();
     void BufferizeMap();
+    void GetParams(int pos, Popup *popup);
     void NetConnect(Base *base);
     bool _connected, _authorized, _disconnect, _killed, _fire;
     int _mypos, _firepos, _life, _energy, _armor, _fuel, _shipfire;
 private:
     int _port;
     Base *_base;
+    Popup *_popup;
     QTcpSocket *_tcp;
     bool _vk_connected;
     QNetworkReply *_reply;

@@ -10,7 +10,7 @@ Popup::Popup(QWindow *parent)
     }
     _parent = parent;
     _rightBottom = true;
-    _life = 20;
+    _life = 0;
 }
 
 Popup::~Popup()

@@ -538,14 +538,13 @@ void MyClient::readyRead()
                 if (_fireNpc->fireToNpc(num))
                 {
                     QString str1 = "fire " + str;
+                    int life = GetLife(num);
+                    str1 = str1 + " " + QString::number(life);
                     _socket->write(str1.toUtf8());
                     _socket->flush();
                 }
             }
         }
-    } else if (str.startsWith("getparams"))
-    {
-
     }
 }
 
@@ -618,47 +617,33 @@ void MyClient::SendInfo()
     }
 }
 
-void MyClient::SendParams()
+int MyClient::GetLife(int pos)
 {
     QSqlQuery q1;
-    q1.prepare("SELECT ship FROM player WHERE player_id=:id");
+    q1.prepare("SELECT map FROM player WHERE player_id=:id");
     q1.bindValue(":id", _player->_player_id);
     q1.exec();
-    int ship_id = 0;
+    int map = 0;
     if (q1.next())
     {
-        ship_id = q1.value(0).toInt();
+        map = q1.value(0).toInt();
     }
-    if (ship_id == 0)
+    if (map == 0)
     {
-        qDebug() << "Corrupted ship_id on player_id = " <<  _player->_player_id;
+        qDebug() << "Corrupted map on player_id = " <<  _player->_player_id;
     } else
     {
         QSqlQuery q2;
-        q2.prepare("SELECT life, energy, fuel, armor, fire FROM ship_point WHERE ship_id=:id");
-        q2.bindValue(":id", ship_id);
+        q2.prepare("SELECT life, energy, fuel, armor, fire, ship_id FROM ship_point WHERE map=:map AND pos=:pos");
+        q2.bindValue(":map", map);
+        q2.bindValue(":pos", pos);
         q2.exec();
-        int life = 0, energy = 0, fuel = 0, armor = 0, fire;
+        int life = 0;
         if (q2.next())
         {
             life = q2.value(0).toInt();
-            energy = q2.value(1).toInt();
-            fuel = q2.value(2).toInt();
-            armor = q2.value(3).toInt();
-            fire = q2.value(4).toInt();
         }
-        if (life == 0)
-        {
-            qDebug() << "Corrupted life on ship_id = " <<  ship_id;
-        }
-        QJsonObject obj;
-        obj["life"] = life;
-        obj["energy"] = energy;
-        obj["fuel"] = fuel;
-        obj["armor"] = armor;
-        obj["fire"] = fire;
-        QJsonDocument doc(obj);
-        QString str = QString("params") + " " + QString::fromUtf8(doc.toJson(QJsonDocument::Compact).toStdString().c_str());
-        _socket->write(str.toUtf8());
+        return life;
     }
+    return 0;
 }
