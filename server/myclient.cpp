@@ -524,11 +524,16 @@ void MyClient::readyRead()
         }
         if (_fireNpc->_killed)
         {
-            delete _fireNpc;
-            _fireNpc = NULL;
             QString str1 = "killed";
+            if (_player->_level > 0)
+            {
+                str1 = str1 + " " + QString::number(_player->_level);
+                _player->_level = 0;
+            }
             _socket->write(str1.toUtf8());
             _socket->flush();
+            delete _fireNpc;
+            _fireNpc = NULL;
         }
         if (_fireNpc != NULL)
         {

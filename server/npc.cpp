@@ -172,5 +172,72 @@ bool Npc::fireToNpc(int pos)
     q11.bindValue(":kills", kills_base);
     q11.bindValue(":player_id", _player->_player_id);
     q11.exec();
+    QSqlQuery q13;
+    q13.prepare("SELECT level FROM player WHERE player_id=:id");
+    q13.bindValue(":id", _player->_player_id);
+    q13.exec();
+    int level = 0;
+    if (q13.next())
+    {
+        level = q13.value(0).toInt();
+    }
+    _levelup = false;
+    if (level >= 1 && level <=10)
+    {
+        if (exp >=1300000)
+        {
+            _levelup = true;
+        }
+    }
+    if (level >= 11 && level <=20)
+    {
+        if (exp >=2100000)
+        {
+            _levelup = true;
+        }
+    }
+    if (level >= 21 && level <=30)
+    {
+        if (exp >=3300000)
+        {
+            _levelup = true;
+        }
+    }
+    if (level >= 31 && level <=40)
+    {
+        if (exp >=4400000)
+        {
+            _levelup = true;
+        }
+    }
+    if (level >= 41 && level <=50)
+    {
+        if (exp >=5500000)
+        {
+            _levelup = true;
+        }
+    }
+    if (level >= 51 && level <=60)
+    {
+        if (exp >=7700000)
+        {
+            _levelup = true;
+        }
+    }
+    if (_levelup)
+    {
+        level++;
+        QSqlQuery q14;
+        q14.prepare("UPDATE rating SET exp=:exp WHERE player_id=:player_id");
+        q14.bindValue(":player_id", _player->_player_id);
+        q14.bindValue(":exp", 0);
+        q14.exec();
+        QSqlQuery q15;
+        q15.prepare("UPDATE player SET level=:level WHERE player_id=:player_id");
+        q15.bindValue(":player_id", _player->_player_id);
+        q15.bindValue(":level", level);
+        q15.exec();
+        _player->_level = level;
+    }
     return true;
 }

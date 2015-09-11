@@ -9,7 +9,7 @@ public:
     Npc(Player *player);
     ~Npc();
     bool fireToNpc(int pos);
-    bool _killed, _found;
+    bool _killed, _found, _levelup;
     int _id;
     Player *_player;
 };

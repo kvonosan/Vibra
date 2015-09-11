@@ -123,6 +123,7 @@ void Net::Disconnected()
 
 void Net::readyRead()
 {
+    _level = 0;
     QByteArray array = _tcp->readAll();
     QString str = QString::fromUtf8(array.toStdString().c_str());
     //qDebug() << str;
@@ -205,6 +206,11 @@ void Net::readyRead()
     } else if (str.startsWith("killed"))
     {
         _killed = true;
+        if (str.size() > 6)
+        {
+            str.replace("killed ", "");
+            _level = str.toInt();
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 #include "fly.h"
 #include "symbol.h"
+#include <QMessageBox>
 
 Fly::Fly(Net *net, QWindow *parent, Base *base)
 {
@@ -249,6 +250,17 @@ void Fly::NextTime(QPainter *painter)
             _current->_symbol = ' ';
             _net->_fire = false;
             _net->_killed = false;
+            if (_net->_level > 0)
+            {
+                QMessageBox* pmbx = new QMessageBox("Повышение уровня!",
+                                    "<b>Ваш уровень <i>" + QString::number(_net->_level)+ "</i>!</b>",
+                                    QMessageBox::Information,
+                                    QMessageBox::NoButton,
+                                    QMessageBox::Ok,
+                                    QMessageBox::NoButton);
+                pmbx->exec();
+                delete pmbx;
+            }
         }
     }
 }
