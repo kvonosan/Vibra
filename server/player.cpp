@@ -128,15 +128,13 @@ void Player::newPlayer()
             exit(-1);
         }
         life = (life - 100) + rand()%100;
-        fuel = (fuel - 5) + rand()%5;
         QSqlQuery q6;
         q6.prepare("INSERT INTO ship_point(ship_id, life, energy, armor, fuel, life_gen, "
                    "energy_gen, armor_gen, net_speed, cartograph_link, grab_points, "
                    "radar_ships, scaner_predm, fire, fire_speed, fire_link, map, pos) VALUES("
-                   ":ship_id, :life, 0, 0, :fuel, 0, 0,0,0,0,0,0,0,0,0,0,0,0)");
+                   ":ship_id, :life, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0)");
         q6.bindValue(":ship_id", ship_id);
         q6.bindValue(":life", life);
-        q6.bindValue(":fuel", fuel);
         q6.exec();
         QSqlQuery q9;
         q9.prepare("UPDATE ship_point SET fire=10, fire_speed=1, fire_link=768 WHERE ship_id=:ship_id");

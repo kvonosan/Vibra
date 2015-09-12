@@ -110,7 +110,7 @@ QString Loader::Generate768d()
                 symbol = 'E';
             } else if (g == 91 || g == 92)
             {
-                //symbol = 'p';//Planet
+                symbol = 'p';//Planet
             } else if (g == 93 || g == 94)
             {
                 symbol = 'b';//Base

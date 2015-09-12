@@ -19,6 +19,7 @@ public:
     void Bottom();
     void GetMyPos();
     void GetVKName();
+    void GetResource(int pos);
     void Fire(int pos, Popup *popup);
     bool VKConnected();
     void BufferizeMap();
@@ -26,6 +27,8 @@ public:
     void NetConnect(Base *base);
     bool _connected, _authorized, _disconnect, _killed, _fire;
     int _mypos, _firepos, _life, _energy, _armor, _fuel, _shipfire, _level;
+    int _net_speed, _cartograph_link, _grab_points,
+            _radar_ships, _scaner_predm, _fire_speed, _fire_link;
 private:
     Base *_base;
     Popup *_popup;

@@ -211,6 +211,34 @@ void Net::readyRead()
             str.replace("killed ", "");
             _level = str.toInt();
         }
+    } else if (str.startsWith("params"))
+    {
+        str.replace("params ", "");
+        QJsonObject object;
+        QJsonDocument document = QJsonDocument::fromJson(str.toUtf8());
+        if (!document.isNull())
+        {
+            if (document.isObject())
+            {
+                object = document.object();
+            }
+        } else
+        {
+            qDebug() << "Parse json error.";
+        }
+        _life = object["life"].toInt();
+        _energy = object["energy"].toInt();
+        _armor = object["armor"].toInt();
+        _fuel = object["fuel"].toInt();
+        _net_speed = object["net_speed"].toInt();
+        _cartograph_link = object["cartograph_link"].toInt();
+        _grab_points = object["grab_points"].toInt();
+        _radar_ships = object["radar_ships"].toInt();
+        _scaner_predm = object["scaner_predm"].toInt();
+        _fire = object["fire"].toInt();
+        _fire_speed = object["fire_speed"].toInt();
+        _fire_link = object["fire_link"].toInt();
+        BufferizeMap();
     }
 }
 
@@ -278,6 +306,13 @@ void Net::Fire(int pos, Popup *popup)
     _popup = popup;
     _firepos = -1;
     QString str = "fire " + QString::number(pos);
+    _tcp->write(str.toUtf8());
+    _tcp->flush();
+}
+
+void Net::GetResource(int pos)
+{
+    QString str = "getres " + QString::number(pos);
     _tcp->write(str.toUtf8());
     _tcp->flush();
 }
