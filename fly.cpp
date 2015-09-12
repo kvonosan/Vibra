@@ -186,22 +186,22 @@ void Fly::KeyPress(int key)
                 _menu = !_menu;
                 _attack = false;
             }
-            if (key == Qt::Key_W)
+            if (key == Qt::Key_W || key == 0x426)
             {
                 _net->Top();
                 _net->BufferizeMap();
             }
-            if (key == Qt::Key_S)
+            if (key == Qt::Key_S || key == 0x42B)
             {
                 _net->Bottom();
                 _net->BufferizeMap();
             }
-            if (key == Qt::Key_A)
+            if (key == Qt::Key_A || key == 0x424)
             {
                 _net->Left();
                 _net->BufferizeMap();
             }
-            if (key == Qt::Key_D)
+            if (key == Qt::Key_D || key == 0x412)
             {
                 _net->Right();
                 _net->BufferizeMap();
