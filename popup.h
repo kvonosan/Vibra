@@ -11,7 +11,7 @@ public:
     void Paint(QPainter *painter);
     QWindow *_parent;
     bool _rightBottom;
-    int _life;
+    int _life_enemy, _life;
 };
 #endif // POPUP
 

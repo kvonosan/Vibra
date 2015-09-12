@@ -181,6 +181,11 @@ bool Npc::fireToNpc(int pos)
     {
         level = q13.value(0).toInt();
     }
+    if (level == 0)
+    {
+        qDebug() << "Error level corrupted.";
+        exit(-1);
+    }
     _levelup = false;
     if (level >= 1 && level <=10)
     {
@@ -227,6 +232,8 @@ bool Npc::fireToNpc(int pos)
     if (_levelup)
     {
         level++;
+        qDebug() << "player with id = " << QString::number(_player->_player_id) << " levelup. level "
+                 << level;
         QSqlQuery q14;
         q14.prepare("UPDATE rating SET exp=:exp WHERE player_id=:player_id");
         q14.bindValue(":player_id", _player->_player_id);

@@ -10,7 +10,7 @@ Popup::Popup(QWindow *parent)
     }
     _parent = parent;
     _rightBottom = true;
-    _life = 0;
+    _life_enemy = 0;
 }
 
 Popup::~Popup()
@@ -25,15 +25,15 @@ void Popup::Paint(QPainter *painter)
     }
     if (_rightBottom)
     {
-        QRect popup(_parent->width()-250, _parent->height()-100, 200, 60);
+        QRect popup(_parent->width()-400, _parent->height()-140, 300, 120);
         painter->fillRect(popup, Qt::black);
         painter->drawRect(popup);
-        painter->drawText(popup, Qt::AlignCenter, "life = " + QString::number(_life));
+        painter->drawText(popup, Qt::AlignCenter, "Противник " + QString::number(_life_enemy) + "\nСвой " + QString::number(_life));
     } else
     {
-        QRect popup(_parent->width()-250, 20, 200, 60);
+        QRect popup(_parent->width()-400, 20, 300, 120);
         painter->fillRect(popup, Qt::black);
         painter->drawRect(popup);
-        painter->drawText(popup, Qt::AlignCenter, "life = " + QString::number(_life));
+        painter->drawText(popup, Qt::AlignCenter, "Противник " + QString::number(_life_enemy) + "\nСвой " + QString::number(_life));
     }
 }

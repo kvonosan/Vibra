@@ -80,6 +80,7 @@ void MyClient::VkAuth(QString access_token)
 
 void MyClient::readyRead()
 {
+    _player->_level = 0;
     QByteArray array = _socket->readAll();
     QString str = QString::fromUtf8(array.toStdString().c_str());
     //qDebug() << str;
@@ -522,19 +523,6 @@ void MyClient::readyRead()
         {
             _fireNpc = new Npc(_player);
         }
-        if (_fireNpc->_killed)
-        {
-            QString str1 = "killed";
-            if (_player->_level > 0)
-            {
-                str1 = str1 + " " + QString::number(_player->_level);
-                _player->_level = 0;
-            }
-            _socket->write(str1.toUtf8());
-            _socket->flush();
-            delete _fireNpc;
-            _fireNpc = NULL;
-        }
         if (_fireNpc != NULL)
         {
             int num = str.toInt();
@@ -542,11 +530,50 @@ void MyClient::readyRead()
             {
                 if (_fireNpc->fireToNpc(num))
                 {
-                    QString str1 = "fire " + str;
-                    int life = GetLife(num);
-                    str1 = str1 + " " + QString::number(life);
-                    _socket->write(str1.toUtf8());
-                    _socket->flush();
+                    if (_fireNpc->_killed)
+                    {
+                        QString str1 = "killed";
+                        str1 = str1 + " " + QString::number(_player->_level);
+                        _socket->write(str1.toUtf8());
+                        _socket->flush();
+                        delete _fireNpc;
+                        _fireNpc = NULL;
+                    } else
+                    {
+                        QString str1 = "fire " + str;
+                        int life_enemy = GetLife(num);
+                        QSqlQuery q1;
+                        q1.prepare("SELECT ship FROM player WHERE player_id=:player_id");
+                        q1.bindValue(":player_id", _player->_player_id);
+                        q1.exec();
+                        int ship = 0;
+                        if (q1.next())
+                        {
+                            ship = q1.value(0).toInt();
+                        }
+                        if (ship == 0)
+                        {
+                            qDebug() << "Error: corrupted ship.";
+                            exit(-1);
+                        }
+                        QSqlQuery q2;
+                        q2.prepare("SELECT life FROM ship_point WHERE ship_id=:ship");
+                        q2.bindValue(":ship", ship);
+                        q2.exec();
+                        int life = 0;
+                        if (q2.next())
+                        {
+                            life = q2.value(0).toInt();
+                        }
+                        if (life == 0)
+                        {
+                            qDebug() << "Error: corrupted life.";
+                            exit(-1);
+                        }
+                        str1 = str1 + " " + QString::number(life_enemy) + " " + QString::number(life);
+                        _socket->write(str1.toUtf8());
+                        _socket->flush();
+                    }
                 }
             }
         }

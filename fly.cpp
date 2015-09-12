@@ -101,8 +101,8 @@ void Fly::Paint(QPainter *painter)
         NextTime(painter);
         if (_current!= NULL)
         {
-            if ((_firecoords[0] > _parent->width()-250 && _firecoords[2] > _parent->height()-100)
-                    || (_mycoords[0] > _parent->width()-250 && _mycoords[2] > _parent->height()-100))
+            if ((_firecoords[0] > _parent->width()-400 && _firecoords[2] > _parent->height()-160)
+                    || (_mycoords[0] > _parent->width()-400 && _mycoords[2] > _parent->height()-160))
             {
                 _popup->_rightBottom = false;
             } else
@@ -249,7 +249,6 @@ void Fly::NextTime(QPainter *painter)
                 {
                     _net->Fire(_current->_number, _popup);
                     _time.restart();
-                    _net->_life -= _net->_shipfire;
                 }
             }
         }
@@ -261,7 +260,7 @@ void Fly::NextTime(QPainter *painter)
             if (_net->_level > 0)
             {
                 QMessageBox* pmbx = new QMessageBox("Повышение уровня!",
-                                    "<b>Ваш уровень <i>" + QString::number(_net->_level)+ "</i>!</b>",
+                                    "<b>Ваш уровень <i>" + QString::number(_net->_level) + "</i>!</b>",
                                     QMessageBox::Information,
                                     QMessageBox::NoButton,
                                     QMessageBox::Ok,

@@ -26,8 +26,8 @@ public:
     void GetParams(int pos, Popup *popup);
     void NetConnect(Base *base);
     bool _connected, _authorized, _disconnect, _killed, _fire;
-    int _mypos, _firepos, _life, _energy, _armor, _fuel, _shipfire, _level;
-    int _net_speed, _cartograph_link, _grab_points,
+    int _mypos, _firepos, _life_enemy, _energy_enemy, _armor_enemy, _fuel_enemy, _level;
+    int _life, _energy, _armor, _fuel, _net_speed, _cartograph_link, _grab_points,
             _radar_ships, _scaner_predm, _fire_speed, _fire_link;
 private:
     Base *_base;

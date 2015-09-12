@@ -202,14 +202,16 @@ void Net::readyRead()
         str.replace("fire ", "");
         QStringList list = str.split(" ");
         _firepos = list[0].toInt();
-        _popup->_life = list[1].toInt();
+        _popup->_life_enemy = list[1].toInt();
+        _popup->_life = list[2].toInt();
     } else if (str.startsWith("killed"))
     {
         _killed = true;
-        if (str.size() > 6)
+        str.replace("killed ", "");
+        _level = str.toInt();
+        if (_level < 0 || _level > 100)
         {
-            str.replace("killed ", "");
-            _level = str.toInt();
+            _level = 0;
         }
     } else if (str.startsWith("params"))
     {
