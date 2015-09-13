@@ -7,7 +7,7 @@ MyClient::MyClient(Loader *loader, QObject *parent) :
     _delete = false;
     if (loader == NULL)
     {
-        qDebug() << "Error loader == NULL";
+        qDebug() << "Error loader == NULL.";
         exit(-1);
     }
     _loader = loader;
@@ -23,23 +23,23 @@ MyClient::~MyClient()
 void MyClient::setSocket(qintptr descriptor)
 {
     _socket = new QTcpSocket(this);
-    qDebug() << "A new socket created!";
+    qDebug() << "Создан новый сокет.";
     connect(_socket, SIGNAL(connected()), this, SLOT(connected()));
     connect(_socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
     connect(_socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
     _socket->setSocketDescriptor(descriptor);
     _player = new Player();
-    qDebug() << " Client connected at " << descriptor;
+    qDebug() << "Клиент подсоединен на дескриптор " << descriptor << ".";
 }
 
 void MyClient::connected()
 {
-    qDebug() << "Client connected event";
+    qDebug() << "Клиент подсоединился.";
 }
 
 void MyClient::disconnected()
 {
-    qDebug() << "Client disconnected";
+    qDebug() << "Клиент отсоединился.";
 }
 
 void MyClient::VkAuth(QString access_token)
@@ -53,6 +53,7 @@ void MyClient::VkAuth(QString access_token)
     QString recv_str = QString::fromUtf8(recv.toStdString().c_str());
     if (recv_str.contains("error"))
     {
+        qDebug() << recv_str;
         QByteArray array;
         QDataStream stream(&array, QIODevice::WriteOnly);
         stream << 0;
@@ -84,7 +85,7 @@ void MyClient::readyRead()
     _player->_level = 0;
     QByteArray array = _socket->readAll();
     QString str = QString::fromUtf8(array.toStdString().c_str());
-    //qDebug() << str;
+    qDebug() << str;
     if (str.startsWith("token"))
     {
         QStringList list = str.split(" ");

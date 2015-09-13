@@ -91,9 +91,9 @@ void Net::NetConnect(Base *base)
     _base = base;
     connect(_tcp, SIGNAL(connected()), this, SLOT(Connected()));
     connect(_tcp, SIGNAL(disconnected()), this, SLOT(Disconnected()));
-    _tcp->connectToHost("91.215.138.69", _port);
+    //_tcp->connectToHost("91.215.138.69", _port);
     _tcp->waitForConnected(2000);
-    //_tcp->connectToHost("127.0.0.1", _port);
+    _tcp->connectToHost("127.0.0.1", _port);
     _connected = true;
     _authorized = false;
 }

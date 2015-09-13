@@ -19,7 +19,7 @@ void Loader::DatabaseConnect()
     bool ok = _db.open();
     if (ok)
     {
-        qDebug() << "Соединен с " << _db.databaseName() << ".";
+        qDebug() << "Соединен с" << _db.databaseName() << ".";
         QSqlQuery q;
         q.prepare("SELECT Count(*) FROM map");
         q.exec();
