@@ -9,7 +9,7 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    Net *net = new Net("5028316", "bpPr0QAD5gytsbnbGpYK");
+    //Net *net = new Net("5028316", "bpPr0QAD5gytsbnbGpYK");
 
     Loader *loader = new Loader();
     loader->DatabaseConnect();
@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
     int result = a.exec();
 
-    delete net;
+    //delete net;
     delete loader;
     delete server;
 

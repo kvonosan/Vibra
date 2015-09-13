@@ -738,7 +738,7 @@ int MyClient::GetLife(int pos)
         q2.bindValue(":map", map);
         q2.bindValue(":pos", pos);
         q2.exec();
-        int life = 0, armor;
+        int life = 0, armor = 0;
         if (q2.next())
         {
             life = q2.value(0).toInt();
