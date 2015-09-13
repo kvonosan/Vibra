@@ -19,6 +19,7 @@ void Loader::DatabaseConnect()
     bool ok = _db.open();
     if (ok)
     {
+        qDebug() << "Соединен с " << _db.databaseName() << ".";
         QSqlQuery q;
         q.prepare("SELECT Count(*) FROM map");
         q.exec();
@@ -34,7 +35,7 @@ void Loader::DatabaseConnect()
         }
     } else
     {
-        qDebug() << "Connect to database error.";
+        qDebug() << "Ошибка соединения с базой данных " << _db.databaseName() << ".";
         exit(-1);
     }
 }
@@ -54,6 +55,7 @@ void Loader::GenerateTables()
         qDebug() << "Пожалуйста, заполните таблицы данными, они пусты.";
         exit(1);
     }
+    qDebug << "Начальные таблицы заполнены.";
 }
 
 void Loader::GenerateStartMap()
@@ -73,12 +75,22 @@ void Loader::GenerateStartMap()
         q1.prepare("INSERT INTO world (sector_length, penta, yota) VALUES(:sector,12,100)");
         q1.bindValue(":sector", sector_len);
         q1.exec();
+        qDebug() << "Создан сектор " << QString::number(sector_len) << ".";
     }
     QString newmap = Generate768d();
     QSqlQuery q2;
     q2.prepare("INSERT INTO map (inleft, inright, intop, inbottom, infront, inbehind, data) VALUES(0,0,0,0,0,0,:data)");
     q2.bindValue(":data", newmap);
     q2.exec();
+    QSqlQuery q3;
+    q3.prepare("SELECT map_id FROM map ORDER BY map_id DESC LIMIT 1");
+    q3.exec();
+    int last = 0;
+    if (q3.next())
+    {
+        last = q3.value(0).toInt();
+    }
+    qDebug() << "Создана новая карта с id = " << last << ".";
 }
 
 QString Loader::Generate768d()
@@ -160,6 +172,7 @@ QString Loader::Bufferize(Player *player)
     {
         data = q2.value(0).toString();
     }
+    qDebug() << "Игроку id = " << player->_player_id << "Загружена карта с id = " << map_id << ".";
     return data;
 }
 

@@ -80,6 +80,7 @@ void MyClient::VkAuth(QString access_token)
 
 void MyClient::readyRead()
 {
+    qDebug() << "readyread";
     _player->_level = 0;
     QByteArray array = _socket->readAll();
     QString str = QString::fromUtf8(array.toStdString().c_str());
