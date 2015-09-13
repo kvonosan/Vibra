@@ -24,11 +24,11 @@ void MyServer::startServer()
 {
     if(listen(QHostAddress::Any, 33333))
     {
-        qDebug() << "Server: started";
+        qDebug() << "Сервер запущен.";
     }
     else
     {
-        qDebug() << "Server: not started!";
+        qDebug() << "Сервер не запущен!";
     }
 }
 

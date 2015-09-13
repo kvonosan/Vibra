@@ -55,7 +55,7 @@ void Loader::GenerateTables()
         qDebug() << "Пожалуйста, заполните таблицы данными, они пусты.";
         exit(1);
     }
-    qDebug << "Начальные таблицы заполнены.";
+    qDebug() << "Начальные таблицы заполнены.";
 }
 
 void Loader::GenerateStartMap()
