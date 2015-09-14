@@ -100,7 +100,7 @@ void Net::NetConnect(Base *base)
 
 void Net::Connected()
 {
-    QString str = "token " + _access_token;
+    QString str = "id " + _vk_user_id;
     _tcp->write(str.toUtf8());
     connect(_tcp, SIGNAL(readyRead()), this, SLOT(readyRead()));
 }

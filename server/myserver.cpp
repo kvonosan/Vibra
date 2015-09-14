@@ -5,7 +5,7 @@ MyServer::MyServer(Loader *loader, QObject *parent) :
 {
     if (loader==NULL)
     {
-        qDebug() << "loader == NULL";
+        qDebug() << "Ошибка: loader == NULL.";
         exit(-1);
     }
     _loader = loader;

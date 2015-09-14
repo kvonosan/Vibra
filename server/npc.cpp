@@ -6,7 +6,7 @@ Npc::Npc(Player *player)
 {
     if (player == NULL)
     {
-        qDebug() << "Error player == NULL.";
+        qDebug() << "Ошибка: player == NULL.";
         exit(-1);
     }
     _player = player;
@@ -232,7 +232,7 @@ bool Npc::fireToNpc(int pos)
     if (_levelup)
     {
         level++;
-        qDebug() << "player with id = " << QString::number(_player->_player_id) << " levelup. level "
+        qDebug() << "Игрок с id = " << QString::number(_player->_player_id) << " levelup. Уровень "
                  << level;
         QSqlQuery q14;
         q14.prepare("UPDATE rating SET exp=:exp WHERE player_id=:player_id");

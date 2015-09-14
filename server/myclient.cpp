@@ -7,7 +7,7 @@ MyClient::MyClient(Loader *loader, QObject *parent) :
     _delete = false;
     if (loader == NULL)
     {
-        qDebug() << "Error loader == NULL.";
+        qDebug() << "Ошибка loader == NULL.";
         exit(-1);
     }
     _loader = loader;
@@ -42,43 +42,6 @@ void MyClient::disconnected()
     qDebug() << "Клиент отсоединился.";
 }
 
-void MyClient::VkAuth(QString access_token)
-{
-    _manager = new QNetworkAccessManager(0);
-    _reply = _manager->get(QNetworkRequest(QUrl("https://api.vk.com/method/users.get?v=5.37&"+access_token)));
-    QEventLoop loop;
-    connect(_reply, SIGNAL(finished()), &loop, SLOT(quit()));
-    loop.exec();
-    QByteArray recv = _reply->readAll();
-    QString recv_str = QString::fromUtf8(recv.toStdString().c_str());
-    if (recv_str.contains("error"))
-    {
-        qDebug() << recv_str;
-        QByteArray array;
-        QDataStream stream(&array, QIODevice::WriteOnly);
-        stream << 0;
-        _socket->write(array.toHex());
-        _socket->close();
-        _delete = true;
-    } else
-    {
-        QJsonDocument document = QJsonDocument::fromJson(recv);
-        QJsonObject object = document.object();
-        QJsonValue value = object.value("response");
-        QJsonArray array1 = value.toArray();
-        foreach (const QJsonValue & v, array1)
-        {
-            _player->_player_id_vk =  v.toObject().value("id").toInt();
-            //_firstName = v.toObject().value("first_name").toString();
-            //_lastName = v.toObject().value("last_name").toString();
-        }
-        _player->Search();
-        QString str =  QString("id") + " " + QString::number(_player->_player_id);
-        _socket->write(str.toUtf8());
-    }
-    delete _manager;
-}
-
 void MyClient::readyRead()
 {
     qDebug() << "readyread";
@@ -86,10 +49,13 @@ void MyClient::readyRead()
     QByteArray array = _socket->readAll();
     QString str = QString::fromUtf8(array.toStdString().c_str());
     qDebug() << str;
-    if (str.startsWith("token"))
+    if (str.startsWith("id"))
     {
-        QStringList list = str.split(" ");
-        VkAuth(list[1]);
+        str.replace("id ", "");
+        _player->_player_id_vk = str.toInt();
+        _player->Search();
+        QString str =  QString("id") + " " + QString::number(_player->_player_id);
+        _socket->write(str.toUtf8());
         _player->newPlayer();
         _player->AddToMap();
     } else if (str.startsWith("getinfo"))
@@ -671,7 +637,7 @@ void MyClient::SendInfo()
     }
     if (rating == 0)
     {
-        qDebug() << "Corrupted rating on player_id = " <<  _player->_player_id;
+        qDebug() << "Поврежденный рейтинг у player_id = " <<  _player->_player_id;
     } else
     {
         QSqlQuery q2;
@@ -732,7 +698,7 @@ int MyClient::GetLife(int pos)
     }
     if (map == 0)
     {
-        qDebug() << "Corrupted map on player_id = " <<  _player->_player_id;
+        qDebug() << "Поврежденная карта у player_id = " <<  _player->_player_id;
     } else
     {
         QSqlQuery q2;
@@ -765,7 +731,7 @@ void MyClient::SendParams()
     }
     if (ship == 0)
     {
-        qDebug() << "Error: ship corrupted.";
+        qDebug() << "Ошибка: ship поврежден.";
         exit(-1);
     }
     QSqlQuery q1;
@@ -793,7 +759,7 @@ void MyClient::SendParams()
     }
     if (life == 0)
     {
-        qDebug() << "Error: life corrupted.";
+        qDebug() << "Ошибка: life повреждена.";
         exit(-1);
     }
     QJsonObject obj;
