@@ -17,6 +17,7 @@ public:
     void Left();
     void Right();
     void Bottom();
+    void GetInfo();
     void GetMyPos();
     void GetVKName();
     void GetResource(int pos);

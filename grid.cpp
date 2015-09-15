@@ -58,7 +58,7 @@ void Grid::Paint(QPainter *painter)
         for(int j = 0; j < 24; j++)
         {
             painter->setPen(QPen(_symbols[i][j].TextColor));
-            painter->drawText(i*32 + _otstupX, j*32 + _otstupY, i*32+32 - _otstupX, j*32+32 - _otstupY, Qt::AlignAbsolute, _symbols[i][j]._symbol);
+            painter->drawText(i*32 + _otstupX, j*32 + _otstupY, i*32+32, j*32+32, Qt::AlignAbsolute, _symbols[i][j]._symbol);
         }
     }
 }

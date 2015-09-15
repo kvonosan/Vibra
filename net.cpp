@@ -91,9 +91,9 @@ void Net::NetConnect(Base *base)
     _base = base;
     connect(_tcp, SIGNAL(connected()), this, SLOT(Connected()));
     connect(_tcp, SIGNAL(disconnected()), this, SLOT(Disconnected()));
-    //_tcp->connectToHost("91.215.138.69", _port);
+    _tcp->connectToHost("91.215.138.69", _port);
     _tcp->waitForConnected(2000);
-    _tcp->connectToHost("127.0.0.1", _port);
+    //_tcp->connectToHost("127.0.0.1", _port);
     _connected = true;
     _authorized = false;
 }
@@ -142,8 +142,6 @@ void Net::readyRead()
             _authorized = true;
             GetVKName();
             _base->_hero_obj->_name = _firstName + " "+ _lastName;
-            QString str1 = "getinfo";
-            _tcp->write(str1.toUtf8());
         }
     } else if (str.startsWith("info"))
     {
@@ -187,8 +185,6 @@ void Net::readyRead()
                         || str[g] == 'D' || str[g] == 'E')
                 {
                     sym->_attacked = true;
-                    //sym->_life = 1000;
-                    //sym->_armor = 1000;
                 }
                 g++;
             }
@@ -317,4 +313,10 @@ void Net::GetResource(int pos)
     QString str = "getres " + QString::number(pos);
     _tcp->write(str.toUtf8());
     _tcp->flush();
+}
+
+void Net::GetInfo()
+{
+    QString str1 = "getinfo";
+    _tcp->write(str1.toUtf8());
 }

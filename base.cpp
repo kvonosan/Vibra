@@ -133,6 +133,7 @@ void Base::Click(int x, int y)
             _state = 1;
         } else if (_hero.contains(x,y))
         {
+            _net->GetInfo();
             _state = 2;
         }else if (_bar.contains(x,y))
         {
