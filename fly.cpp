@@ -218,7 +218,7 @@ void Fly::NextTime(QPainter *painter)
         {
             int centrX = (_mycoords[1] - _mycoords[0])/2;
             int centrFireX = (_firecoords[1] - _firecoords[0])/2;
-            int time, lineX, lineY, posX, posY;
+            int time, lineX = 0, lineY = 0, posX = 0, posY = 0;
             if (_time.elapsed() < 1000)
             {
                 time = _time.elapsed()/100;//1..10
