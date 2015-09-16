@@ -21,6 +21,7 @@ void Player::Search()
         count = q.value(0).toInt();
         _player_id = q.value(1).toInt();
     }
+    qDebug() << q.lastError();
     if (count == 0)
     {
         QSqlQuery q1;
@@ -35,6 +36,8 @@ void Player::Search()
             _player_id = q.value(1).toInt();
             qDebug() << "Added new player with id = " + QString::number(_player_id);
         }
+        qDebug() << "after player added";
+        qDebug() << q.lastError();
     } else
     {
         qDebug() << "player_id = " + QString::number(_player_id);
