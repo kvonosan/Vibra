@@ -38,7 +38,7 @@ private:
     QNetworkReply *_reply;
     QString _firstName, _lastName;
     QNetworkAccessManager *_manager;
-    QString _access_token, _vk_user_id;
+    QString _access_token, _vk_user_id, _hostname;
     int _vk_player_id, _player_id, _port;
 public slots:
     void Connected();

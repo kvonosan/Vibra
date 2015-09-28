@@ -20,7 +20,7 @@ Loader::Loader()
         QJsonDocument doc(obj);
         file.write(doc.toJson());
         file.close();
-        qDebug() << "Файл настроек не найдне, загружены стандартные настройки.";
+        qDebug() << "Файл настроек не найден, загружены стандартные настройки.";
     } else
     {
         QJsonDocument doc = QJsonDocument::fromJson(file.readAll());

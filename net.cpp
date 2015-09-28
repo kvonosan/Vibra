@@ -10,6 +10,24 @@ Net::Net()
     _vk_connected = false;
     _disconnect = true;
     _killed = false;
+    QFile file("settings.json");
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        file.open(QIODevice::ReadWrite);
+        QJsonObject obj;
+        obj["hostname"] = "127.0.0.1";
+        _hostname = "127.0.0.1";
+        QJsonDocument doc(obj);
+        file.write(doc.toJson());
+        file.close();
+        qDebug() << "Файл настроек не найден, загружены стандартные настройки.";
+    } else
+    {
+        QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+        QJsonObject obj = doc.object();
+        _hostname = obj["hostname"].toString();
+        qDebug() << "Настройки загружены.";
+    }
 }
 
 Net::~Net()
@@ -91,8 +109,8 @@ void Net::NetConnect(Base *base)
     _base = base;
     connect(_tcp, SIGNAL(connected()), this, SLOT(Connected()));
     connect(_tcp, SIGNAL(disconnected()), this, SLOT(Disconnected()));
-    _tcp->connectToHost("91.215.138.69", _port);
-    _tcp->waitForConnected(2000);
+    _tcp->connectToHost(_hostname, _port);
+    //_tcp->waitForConnected(2000);
     //_tcp->connectToHost("127.0.0.1", _port);
     _connected = true;
     _authorized = false;
