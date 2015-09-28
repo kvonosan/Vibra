@@ -1,0 +1,11 @@
+﻿Rорабль является вместилищем ячеек памяти, ящиком.
+
+Kill ADD_MEMORY A(1 BYTE) B(2 WORD) C(3 BYTEWORD) D(4 DWORD) E(5 DWORDBYTE) добавление памяти в ящик.
+Die RETURN A(PROG -2) B(PROG -1) C(PROG) D(PROG + 1) E(PROG +2) переход в начало программы.
+Fire OPERATION A(+1) B(-1) C(*2) D(остаток от деления на 2) E(целочисленное деление)
+Left GOTO LEFT
+Right GOTO RIGHT
+Up GOTO UP
+Down GOTO DOWN
+R Print
+B IF вернуться на RANDOM ячеек назад если следующий не 0.

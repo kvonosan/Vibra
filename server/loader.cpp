@@ -4,6 +4,33 @@
 
 Loader::Loader()
 {
+    QFile file("settings.json");
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        file.open(QIODevice::ReadWrite);
+        QJsonObject obj;
+        obj["hostname"] = "127.0.0.1";
+        _hostname = "127.0.0.1";
+        obj["databasename"] = "yotanet768d";
+        _databasename = "yotanet768d";
+        obj["username"] = "root";
+        _username = "root";
+        obj["password"] = "1234";
+        _password = "1234";
+        QJsonDocument doc(obj);
+        file.write(doc.toJson());
+        file.close();
+        qDebug() << "Файл настроек не найдне, загружены стандартные настройки.";
+    } else
+    {
+        QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+        QJsonObject obj = doc.object();
+        _hostname = obj["hostname"].toString();
+        _databasename = obj["databasename"].toString();
+        _username = obj["username"].toString();
+        _password = obj["password"].toString();
+        qDebug() << "Настройки загружены.";
+    }
 }
 
 Loader::~Loader()
@@ -13,10 +40,10 @@ Loader::~Loader()
 void Loader::DatabaseConnect()
 {
     _db = QSqlDatabase::addDatabase("QMYSQL");
-    _db.setHostName("127.0.0.1");
-    _db.setDatabaseName("yotanet768d");
-    _db.setUserName("root");
-    _db.setPassword("1234");
+    _db.setHostName(_hostname);
+    _db.setDatabaseName(_databasename);
+    _db.setUserName(_username);
+    _db.setPassword(_password);
     bool ok = _db.open();
     if (ok)
     {

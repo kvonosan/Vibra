@@ -21,7 +21,7 @@ public:
     void GenerateRightMap(Player *player);
     void GenerateBottomMap(Player *player);
     QSqlDatabase _db;
-    QString _settingsFile;
+    QString _hostname, _databasename, _username, _password;
 };
 
 #endif // LOADER
