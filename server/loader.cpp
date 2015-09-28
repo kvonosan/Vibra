@@ -1,5 +1,6 @@
 #include "loader.h"
 #include <QDebug>
+#include <QSettings>
 
 Loader::Loader()
 {
@@ -42,6 +43,14 @@ void Loader::DatabaseConnect()
 
 void Loader::GenerateTables()
 {
+    if (!_db.isOpen())
+    {
+        if (!_db.open())
+        {
+            qDebug() << "Error when connecting to db:" << _db.lastError();
+            exit(-1);
+        }
+    }
     QSqlQuery q;
     q.prepare("SELECT Count(*) FROM race");
     q.exec();
@@ -60,6 +69,14 @@ void Loader::GenerateTables()
 
 void Loader::GenerateStartMap()
 {
+    if (!_db.isOpen())
+    {
+        if (!_db.open())
+        {
+            qDebug() << "Error when connecting to db:" << _db.lastError();
+            exit(-1);
+        }
+    }
     QSqlQuery q;
     q.prepare("SELECT sector_length FROM world");
     q.exec();
@@ -95,51 +112,59 @@ void Loader::GenerateStartMap()
 
 QString Loader::Generate768d()
 {
-        int i=0, g=0;
-        QString str;
-        QChar symbol = ' ';
-        while (i<768)
+    if (!_db.isOpen())
+    {
+        if (!_db.open())
         {
-            g = rand()%100;
-            //qDebug() << g <<"\n";
-            if (g >= 0 && g <=80)
-            {
-                symbol = ' ';//No
-            } else if (g == 81 || g == 82)
-            {
-                symbol = 'A';
-            } else if (g == 83 ||g == 84)
-            {
-                symbol = 'B';
-            } else if (g == 85 || g == 86)
-            {
-                symbol = 'C';
-            } else if (g == 87 || g == 88)
-            {
-                symbol = 'D';
-            } else if (g == 89 || g==90)
-            {
-                symbol = 'E';
-            } else if (g == 91 || g == 92)
-            {
-                symbol = 'p';//Planet
-            } else if (g == 93 || g == 94)
-            {
-                symbol = 'b';//Base
-            } else if (g == 95 || g == 96)
-            {
-                symbol = 's';//Star
-            } else if (g == 97 || g == 98)
-            {
-                //symbol = 'a';//Asteroid
-            } else if (g == 99 || g == 100)
-            {
-                symbol = 'r';//Resource
-            }
-            str += QString(symbol);
-            i++;
+            qDebug() << "Error when connecting to db:" << _db.lastError();
+            exit(-1);
         }
-        return str + '.';
+    }
+    int i=0, g=0;
+    QString str;
+    QChar symbol = ' ';
+    while (i<768)
+    {
+        g = rand()%100;
+        //qDebug() << g <<"\n";
+        if (g >= 0 && g <=80)
+        {
+            symbol = ' ';//No
+        } else if (g == 81 || g == 82)
+        {
+            symbol = 'A';
+        } else if (g == 83 ||g == 84)
+        {
+            symbol = 'B';
+        } else if (g == 85 || g == 86)
+        {
+            symbol = 'C';
+        } else if (g == 87 || g == 88)
+        {
+            symbol = 'D';
+        } else if (g == 89 || g==90)
+        {
+            symbol = 'E';
+        } else if (g == 91 || g == 92)
+        {
+            symbol = 'p';//Planet
+        } else if (g == 93 || g == 94)
+        {
+            symbol = 'b';//Base
+        } else if (g == 95 || g == 96)
+        {
+            symbol = 's';//Star
+        } else if (g == 97 || g == 98)
+        {
+            //symbol = 'a';//Asteroid
+        } else if (g == 99 || g == 100)
+        {
+            symbol = 'r';//Resource
+        }
+        str += QString(symbol);
+        i++;
+    }
+    return str + '.';
 }
 
 QString Loader::Bufferize(Player *player)
@@ -148,6 +173,14 @@ QString Loader::Bufferize(Player *player)
     {
         qDebug() << "Error player == NULL.";
         exit(-1);
+    }
+    if (!_db.isOpen())
+    {
+        if (!_db.open())
+        {
+            qDebug() << "Error when connecting to db:" << _db.lastError();
+            exit(-1);
+        }
     }
     QSqlQuery q1;
     q1.prepare("SELECT map FROM player WHERE player_id=:p");
@@ -178,6 +211,19 @@ QString Loader::Bufferize(Player *player)
 
 void Loader::GenerateLeftMap(Player *player)
 {
+    if (player == NULL)
+    {
+        qDebug() << "Error player == NULL.";
+        exit(-1);
+    }
+    if (!_db.isOpen())
+    {
+        if (!_db.open())
+        {
+            qDebug() << "Error when connecting to db:" << _db.lastError();
+            exit(-1);
+        }
+    }
     QString map = Generate768d();
     QSqlQuery q1;
     q1.prepare("INSERT INTO map (inleft, inright, intop, inbottom, infront, inbehind, data) VALUES(0,:inright,0,0,0,0,:data)");
@@ -256,6 +302,19 @@ void Loader::GenerateLeftMap(Player *player)
 
 void Loader::GenerateRightMap(Player *player)
 {
+    if (player == NULL)
+    {
+        qDebug() << "Error player == NULL.";
+        exit(-1);
+    }
+    if (!_db.isOpen())
+    {
+        if (!_db.open())
+        {
+            qDebug() << "Error when connecting to db:" << _db.lastError();
+            exit(-1);
+        }
+    }
     QString map = Generate768d();
     QSqlQuery q1;
     q1.prepare("INSERT INTO map (inleft, inright, intop, inbottom, infront, inbehind, data) VALUES(:inleft,0,0,0,0,0,:data)");
@@ -330,6 +389,19 @@ void Loader::GenerateRightMap(Player *player)
 
 void Loader::GenerateTopMap(Player *player)
 {
+    if (player == NULL)
+    {
+        qDebug() << "Error player == NULL.";
+        exit(-1);
+    }
+    if (!_db.isOpen())
+    {
+        if (!_db.open())
+        {
+            qDebug() << "Error when connecting to db:" << _db.lastError();
+            exit(-1);
+        }
+    }
     QString map = Generate768d();
     QSqlQuery q1;
     q1.prepare("INSERT INTO map (inleft, inright, intop, inbottom, infront, inbehind, data) VALUES(0,0,0,:inbottom,0,0,:data)");
@@ -404,6 +476,19 @@ void Loader::GenerateTopMap(Player *player)
 
 void Loader::GenerateBottomMap(Player *player)
 {
+    if (player == NULL)
+    {
+        qDebug() << "Error player == NULL.";
+        exit(-1);
+    }
+    if (!_db.isOpen())
+    {
+        if (!_db.open())
+        {
+            qDebug() << "Error when connecting to db:" << _db.lastError();
+            exit(-1);
+        }
+    }
     QString map = Generate768d();
     QSqlQuery q1;
     q1.prepare("INSERT INTO map (inleft, inright, intop, inbottom, infront, inbehind, data) VALUES(0,0,:intop,0,0,0,:data)");

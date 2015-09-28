@@ -4,6 +4,8 @@
 #include <QtSql>
 #include "player.h"
 
+class Player;
+
 class Loader
 {
 public:
@@ -18,8 +20,8 @@ public:
     void GenerateLeftMap(Player *player);
     void GenerateRightMap(Player *player);
     void GenerateBottomMap(Player *player);
-private:
     QSqlDatabase _db;
+    QString _settingsFile;
 };
 
 #endif // LOADER

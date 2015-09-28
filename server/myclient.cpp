@@ -28,7 +28,7 @@ void MyClient::setSocket(qintptr descriptor)
     connect(_socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
     connect(_socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
     _socket->setSocketDescriptor(descriptor);
-    _player = new Player();
+    _player = new Player(_loader);
     qDebug() << "Клиент подсоединен на дескриптор " << descriptor << ".";
 }
 
@@ -67,6 +67,14 @@ void MyClient::readyRead()
         _socket->write(map.toUtf8());
     } else if (str.startsWith("left"))
     {
+        if (!_loader->_db.isOpen())
+        {
+            if (!_loader->_db.open())
+            {
+                qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+                exit(-1);
+            }
+        }
         bool generate = false;
         bool map_not_found = false;
         bool hod = true;
@@ -178,6 +186,14 @@ void MyClient::readyRead()
         }
     } else if (str.startsWith("right"))
     {
+        if (!_loader->_db.isOpen())
+        {
+            if (!_loader->_db.open())
+            {
+                qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+                exit(-1);
+            }
+        }
         bool generate = false;
         bool map_not_found = false;
         bool hod = true;
@@ -282,6 +298,14 @@ void MyClient::readyRead()
         }
     } else if (str.startsWith("top"))
     {
+        if (!_loader->_db.isOpen())
+        {
+            if (!_loader->_db.open())
+            {
+                qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+                exit(-1);
+            }
+        }
         bool generate = false;
         bool map_not_found = false;
         bool hod = true;
@@ -382,6 +406,14 @@ void MyClient::readyRead()
         }
     } else if (str.startsWith("bottom"))
     {
+        if (!_loader->_db.isOpen())
+        {
+            if (!_loader->_db.open())
+            {
+                qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+                exit(-1);
+            }
+        }
         bool generate = false;
         bool map_not_found = false;
         bool hod = true;
@@ -486,10 +518,18 @@ void MyClient::readyRead()
         _socket->write(send.toUtf8());
     } else if (str.startsWith("fire"))
     {
+        if (!_loader->_db.isOpen())
+        {
+            if (!_loader->_db.open())
+            {
+                qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+                exit(-1);
+            }
+        }
         str.replace("fire ", "");
         if (_fireNpc == NULL)
         {
-            _fireNpc = new Npc(_player);
+            _fireNpc = new Npc(_player, _loader);
         }
         if (_fireNpc != NULL)
         {
@@ -547,6 +587,14 @@ void MyClient::readyRead()
         }
     } else if (str.startsWith("getres"))
     {
+        if (!_loader->_db.isOpen())
+        {
+            if (!_loader->_db.open())
+            {
+                qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+                exit(-1);
+            }
+        }
         str.replace("getres ", "");
         int pos = str.toInt();
         QSqlQuery q1;
@@ -618,6 +666,14 @@ void MyClient::readyRead()
 
 void MyClient::SendInfo()
 {
+    if (!_loader->_db.isOpen())
+    {
+        if (!_loader->_db.open())
+        {
+            qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+            exit(-1);
+        }
+    }
     QSqlQuery q1;
     q1.prepare("SELECT rating, gold, credits, race, ship, level FROM player "
                "WHERE player_id=:id");
@@ -687,6 +743,14 @@ void MyClient::SendInfo()
 
 int MyClient::GetLife(int pos)
 {
+    if (!_loader->_db.isOpen())
+    {
+        if (!_loader->_db.open())
+        {
+            qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+            exit(-1);
+        }
+    }
     QSqlQuery q1;
     q1.prepare("SELECT map FROM player WHERE player_id=:id");
     q1.bindValue(":id", _player->_player_id);
@@ -720,6 +784,14 @@ int MyClient::GetLife(int pos)
 
 void MyClient::SendParams()
 {
+    if (!_loader->_db.isOpen())
+    {
+        if (!_loader->_db.open())
+        {
+            qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+            exit(-1);
+        }
+    }
     QSqlQuery q3;
     q3.prepare("SELECT ship FROM player WHERE player_id=:player_id");
     q3.bindValue(":player_id", _player->_player_id);

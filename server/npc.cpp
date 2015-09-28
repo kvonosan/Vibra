@@ -2,7 +2,7 @@
 #include <QtSql>
 #include <QDebug>
 
-Npc::Npc(Player *player)
+Npc::Npc(Player *player, Loader *loader)
 {
     if (player == NULL)
     {
@@ -10,6 +10,12 @@ Npc::Npc(Player *player)
         exit(-1);
     }
     _player = player;
+    if (loader == NULL)
+    {
+        qDebug() << "Ошибка: loader == NULL.";
+        exit(-1);
+    }
+    _loader = loader;
     _found = false;
     _killed = false;
 }
@@ -19,6 +25,14 @@ Npc::~Npc()
 
 bool Npc::fireToNpc(int pos)
 {
+    if (!_loader->_db.isOpen())
+    {
+        if (!_loader->_db.open())
+        {
+            qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+            exit(-1);
+        }
+    }
     QChar fireToClass = ' ';
     QSqlQuery q1;
     q1.prepare("SELECT data FROM map WHERE map_id=:map_id");

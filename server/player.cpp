@@ -1,8 +1,14 @@
 #include <QtSql>
 #include "player.h"
 
-Player::Player()
+Player::Player(Loader *loader)
 {
+    if (loader == NULL)
+    {
+        qDebug() << "Ошибка: loader == NULL.";
+        exit(-1);
+    }
+    _loader = loader;
 }
 
 Player::~Player()
@@ -11,6 +17,14 @@ Player::~Player()
 
 void Player::Search()
 {
+    if (!_loader->_db.isOpen())
+    {
+        if (!_loader->_db.open())
+        {
+            qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+            exit(-1);
+        }
+    }
     QSqlQuery q;
     q.prepare("SELECT count(player_id),player_id FROM player WHERE vk_id=:id");
     q.bindValue(":id", _player_id_vk);
@@ -46,6 +60,14 @@ void Player::Search()
 
 void Player::newPlayer()
 {
+    if (!_loader->_db.isOpen())
+    {
+        if (!_loader->_db.open())
+        {
+            qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+            exit(-1);
+        }
+    }
     QSqlQuery q;
     q.prepare("SELECT level FROM player WHERE player_id=:id");
     q.bindValue(":id", _player_id);
@@ -151,6 +173,14 @@ void Player::newPlayer()
 
 void Player::AddToMap()
 {
+    if (!_loader->_db.isOpen())
+    {
+        if (!_loader->_db.open())
+        {
+            qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+            exit(-1);
+        }
+    }
     QSqlQuery q4;
     q4.prepare("SELECT map, ship FROM player WHERE player_id=:id");
     q4.bindValue(":id", _player_id);

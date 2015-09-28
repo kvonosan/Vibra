@@ -1,10 +1,13 @@
 #ifndef PLAYER
 #define PLAYER
 
+#include "loader.h"
+class Loader;
+
 class Player
 {
 public:
-    Player();
+    Player(Loader *loader);
     ~Player();
     void Search();
     void AddToMap();
@@ -12,6 +15,7 @@ public:
     int _player_id;
     int _player_id_vk;
     int _pos, _map, _level;
+    Loader *_loader;
 };
 
 #endif // PLAYER
