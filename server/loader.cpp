@@ -68,6 +68,12 @@ void Loader::DatabaseConnect()
     }
 }
 
+void Loader::Reconnect()
+{
+    _db.close();
+    _db.open();
+}
+
 void Loader::GenerateTables()
 {
     if (!_db.isOpen())

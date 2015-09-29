@@ -11,6 +11,7 @@ class Loader
 public:
     Loader();
     ~Loader();
+    void Reconnect();
     void GenerateTables();
     void DatabaseConnect();
     QString Generate768d();
