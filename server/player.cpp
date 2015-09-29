@@ -23,7 +23,13 @@ void Player::Search()
         {
             qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
             exit(-1);
+        } else
+        {
+            qDebug() << "NO Error when connecting to db:" << _loader->_db.lastError();
         }
+    } else
+    {
+        qDebug() << "NO Error when connecting to db:" << _loader->_db.lastError();
     }
     QSqlQuery q;
     q.prepare("SELECT count(player_id),player_id FROM player WHERE vk_id=:id");
@@ -50,8 +56,10 @@ void Player::Search()
             _player_id = q.value(1).toInt();
             qDebug() << "Added new player with id = " + QString::number(_player_id);
         }
-        qDebug() << "after player added";
+        qDebug() << "after player added 1";
         qDebug() << q.lastError();
+        qDebug() << "after player added 2";
+        qDebug() << q1.lastError();
     } else
     {
         qDebug() << "player_id = " + QString::number(_player_id);
