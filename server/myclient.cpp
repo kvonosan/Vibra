@@ -30,6 +30,7 @@ void MyClient::setSocket(qintptr descriptor)
     _socket->setSocketDescriptor(descriptor);
     _player = new Player(_loader);
     qDebug() << "Клиент подсоединен на дескриптор " << descriptor << ".";
+    _loader->Reconnect();
 }
 
 void MyClient::connected()
