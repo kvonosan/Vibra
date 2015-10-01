@@ -42,6 +42,7 @@ void Rating::Paint(QPainter *painter)
     font.setPixelSize(32);
     painter->setFont(font);
     painter->drawText(_back, Qt::AlignCenter, QStringLiteral("Назад"));
+    painter->setPen(QPen(Qt::lightGray));
     painter->drawText(_ramka1_capt, Qt::AlignCenter, QStringLiteral("Топ игроков"));
 }
 
