@@ -41,6 +41,17 @@ Grid::Grid(QWindow *parent)
         }
 }
 
+void Grid::Clear()
+{
+    for (int i=0; i<_symbols.size(); i++)
+    {
+        for (int j=0; j<_symbols[i].size(); j++)
+        {
+            _symbols[i][j]._symbol = ' ';
+        }
+    }
+}
+
 Grid::~Grid()
 {}
 

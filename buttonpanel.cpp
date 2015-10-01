@@ -145,6 +145,7 @@ void ButtonPanel::Click(int x, int y)
                 for (int i=0; i<32;i++)
                     for (int j=0;j<24;j++)
                     {
+                        _grid->GetSymbolAt(i,j)->TextColor = Qt::white;
                         stream >> (_grid->GetSymbolAt(i,j)->_symbol);
                     }
                 file.close();
@@ -216,10 +217,22 @@ void ButtonPanel::SetMousePressed(bool pressed, int x, int y)
     _mousey = y;
     if (_mousepressed)
     {
-        Symbol *current = _grid->GetSymbolAtWH(x, y);
-        if (current != NULL)
+        if (_cursor == 4)
         {
-            current->_symbol = _paintsymbol;
+            _grid->Clear();
+        } else
+        {
+            Symbol *current = _grid->GetSymbolAtWH(x, y);
+            if (current != NULL)
+            {
+                if (_cursor == 2)
+                {
+                    current->_symbol = _paintsymbol;
+                } else if (_cursor == 3)
+                {
+                    current->_symbol = ' ';
+                }
+            }
         }
     }
 }

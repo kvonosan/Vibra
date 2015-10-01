@@ -23,13 +23,7 @@ void Player::Search()
         {
             qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
             exit(-1);
-        } else
-        {
-            qDebug() << "1NO Error when connecting to db:" << _loader->_db.lastError();
         }
-    } else
-    {
-        qDebug() << "2NO Error when connecting to db:" << _loader->_db.lastError();
     }
     QSqlQuery q;
     q.prepare("SELECT count(player_id),player_id FROM player WHERE vk_id=:id");

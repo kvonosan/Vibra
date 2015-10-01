@@ -10,6 +10,7 @@ class Grid
 public:
     ~Grid();
     Grid(QWindow *parent);
+    void Clear();
     void Paint(QPainter *painter);
     Symbol *GetSymbolAt(int x, int y);
     Symbol *GetSymbolInPos(int mypos);
