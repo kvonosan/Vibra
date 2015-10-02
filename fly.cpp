@@ -105,6 +105,11 @@ void Fly::Paint(QPainter *painter)
                     || (_mycoords[0] > _parent->width()-400 && _mycoords[2] > _parent->height()-160))
             {
                 _popup->_rightBottom = false;
+                if ((_firecoords[0] > _parent->width()-400 && _firecoords[2] > 0 && _firecoords[2] < 120 )
+                        || (_mycoords[0] > _parent->width()-400 && _mycoords[2] > 0 && _mycoords[2] < 120))
+                {
+                    _popup->_leftBottom = true;
+                }
             } else
             {
                 _popup->_rightBottom = true;
@@ -218,8 +223,8 @@ void Fly::NextTime(QPainter *painter)
         {
             int centrX = (_mycoords[1] - _mycoords[0])/2;
             int centrFireX = (_firecoords[1] - _firecoords[0])/2;
-            int time, lineX = 0, lineY = 0, posX = 0, posY = 0;
-            if (_time.elapsed() < 1000)
+            float time, lineX = 0, lineY = 0, posX = 0, posY = 0;
+            if (_time.elapsed() < 2000)
             {
                 time = _time.elapsed()/100;//1..10
                 lineX = abs((_mycoords[0] + centrX) - (_firecoords[0] + centrFireX));
@@ -244,7 +249,8 @@ void Fly::NextTime(QPainter *painter)
                 {
                     mnY = -1;
                 }
-                painter->drawText(QRect(_mycoords[0]+posX*mnX, _mycoords[2]+posY*mnY, 32, 32),"*");
+                painter->setPen(QPen(Qt::green));
+                painter->drawText(QRectF(_mycoords[0]+posX*mnX, _mycoords[2]+posY*mnY, 32, 32),"*");
                 if (posX >= lineX && posY >= lineY)
                 {
                     _net->Fire(_current->_number, _popup);

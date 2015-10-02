@@ -23,6 +23,7 @@ public:
     Fly(Net *net, QWindow *parent, Base *base);
     Grid *_grid;
 private:
+    float _posX, _posY;
     Net *_net;
     QTime _time;
     Base *_base;

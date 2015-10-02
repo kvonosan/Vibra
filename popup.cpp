@@ -31,9 +31,18 @@ void Popup::Paint(QPainter *painter)
         painter->drawText(popup, Qt::AlignCenter, "Противник " + QString::number(_life_enemy) + "\nСвой " + QString::number(_life));
     } else
     {
-        QRect popup(_parent->width()-400, 20, 300, 120);
-        painter->fillRect(popup, Qt::black);
-        painter->drawRect(popup);
-        painter->drawText(popup, Qt::AlignCenter, "Противник " + QString::number(_life_enemy) + "\nСвой " + QString::number(_life));
+        if (_leftBottom)
+        {
+            QRect popup(100, 20, 300, 120);
+            painter->fillRect(popup, Qt::black);
+            painter->drawRect(popup);
+            painter->drawText(popup, Qt::AlignCenter, "Противник " + QString::number(_life_enemy) + "\nСвой " + QString::number(_life));
+        } else
+        {
+            QRect popup(_parent->width()-400, 20, 300, 120);
+            painter->fillRect(popup, Qt::black);
+            painter->drawRect(popup);
+            painter->drawText(popup, Qt::AlignCenter, "Противник " + QString::number(_life_enemy) + "\nСвой " + QString::number(_life));
+        }
     }
 }

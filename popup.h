@@ -10,7 +10,7 @@ public:
     ~Popup();
     void Paint(QPainter *painter);
     QWindow *_parent;
-    bool _rightBottom;
+    bool _rightBottom, _leftBottom;
     int _life_enemy, _life;
 };
 #endif // POPUP
