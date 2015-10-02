@@ -1,4 +1,4 @@
-установка server в Centos 7
+﻿установка server в Centos 7
 yum -y install gcc
 yum -y install make
 yum -y install qt

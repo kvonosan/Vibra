@@ -1,4 +1,4 @@
-установка yotanet768d в Centos 7
+﻿установка yotanet768d в Centos 7
 Ставим qt:
 yum install -y epel-release
 yum install -y git
