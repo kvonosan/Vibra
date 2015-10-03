@@ -11,6 +11,7 @@
 
 class Base;
 class Net;
+class Grid;
 
 class Fly
 {

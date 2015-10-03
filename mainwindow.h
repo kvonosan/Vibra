@@ -8,6 +8,7 @@
 #include "buttonpanel.h"
 
 class Net;
+class ButtonPanel;
 
 class MainWindow : public QWindow
 {

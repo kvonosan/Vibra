@@ -11,7 +11,7 @@ MainWindow::MainWindow(int _width, int _height, bool game_mode, bool edit_mode, 
     _game_mode = game_mode;
     if (_edit_mode)
     {
-        _grid = new Grid(this);
+        _grid = new Grid(this, NULL);
         _panel = new ButtonPanel(this, _grid);
         _end_timer_edit = false;
         _start_timer_edit = true;

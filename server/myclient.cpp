@@ -55,7 +55,7 @@ void MyClient::readyRead()
         str.replace("id ", "");
         _player->_player_id_vk = str.toInt();
         _player->Search();
-        QString str =  QString("id") + " " + QString::number(_player->_player_id);
+        QString str =  QString("id") + " " + QString::number(_player->_player_id) + " " + QString::number(_player->_pos);
         _socket->write(str.toUtf8());
         _player->newPlayer();
         _player->AddToMap();

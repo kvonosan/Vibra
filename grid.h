@@ -4,12 +4,15 @@
 #include <QFont>
 #include "symbol.h"
 #include <QVector>
+#include "base.h"
+
+class Base;
 
 class Grid
 {
 public:
     ~Grid();
-    Grid(QWindow *parent);
+    Grid(QWindow *parent, Base *base);
     void Clear();
     void Paint(QPainter *painter);
     Symbol *GetSymbolAt(int x, int y);
@@ -18,6 +21,7 @@ public:
     Symbol *GetSymbolAtWH(int width, int heigth);
     QFont _font;
     QWindow *_parent;
+    Base *_base;
     int _otstupX, _otstupY;
     QVector <QVector<Symbol> > _symbols;
 };

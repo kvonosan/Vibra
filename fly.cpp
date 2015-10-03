@@ -27,7 +27,7 @@ Fly::Fly(Net *net, QWindow *parent, Base *base)
     _attack = false;
     int menu_num = 8;
     _compute = false;
-    _grid = new Grid(_parent);
+    _grid = new Grid(_parent, _base);
     _state = QRect(10, 10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
     _exp = QRect(10, _parent->geometry().height()/menu_num*1+10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);
     _energy = QRect(10, _parent->geometry().height()/menu_num*2+10, _parent->geometry().width()-20, _parent->geometry().height()/menu_num-10);

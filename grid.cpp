@@ -1,7 +1,7 @@
 #include "grid.h"
 #include <QDebug>
 
-Grid::Grid(QWindow *parent)
+Grid::Grid(QWindow *parent, Base *base)
 {
     if (parent == NULL)
     {
@@ -9,6 +9,7 @@ Grid::Grid(QWindow *parent)
         exit(-1);
     }
     _parent = parent;
+    _base = base;
     _font.setPixelSize(32);
     if (_parent->width() >= 1024 && _parent->height()>= 768)
     {
@@ -61,6 +62,17 @@ void Grid::Paint(QPainter *painter)
     {
         qDebug() << "Error: painter = NULL.";
         exit(-1);
+    }
+    if (_base != NULL)
+    {
+        for(int j=0; j < 24; j++)
+            for(int i=0; i < 32; i++)
+            {
+                if (_symbols[i][j]._number == _base->_net->_mypos)
+                {
+                    _symbols[i][j].TextColor = Qt::green;
+                }
+            }
     }
     painter->setFont(_font);
     painter->setRenderHint(QPainter::Antialiasing);

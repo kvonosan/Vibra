@@ -26,7 +26,7 @@ void Player::Search()
         }
     }
     QSqlQuery q;
-    q.prepare("SELECT count(player_id),player_id FROM player WHERE vk_id=:id");
+    q.prepare("SELECT count(player_id),player_id,pos FROM player WHERE vk_id=:id");
     q.bindValue(":id", _player_id_vk);
     q.exec();
     int count = 0;
@@ -34,6 +34,7 @@ void Player::Search()
     {
         count = q.value(0).toInt();
         _player_id = q.value(1).toInt();
+        _pos = q.value(2).toInt();
     }
     qDebug() << q.lastError();
     if (count == 0)

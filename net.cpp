@@ -148,9 +148,10 @@ void Net::readyRead()
     if (str.startsWith("id"))
     {
         QStringList list = str.split(" ");
-        bool ok;
-        _player_id = list[1].toInt(&ok, 16);
-        if (!ok)
+        bool ok, ok1;
+        _player_id = list[1].toInt(&ok, 10);
+        _mypos = list[2].toInt(&ok1, 10);
+        if (!ok || !ok1)
         {
             qDebug() << "Net read error.";
             exit(-1);
@@ -271,6 +272,7 @@ void Net::Left()
         QString str = "left";
         _tcp->write(str.toUtf8());
         _tcp->flush();
+        GetMyPos();
     }
 }
 
@@ -281,6 +283,7 @@ void Net::Right()
         QString str = "right";
         _tcp->write(str.toUtf8());
         _tcp->flush();
+        GetMyPos();
     }
 }
 
@@ -291,6 +294,7 @@ void Net::Top()
         QString str = "top";
         _tcp->write(str.toUtf8());
         _tcp->flush();
+        GetMyPos();
     }
 }
 
@@ -301,6 +305,7 @@ void Net::Bottom()
         QString str = "bottom";
         _tcp->write(str.toUtf8());
         _tcp->flush();
+        GetMyPos();
     }
 }
 

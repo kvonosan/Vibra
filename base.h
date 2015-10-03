@@ -34,8 +34,8 @@ public:
     int _state;
     Hero *_hero_obj;
     MainWindow *_mainwindow;
-private:
     Net *_net;
+private:
     QFont _font;
     Bank *_bank_obj;
     QWindow *_parent;
