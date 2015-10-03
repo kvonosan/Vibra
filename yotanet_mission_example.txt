@@ -1,0 +1,14 @@
+a,b,c = cartograph
+{
+	"kill1": "A",
+	"kill2": "B",
+	"kill3": "C",
+	"priz": "cartograph"
+}
+
+d,e = droid
+{
+	"kill1": "D",
+	"kill2": "E",
+	"priz": "droid"
+}

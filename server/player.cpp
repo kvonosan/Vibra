@@ -168,6 +168,26 @@ void Player::newPlayer()
         q9.prepare("UPDATE ship_point SET fire=10, fire_speed=1, fire_link=768 WHERE ship_id=:ship_id");
         q9.bindValue(":ship_id", ship_id);
         q9.exec();
+        QJsonObject obj;
+        obj["kill1"] = "A";
+        obj["kill2"] = "B";
+        obj["kill3"] = "C";
+        obj["priz"] = "cartograph";
+        QJsonDocument doc(obj);
+        QString json = QString::fromUtf8(doc.toJson(QJsonDocument::Compact).toStdString().c_str());
+        QSqlQuery q10;
+        q10.prepare("INSERT INTO mission(player_id, params_json, end) VALUES(:id, :json, 0)");
+        q10.bindValue(":id", _player_id);
+        q10.bindValue(":json", json);
+        q10.exec();
+        QJsonObject obj1;
+        obj1["kill2"] = "D";
+        obj1["kill3"] = "E";
+        obj1["priz"] = "droid";
+        QJsonDocument doc1(obj1);
+        QString json1 = QString::fromUtf8(doc1.toJson(QJsonDocument::Compact).toStdString().c_str());
+        q10.bindValue(":json", json1);
+        q10.exec();
     } else
     {
         qDebug() << "player_id = " + QString::number(_player_id) + " already created.";
