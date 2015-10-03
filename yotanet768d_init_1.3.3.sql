@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Сен 11 2015 г., 12:06
+-- Время создания: Окт 03 2015 г., 12:35
 -- Версия сервера: 5.5.44-MariaDB
 -- Версия PHP: 5.4.16
 
@@ -117,6 +117,20 @@ CREATE TABLE IF NOT EXISTS `circulatory` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `droid`
+--
+
+CREATE TABLE IF NOT EXISTS `droid` (
+  `id` int(10) NOT NULL,
+  `player_id` int(10) NOT NULL,
+  `class` varchar(1) NOT NULL,
+  `time` date NOT NULL,
+  `points` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `engine`
 --
 
@@ -124,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `engine` (
   `engine_id` int(10) NOT NULL,
   `name` varchar(15) NOT NULL,
   `class` varchar(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `engine`
@@ -322,7 +336,20 @@ CREATE TABLE IF NOT EXISTS `map` (
   `infront` int(10) NOT NULL,
   `inbehind` int(10) NOT NULL,
   `data` mediumtext NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `mission`
+--
+
+CREATE TABLE IF NOT EXISTS `mission` (
+  `id` int(10) NOT NULL,
+  `player_id` int(10) NOT NULL,
+  `params_json` varchar(5000) NOT NULL,
+  `end` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -381,7 +408,7 @@ CREATE TABLE IF NOT EXISTS `player` (
   `level` int(10) NOT NULL,
   `map` int(10) NOT NULL,
   `pos` int(10) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -493,7 +520,7 @@ CREATE TABLE IF NOT EXISTS `rating` (
   `credits` int(10) NOT NULL,
   `player_id` int(10) NOT NULL,
   `fights` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -631,7 +658,7 @@ CREATE TABLE IF NOT EXISTS `ship` (
   `weapons` int(10) NOT NULL,
   `improvement` int(10) NOT NULL,
   `accelerator` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -686,7 +713,7 @@ CREATE TABLE IF NOT EXISTS `ship_point` (
   `fire_link` int(10) NOT NULL,
   `map` int(10) NOT NULL,
   `pos` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -830,6 +857,12 @@ ALTER TABLE `circulatory`
   ADD PRIMARY KEY (`circulatory_id`);
 
 --
+-- Индексы таблицы `droid`
+--
+ALTER TABLE `droid`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `engine`
 --
 ALTER TABLE `engine`
@@ -900,6 +933,12 @@ ALTER TABLE `improvement`
 --
 ALTER TABLE `map`
   ADD PRIMARY KEY (`map_id`);
+
+--
+-- Индексы таблицы `mission`
+--
+ALTER TABLE `mission`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `muscle`
@@ -1076,10 +1115,15 @@ ALTER TABLE `chinilka`
 ALTER TABLE `circulatory`
   MODIFY `circulatory_id` int(10) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT для таблицы `droid`
+--
+ALTER TABLE `droid`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT для таблицы `engine`
 --
 ALTER TABLE `engine`
-  MODIFY `engine_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `engine_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT для таблицы `escadra`
 --
@@ -1134,7 +1178,12 @@ ALTER TABLE `improvement`
 -- AUTO_INCREMENT для таблицы `map`
 --
 ALTER TABLE `map`
-  MODIFY `map_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `map_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT для таблицы `mission`
+--
+ALTER TABLE `mission`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT для таблицы `muscle`
 --
@@ -1154,7 +1203,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT для таблицы `player`
 --
 ALTER TABLE `player`
-  MODIFY `player_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `player_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT для таблицы `protection`
 --
@@ -1179,7 +1228,7 @@ ALTER TABLE `rank`
 -- AUTO_INCREMENT для таблицы `rating`
 --
 ALTER TABLE `rating`
-  MODIFY `rating_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `rating_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT для таблицы `reproduction`
 --
@@ -1224,7 +1273,7 @@ ALTER TABLE `screen`
 -- AUTO_INCREMENT для таблицы `ship`
 --
 ALTER TABLE `ship`
-  MODIFY `ship_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `ship_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT для таблицы `ship_body`
 --
@@ -1234,7 +1283,7 @@ ALTER TABLE `ship_body`
 -- AUTO_INCREMENT для таблицы `ship_point`
 --
 ALTER TABLE `ship_point`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT для таблицы `spec`
 --

@@ -1,0 +1,18 @@
+a,b,c = cartograph
+{"items": [
+		{
+			"kill1": "A",
+			"kill2": "B",
+			"kill3": "C",
+			"priz": "cartograph"
+		}
+]}
+
+d,e = droid
+{"items": [
+		{
+			"kill1": "D",
+			"kill2": "E",
+			"priz": "droid"
+		}
+]}
