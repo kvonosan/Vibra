@@ -55,7 +55,7 @@ void MyClient::readyRead()
         str.replace("id ", "");
         _player->_player_id_vk = str.toInt();
         _player->Search();
-        QString str =  QString("id") + " " + QString::number(_player->_player_id) + " " + QString::number(_player->_pos);
+        QString str =  QString("id") + " " + QString::number(_player->_player_id);;
         _socket->write(str.toUtf8());
         _player->newPlayer();
         _player->AddToMap();
@@ -64,7 +64,7 @@ void MyClient::readyRead()
         SendInfo();
     } else if (str.startsWith("getmap"))
     {
-        QString map = QString("map ") + _loader->Bufferize(_player);
+        QString map = QString("map ") + QString::number(_player->_pos) + ";"  + _loader->Bufferize(_player);
         _socket->write(map.toUtf8());
     } else if (str.startsWith("left"))
     {

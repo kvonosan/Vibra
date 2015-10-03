@@ -71,6 +71,9 @@ void Grid::Paint(QPainter *painter)
                 if (_symbols[i][j]._number == _base->_net->_mypos)
                 {
                     _symbols[i][j].TextColor = Qt::green;
+                } else
+                {
+                    _symbols[i][j].TextColor = Qt::white;
                 }
             }
     }

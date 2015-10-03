@@ -148,10 +148,9 @@ void Net::readyRead()
     if (str.startsWith("id"))
     {
         QStringList list = str.split(" ");
-        bool ok, ok1;
+        bool ok;
         _player_id = list[1].toInt(&ok, 10);
-        _mypos = list[2].toInt(&ok1, 10);
-        if (!ok || !ok1)
+        if (!ok)
         {
             qDebug() << "Net read error.";
             exit(-1);
@@ -193,7 +192,11 @@ void Net::readyRead()
         _base->_hero_obj->_level = QString::number(level);
     } else if (str.startsWith("map"))
     {
-        str.replace("map ", "");
+        QStringList strings = str.split(";");
+        strings[0].replace("map ", "");
+        QString str1 = strings[1];
+        _mypos = strings[0].toInt();
+        str = str1;
         int g=0;
         for(int j=0; j < 24; j++)
             for(int i=0; i < 32; i++)
@@ -272,7 +275,6 @@ void Net::Left()
         QString str = "left";
         _tcp->write(str.toUtf8());
         _tcp->flush();
-        GetMyPos();
     }
 }
 
@@ -283,7 +285,6 @@ void Net::Right()
         QString str = "right";
         _tcp->write(str.toUtf8());
         _tcp->flush();
-        GetMyPos();
     }
 }
 
@@ -294,7 +295,6 @@ void Net::Top()
         QString str = "top";
         _tcp->write(str.toUtf8());
         _tcp->flush();
-        GetMyPos();
     }
 }
 
@@ -305,7 +305,6 @@ void Net::Bottom()
         QString str = "bottom";
         _tcp->write(str.toUtf8());
         _tcp->flush();
-        GetMyPos();
     }
 }
 
@@ -314,7 +313,7 @@ void Net::GetMyPos()
     QString str = "getmypos";
     _tcp->write(str.toUtf8());
     _tcp->flush();
-    _tcp->waitForReadyRead(3000);
+    //_tcp->waitForReadyRead(3000);
 }
 
 void Net::Fire(int pos, Popup *popup)
