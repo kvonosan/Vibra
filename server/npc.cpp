@@ -157,6 +157,67 @@ bool Npc::fireToNpc(int pos)
         q16.bindValue(":id", _player->_map);
         q16.bindValue(":data", data);
         q16.exec();
+        QSqlQuery q17;
+        q17.prepare("SELECT params_json FROM mission WHERE player_id=:id");
+        q17.bindValue(":id", _player->_player_id);
+        q17.exec();
+        while (q17.next())
+        {
+            QString json = q17.value(0).toString();
+            QJsonDocument doc = QJsonDocument::fromJson(json.toUtf8());
+            QJsonObject obj = doc.object();
+            QJsonObject::iterator it = obj.begin();
+            QJsonObject obj1;
+            while (it!= obj.end())
+            {
+                if (QString::fromUtf8(it.key.toStdString()).contains("kill") && fireToClass == it.value())
+                {
+                    //
+                } else
+                {
+                    obj1.insert(it.key, it.value);
+                }
+                it++;
+            }
+            if (obj1.count() == 1)
+            {
+                QString priz = obj1.value("priz");
+                QSqlQuery q21;
+                q21.prepare("SELECT ship_id FROM ship WHERE player_id=:id");
+                q21.bindValue(":id", _player->_player_id);
+                q21.exec();
+                int ship_bonus_id=0;
+                if (q21.next())
+                {
+                    ship_bonus_id = q21.value(0).toInt();
+                }
+                if (priz == "cartograph")
+                {
+                    QSqlQuery q20;
+                    q20.prepare("UPDATE ship SET cartograph=1 WHERE player_id=:id");
+                    q20.bindValue(":id", _player->_player_id);
+                    q20.exec();
+                    int link = rand()%10;
+                    QSqlQuery q22;
+                    q22.prepare("UPDATE ship_point SET cartograph_link=:link WHERE ship_id=:id");
+                    q22.bindValue(":link", link);
+                    q22.bindValue(":id", ship_bonus_id);
+                    q22.exec();
+                } else if (priz == "droid")
+                {
+                    QSqlQuery q23;
+                    q23.prepare("INSERT INTO droid(player_id, class, time, points) VALUES(:id, :class, 31, 50)");
+                    q23.bindValue(":id", _player->_player_id);
+                    q23.bindValue(":class", "A");
+                    q23.exec();
+                }
+            }
+            QJsonDocument doc1(obj1);
+            QSqlQuery q25;
+            QString str = QString::fromUtf8(doc1.toJson(QJsonDocument::Compact).toStdString().c_str());
+            q25.prepare("");
+        }
+        //clean missions
     } else
     {
         QSqlQuery q8;
