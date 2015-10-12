@@ -1,4 +1,4 @@
-#ifndef MYCLIENT_H
+﻿#ifndef MYCLIENT_H
 #define MYCLIENT_H
 
 #include "npc.h"

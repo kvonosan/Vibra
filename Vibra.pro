@@ -25,7 +25,8 @@ SOURCES += \
     bank.cpp \
     fly.cpp \
     net.cpp \
-    popup.cpp
+    popup.cpp \
+    news.cpp
 
 HEADERS  += \
     symbol.h \
@@ -40,7 +41,8 @@ HEADERS  += \
     bank.h \
     fly.h \
     net.h \
-    popup.h
+    popup.h \
+    news.h
 
 DISTFILES +=
 

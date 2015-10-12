@@ -1,4 +1,4 @@
-#include "loader.h"
+﻿#include "loader.h"
 #include <QDebug>
 #include <QSettings>
 

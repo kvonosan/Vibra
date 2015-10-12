@@ -11,7 +11,9 @@
 #include "honors.h"
 #include "magazine.h"
 #include "mainwindow.h"
+#include "news.h"
 
+class News;
 class Net;
 class Fly;
 class Bank;
@@ -42,6 +44,7 @@ private:
     Honors *_honors_obj;
     Rating *_rating_obj;
     Magazine *_magazine_obj;
+    News *_news_obj;
     QRect _bank, _magazine, _hero, _bar, _honors, _rating, _flight, _quit,
     _generator, _news, _improvement;
 };

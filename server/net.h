@@ -1,4 +1,4 @@
-#ifndef VK_AUTH
+﻿#ifndef VK_AUTH
 #define VK_AUTH
 
 #include <QString>

@@ -1,4 +1,4 @@
-#ifndef LOADER
+﻿#ifndef LOADER
 #define LOADER
 
 #include <QtSql>

@@ -1,4 +1,4 @@
-#ifndef MYSERVER_H
+﻿#ifndef MYSERVER_H
 #define MYSERVER_H
 
 #include "loader.h"

@@ -1,4 +1,4 @@
-#include "net.h"
+﻿#include "net.h"
 #include <QJsonObject>
 #include <QJsonDocument>
 

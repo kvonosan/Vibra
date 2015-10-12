@@ -1,4 +1,4 @@
-#ifndef PLAYER
+﻿#ifndef PLAYER
 #define PLAYER
 
 #include "loader.h"
@@ -10,6 +10,7 @@ public:
     Player(Loader *loader);
     ~Player();
     void Search();
+    void News();
     void AddToMap();
     void newPlayer();
     int _player_id;

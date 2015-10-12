@@ -39,6 +39,7 @@ Base::Base(QWindow *parent, Net *net, MainWindow *mainwindow)
     _rating_obj = new Rating(_parent, this);
     _bank_obj = new Bank(_parent, this);
     _fly = new Fly(_net, _parent, this);
+    _news_obj = new News(_parent, this);
 }
 
 Base::~Base()
@@ -49,6 +50,7 @@ Base::~Base()
     delete _rating_obj;
     delete _bank_obj;
     delete _fly;
+    delete _news_obj;
 }
 
 void Base::Paint(QPainter *painter)
@@ -89,7 +91,7 @@ void Base::Paint(QPainter *painter)
         painter->drawText(_flight, Qt::AlignCenter, QStringLiteral("Вылет в йотанет"));
         painter->drawText(_quit, Qt::AlignCenter, QStringLiteral("Выход"));
         painter->drawText(_generator, Qt::AlignCenter, QStringLiteral("Генератор человека"));
-        painter->drawText(_news, Qt::AlignCenter, QStringLiteral("Новости"));
+        painter->drawText(_news, Qt::AlignCenter, QStringLiteral("Справка"));
         painter->drawText(_improvement, Qt::AlignCenter, QStringLiteral("Улучшения"));
     } break;
     case 1:
@@ -115,6 +117,10 @@ void Base::Paint(QPainter *painter)
     case 6:
     {
         _fly->Paint(painter);
+    } break;
+    case 7:
+    {
+        _news_obj->Paint(painter);
     } break;
     }
 }
@@ -156,6 +162,8 @@ void Base::Click(int x, int y)
         {
         } else if (_news.contains(x, y))
         {
+            _net->GetNews();
+            _state = 7;
         } else if (_improvement.contains(x, y))
         {
         }else
@@ -186,6 +194,10 @@ void Base::Click(int x, int y)
     case 6:
     {
         _fly->Click(x, y);
+    } break;
+    case 7:
+    {
+        _news_obj->Click(x, y);
     } break;
     }
 }

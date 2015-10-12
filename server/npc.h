@@ -1,4 +1,4 @@
-#ifndef NPC
+﻿#ifndef NPC
 #define NPC
 
 #include "player.h"

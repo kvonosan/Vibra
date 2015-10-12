@@ -1,4 +1,4 @@
-#include "player.h"
+﻿#include "player.h"
 #include "myclient.h"
 
 MyClient::MyClient(Loader *loader, QObject *parent) :
@@ -55,6 +55,7 @@ void MyClient::readyRead()
     {
         str.replace("id ", "");
         _player->_player_id_vk = str.toInt();
+        _player->News();
         _player->Search();
         QString str =  QString("id") + " " + QString::number(_player->_player_id);;
         _socket->write(str.toUtf8());
@@ -674,6 +675,19 @@ void MyClient::readyRead()
             q2.exec();
             SendParams();
         }
+    } else if (str.startsWith("getnews"))
+    {
+        QSqlQuery q1;
+        q1.prepare("SELECT text FROM news ORDER BY news_id DESC LIMIT 1");
+        q1.exec();
+        qDebug() << q1.lastError();
+        QString str = "Нет новостей.";
+        if (q1.next())
+        {
+            str = "news " + q1.value(0).toString();
+        }
+        _socket->write(str.toUtf8());
+        _socket->flush();
     }
 }
 

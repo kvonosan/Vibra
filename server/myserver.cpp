@@ -1,4 +1,4 @@
-#include "myserver.h"
+﻿#include "myserver.h"
 
 MyServer::MyServer(Loader *loader, QObject *parent) :
     QTcpServer(parent)

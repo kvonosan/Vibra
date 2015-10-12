@@ -1,4 +1,4 @@
-#include "npc.h"
+﻿#include "npc.h"
 #include <QtSql>
 #include <QDebug>
 

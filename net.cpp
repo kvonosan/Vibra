@@ -143,6 +143,7 @@ void Net::readyRead()
 {
     _level = 0;
     _bonus = "";
+    _news = "";
     QByteArray array = _tcp->readAll();
     QString str = QString::fromUtf8(array.toStdString().c_str());
     //qDebug() << str;
@@ -264,6 +265,10 @@ void Net::readyRead()
         _fire_speed = object["fire_speed"].toInt();
         _fire_link = object["fire_link"].toInt();
         BufferizeMap();
+    } else if (str.startsWith("news"))
+    {
+        str.replace("news ", "");
+        _news = str;
     }
 }
 
@@ -346,4 +351,11 @@ void Net::GetInfo()
 {
     QString str1 = "getinfo";
     _tcp->write(str1.toUtf8());
+}
+
+void Net::GetNews()
+{
+    QString str1 = "getnews";
+    _tcp->write(str1.toUtf8());
+    Sleep(700);
 }
