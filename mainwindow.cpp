@@ -151,7 +151,8 @@ void MainWindow::render(QPainter *painter)
                     if (!_net->_authorized)
                     {
                         QMessageBox* pmbx = new QMessageBox("Соединение с сервером",
-                                            "<b>Соединение не установлено!</b>",
+                                            "<b>Соединение не установлено!</b>"
+                                            " Возможно вы долго вводили пароль. Перезапустите игру!",
                                             QMessageBox::Information,
                                             QMessageBox::NoButton,
                                             QMessageBox::Ok,

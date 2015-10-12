@@ -45,11 +45,12 @@ void MyClient::disconnected()
 
 void MyClient::readyRead()
 {
-    qDebug() << "readyread";
+    //qDebug() << "readyread";
     _player->_level = 0;
+    _player->_bonus = 0;
     QByteArray array = _socket->readAll();
     QString str = QString::fromUtf8(array.toStdString().c_str());
-    qDebug() << str;
+    //qDebug() << str;
     if (str.startsWith("id"))
     {
         str.replace("id ", "");
@@ -72,7 +73,7 @@ void MyClient::readyRead()
         {
             if (!_loader->_db.open())
             {
-                qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+                qDebug() << "Ошибка соединения к базе данных:" << _loader->_db.lastError();
                 exit(-1);
             }
         }
@@ -191,7 +192,7 @@ void MyClient::readyRead()
         {
             if (!_loader->_db.open())
             {
-                qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+                qDebug() << "Ошибка соединения к базе данных:" << _loader->_db.lastError();
                 exit(-1);
             }
         }
@@ -303,7 +304,7 @@ void MyClient::readyRead()
         {
             if (!_loader->_db.open())
             {
-                qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+                qDebug() << "Ошибка соединения к базе данных:" << _loader->_db.lastError();
                 exit(-1);
             }
         }
@@ -411,7 +412,7 @@ void MyClient::readyRead()
         {
             if (!_loader->_db.open())
             {
-                qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+                qDebug() << "Ошибка соединения к базе данных:" << _loader->_db.lastError();
                 exit(-1);
             }
         }
@@ -523,7 +524,7 @@ void MyClient::readyRead()
         {
             if (!_loader->_db.open())
             {
-                qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+                qDebug() << "Ошибка соединения к базе данных:" << _loader->_db.lastError();
                 exit(-1);
             }
         }
@@ -543,6 +544,17 @@ void MyClient::readyRead()
                     {
                         QString str1 = "killed";
                         str1 = str1 + " " + QString::number(_player->_level);
+                        if (_player->_bonus)
+                        {
+                            str1 = str1 + " bonus";
+                            if (_player->_bonus == 1)
+                            {
+                                str1 = str1 + " cartograph";
+                            } else if (_player->_bonus == 2)
+                            {
+                                str1 = str1 + " droid";
+                            }
+                        }
                         _socket->write(str1.toUtf8());
                         _socket->flush();
                         delete _fireNpc;
@@ -592,7 +604,7 @@ void MyClient::readyRead()
         {
             if (!_loader->_db.open())
             {
-                qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+                qDebug() << "Ошибка соединения к базе данных:" << _loader->_db.lastError();
                 exit(-1);
             }
         }
@@ -671,7 +683,7 @@ void MyClient::SendInfo()
     {
         if (!_loader->_db.open())
         {
-            qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+            qDebug() << "Ошибка соединения к базе данных:" << _loader->_db.lastError();
             exit(-1);
         }
     }
@@ -748,7 +760,7 @@ int MyClient::GetLife(int pos)
     {
         if (!_loader->_db.open())
         {
-            qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+            qDebug() << "Ошибка соединения к базе данных:" << _loader->_db.lastError();
             exit(-1);
         }
     }
@@ -789,7 +801,7 @@ void MyClient::SendParams()
     {
         if (!_loader->_db.open())
         {
-            qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+            qDebug() << "Ошибка соединения к базе данных:" << _loader->_db.lastError();
             exit(-1);
         }
     }

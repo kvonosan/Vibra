@@ -14,7 +14,7 @@ public:
     void newPlayer();
     int _player_id;
     int _player_id_vk;
-    int _pos, _map, _level;
+    int _pos, _map, _level, _bonus;
     Loader *_loader;
 };
 

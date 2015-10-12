@@ -21,7 +21,7 @@ void Player::Search()
     {
         if (!_loader->_db.open())
         {
-            qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+            qDebug() << "Ошибка соединения к базе данных:" << _loader->_db.lastError();
             exit(-1);
         }
     }
@@ -49,12 +49,8 @@ void Player::Search()
         if (q.next())
         {
             _player_id = q.value(1).toInt();
-            qDebug() << "Added new player with id = " + QString::number(_player_id);
+            qDebug() << "Добавлен новый игрок с id = " + QString::number(_player_id);
         }
-        qDebug() << "after player added 1";
-        qDebug() << q.lastError();
-        qDebug() << "after player added 2";
-        qDebug() << q1.lastError();
     } else
     {
         qDebug() << "player_id = " + QString::number(_player_id);
@@ -67,7 +63,7 @@ void Player::newPlayer()
     {
         if (!_loader->_db.open())
         {
-            qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+            qDebug() << "Ошибка соединения к базе данных:" << _loader->_db.lastError();
             exit(-1);
         }
     }
@@ -105,7 +101,7 @@ void Player::newPlayer()
         }
         if (ship_id == 0)
         {
-            qDebug() << "Error ship_id = 0.";
+            qDebug() << "Ошибка ship_id = 0.";
             return;
         }
         QSqlQuery q4;
@@ -119,7 +115,7 @@ void Player::newPlayer()
         }
         if (rating1 == 0)
         {
-            qDebug() << "Error rating1 = 0.";
+            qDebug() << "Ошибка rating1 = 0.";
             return;
         }
         QSqlQuery q5;
@@ -139,7 +135,7 @@ void Player::newPlayer()
         }
         if (life == 0)
         {
-            qDebug() << "Error life = 0.";
+            qDebug() << "Ошибка life = 0.";
             exit(-1);
         }
         QSqlQuery q8;
@@ -152,7 +148,7 @@ void Player::newPlayer()
         }
         if (fuel == 0)
         {
-            qDebug() << "Error fuel = 0.";
+            qDebug() << "Ошибка fuel = 0.";
             exit(-1);
         }
         life = (life - 100) + rand()%100;
@@ -181,8 +177,8 @@ void Player::newPlayer()
         q10.bindValue(":json", json);
         q10.exec();
         QJsonObject obj1;
-        obj1["kill2"] = "D";
-        obj1["kill3"] = "E";
+        obj1["kill1"] = "D";
+        obj1["kill2"] = "E";
         obj1["priz"] = "droid";
         QJsonDocument doc1(obj1);
         QString json1 = QString::fromUtf8(doc1.toJson(QJsonDocument::Compact).toStdString().c_str());
@@ -190,7 +186,7 @@ void Player::newPlayer()
         q10.exec();
     } else
     {
-        qDebug() << "player_id = " + QString::number(_player_id) + " already created.";
+        qDebug() << "player_id = " + QString::number(_player_id) + " такой игрок есть в базе.";
     }
 }
 
@@ -200,7 +196,7 @@ void Player::AddToMap()
     {
         if (!_loader->_db.open())
         {
-            qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+            qDebug() << "Ошибка соединения в базе данных:" << _loader->_db.lastError();
             exit(-1);
         }
     }

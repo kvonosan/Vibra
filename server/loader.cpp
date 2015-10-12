@@ -80,7 +80,7 @@ void Loader::GenerateTables()
     {
         if (!_db.open())
         {
-            qDebug() << "Error when connecting to db:" << _db.lastError();
+            qDebug() << "Ошибка соединения к базе данных:" << _db.lastError();
             exit(-1);
         }
     }
@@ -106,7 +106,7 @@ void Loader::GenerateStartMap()
     {
         if (!_db.open())
         {
-            qDebug() << "Error when connecting to db:" << _db.lastError();
+            qDebug() << "Ошибка соединения к базе данных:" << _db.lastError();
             exit(-1);
         }
     }
@@ -149,7 +149,7 @@ QString Loader::Generate768d()
     {
         if (!_db.open())
         {
-            qDebug() << "Error when connecting to db:" << _db.lastError();
+            qDebug() << "Ошибка соединения к базе данных:" << _db.lastError();
             exit(-1);
         }
     }
@@ -211,7 +211,7 @@ QString Loader::Bufferize(Player *player)
     {
         if (!_db.open())
         {
-            qDebug() << "Error when connecting to db:" << _db.lastError();
+            qDebug() << "Ошибка соединения к базе данных:" << _db.lastError();
             exit(-1);
         }
     }
@@ -253,7 +253,7 @@ void Loader::GenerateLeftMap(Player *player)
     {
         if (!_db.open())
         {
-            qDebug() << "Error when connecting to db:" << _db.lastError();
+            qDebug() << "Ошибка соединения к базе данных:" << _db.lastError();
             exit(-1);
         }
     }
@@ -344,7 +344,7 @@ void Loader::GenerateRightMap(Player *player)
     {
         if (!_db.open())
         {
-            qDebug() << "Error when connecting to db:" << _db.lastError();
+            qDebug() << "Ошибка соединения к базе данных:" << _db.lastError();
             exit(-1);
         }
     }
@@ -431,7 +431,7 @@ void Loader::GenerateTopMap(Player *player)
     {
         if (!_db.open())
         {
-            qDebug() << "Error when connecting to db:" << _db.lastError();
+            qDebug() << "Ошибка соединения к базе данных:" << _db.lastError();
             exit(-1);
         }
     }
@@ -518,7 +518,7 @@ void Loader::GenerateBottomMap(Player *player)
     {
         if (!_db.open())
         {
-            qDebug() << "Error when connecting to db:" << _db.lastError();
+            qDebug() << "Ошибка соединения к базе данных:" << _db.lastError();
             exit(-1);
         }
     }

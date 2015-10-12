@@ -274,6 +274,30 @@ void Fly::NextTime(QPainter *painter)
                 pmbx->exec();
                 delete pmbx;
             }
+            if (_net->_bonus.size() > 0)
+            {
+                if (_net->_bonus == "cartograph")
+                {
+                    QMessageBox* pmbx = new QMessageBox("Бонус!",
+                                        "<b>Ваш бонус <i>Картограф</i>!</b>",
+                                        QMessageBox::Information,
+                                        QMessageBox::NoButton,
+                                        QMessageBox::Ok,
+                                        QMessageBox::NoButton);
+                    pmbx->exec();
+                    delete pmbx;
+                } else if (_net->_bonus == "droid")
+                {
+                    QMessageBox* pmbx = new QMessageBox("Бонус!",
+                                        "<b>Ваш бонус <i>Дроид</i>!</b>",
+                                        QMessageBox::Information,
+                                        QMessageBox::NoButton,
+                                        QMessageBox::Ok,
+                                        QMessageBox::NoButton);
+                    pmbx->exec();
+                    delete pmbx;
+                }
+            }
         }
     }
 }

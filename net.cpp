@@ -142,6 +142,7 @@ void Net::Disconnected()
 void Net::readyRead()
 {
     _level = 0;
+    _bonus = "";
     QByteArray array = _tcp->readAll();
     QString str = QString::fromUtf8(array.toStdString().c_str());
     //qDebug() << str;
@@ -225,11 +226,15 @@ void Net::readyRead()
     } else if (str.startsWith("killed"))
     {
         _killed = true;
-        str.replace("killed ", "");
-        _level = str.toInt();
+        QStringList str1 = str.split(" ");
+        _level = str1[1].toInt();
         if (_level < 0 || _level > 100)
         {
             _level = 0;
+        }
+        if (str1.size() > 2)
+        {
+            _bonus = str1[3];
         }
     } else if (str.startsWith("params"))
     {

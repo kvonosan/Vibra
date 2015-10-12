@@ -29,7 +29,7 @@ bool Npc::fireToNpc(int pos)
     {
         if (!_loader->_db.open())
         {
-            qDebug() << "Error when connecting to db:" << _loader->_db.lastError();
+            qDebug() << "Ошибка соединения к базе данных:" << _loader->_db.lastError();
             exit(-1);
         }
     }
@@ -141,7 +141,7 @@ bool Npc::fireToNpc(int pos)
         opit = 20;
         kills = 1;
         _killed = true;
-        qDebug() << "[" << _player->_player_id << "]" << "fire to " << fireToClass << " killed.";
+        qDebug() << "[" << _player->_player_id << "]" << "огонь по " << fireToClass << " убит.";
         QSqlQuery q13;
         q13.prepare("SELECT data FROM map WHERE map_id=:id");
         q13.bindValue(":id", _player->_map);
@@ -158,30 +158,33 @@ bool Npc::fireToNpc(int pos)
         q16.bindValue(":data", data);
         q16.exec();
         QSqlQuery q17;
-        q17.prepare("SELECT params_json FROM mission WHERE player_id=:id");
+        int mission_id = 0;
+        q17.prepare("SELECT params_json, id FROM mission WHERE player_id=:id");
         q17.bindValue(":id", _player->_player_id);
         q17.exec();
         while (q17.next())
         {
             QString json = q17.value(0).toString();
+            mission_id = q17.value(1).toInt();
             QJsonDocument doc = QJsonDocument::fromJson(json.toUtf8());
             QJsonObject obj = doc.object();
             QJsonObject::iterator it = obj.begin();
             QJsonObject obj1;
             while (it!= obj.end())
             {
-                if (QString::fromUtf8(it.key.toStdString()).contains("kill") && fireToClass == it.value())
+                QString str = QString::fromUtf8(it.key().toStdString().c_str());
+                if (str.contains("kill") && fireToClass == it.value().toString().at(0))
                 {
-                    //
+                    //nothing to do..
                 } else
                 {
-                    obj1.insert(it.key, it.value);
+                    obj1.insert(it.key(), it.value());
                 }
                 it++;
             }
             if (obj1.count() == 1)
             {
-                QString priz = obj1.value("priz");
+                QString priz = obj1.value("priz").toString();
                 QSqlQuery q21;
                 q21.prepare("SELECT ship_id FROM ship WHERE player_id=:id");
                 q21.bindValue(":id", _player->_player_id);
@@ -203,21 +206,35 @@ bool Npc::fireToNpc(int pos)
                     q22.bindValue(":link", link);
                     q22.bindValue(":id", ship_bonus_id);
                     q22.exec();
+                    qDebug() << "[" << _player->_player_id << "] " << "Выигран бонус картограф!";
+                    _player->_bonus = 1;
                 } else if (priz == "droid")
                 {
                     QSqlQuery q23;
-                    q23.prepare("INSERT INTO droid(player_id, class, time, points) VALUES(:id, :class, 31, 50)");
+                    int time = rand()%10;
+                    int points = rand()%10;
+                    q23.prepare("INSERT INTO droid(player_id, class, time, points) VALUES(:id, :class, :time, :points)");
                     q23.bindValue(":id", _player->_player_id);
                     q23.bindValue(":class", "A");
+                    q23.bindValue(":time", QDateTime::currentDateTime().addDays(time));
+                    q23.bindValue(":points", points);
                     q23.exec();
+                    qDebug() << "[" << _player->_player_id << "] " << "Выигран бонус дроид!";
+                    _player->_bonus = 2;
                 }
+                QSqlQuery q24;
+                q24.prepare("DELETE FROM mission WHERE id=:id");
+                q24.bindValue(":id", mission_id);
+                q24.exec();
             }
             QJsonDocument doc1(obj1);
             QSqlQuery q25;
             QString str = QString::fromUtf8(doc1.toJson(QJsonDocument::Compact).toStdString().c_str());
-            q25.prepare("");
+            q25.prepare("UPDATE mission SET params_json=:str WHERE id=:id");
+            q25.bindValue(":id", mission_id);
+            q25.bindValue(":str", str);
+            q25.exec();
         }
-        //clean missions
     } else
     {
         QSqlQuery q8;
@@ -227,7 +244,7 @@ bool Npc::fireToNpc(int pos)
         q8.bindValue(":life", npc_life);
         q8.exec();
         opit = 10;
-        qDebug() << "[" << _player->_player_id << "]" << "fire to " << fireToClass << " damage = " << fire;
+        qDebug() << "[" << _player->_player_id << "]" << "огонь по " << fireToClass << " урон = " << fire;
     }
     QSqlQuery q10;
     q10.prepare("SELECT exp, kills FROM rating WHERE player_id=:player_id");
@@ -258,7 +275,7 @@ bool Npc::fireToNpc(int pos)
     }
     if (level == 0)
     {
-        qDebug() << "Error level corrupted.";
+        qDebug() << "Ошибка level поврежден.";
         exit(-1);
     }
     _levelup = false;
@@ -307,7 +324,7 @@ bool Npc::fireToNpc(int pos)
     if (_levelup)
     {
         level++;
-        qDebug() << "Игрок с id = " << QString::number(_player->_player_id) << " levelup. Уровень "
+        qDebug() << "Игрок с id = " << QString::number(_player->_player_id) << " Повышение уровня. "
                  << level;
         QSqlQuery q14;
         q14.prepare("UPDATE rating SET exp=:exp WHERE player_id=:player_id");

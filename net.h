@@ -30,6 +30,7 @@ public:
     int _mypos, _firepos, _life_enemy, _energy_enemy, _armor_enemy, _fuel_enemy, _level;
     int _life, _energy, _armor, _fuel, _net_speed, _cartograph_link, _grab_points,
             _radar_ships, _scaner_predm, _fire_speed, _fire_link;
+    QString _bonus;
 private:
     Base *_base;
     Popup *_popup;
