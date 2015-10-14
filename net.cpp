@@ -359,3 +359,10 @@ void Net::GetNews()
     _tcp->write(str1.toUtf8());
     Sleep(700);
 }
+
+void Net::GetRating()
+{
+    QString str1 = "getrating";
+    _tcp->write(str1.toUtf8());
+    Sleep(700);
+}

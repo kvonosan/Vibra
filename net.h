@@ -21,6 +21,7 @@ public:
     void GetInfo();
     void GetMyPos();
     void GetVKName();
+    void GetRating();
     void GetResource(int pos);
     void Fire(int pos, Popup *popup);
     bool VKConnected();

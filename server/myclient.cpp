@@ -688,6 +688,30 @@ void MyClient::readyRead()
         }
         _socket->write(str.toUtf8());
         _socket->flush();
+    } else if (str.startsWith("getrating"))
+    {
+        QSqlQuery q1;
+        q1.prepare("SELECT player_id, exp, kills, death, mission, credits, fights FROM rating ORDER BY exp");
+        q1.exec();
+        int p_id = 0;
+        if (q1.next())
+        {
+            p_id = q1.value(0).toInt();
+            QSqlQuery q2;
+            q2.prepare("SELECT vk_id FROM player WHERE player_id=:id");
+            q2.bindValue(":id", p_id);
+            q2.exec();
+            int vk_id = 0;
+            if (q2.next())
+            {
+                vk_id = q2.value(0).toInt();
+            }
+            QString name = GetVKName(vk_id);
+            if (name.size() > 0)
+            {
+                //addToJSON
+            }
+        }
     }
 }
 
@@ -877,4 +901,9 @@ void MyClient::SendParams()
     QJsonDocument doc(obj);
     QString str = QString("params") + " " + QString::fromUtf8(doc.toJson(QJsonDocument::Compact).toStdString().c_str());
     _socket->write(str.toUtf8());
+}
+
+QString MyClient::GetVKName(int id)
+{
+    //
 }
