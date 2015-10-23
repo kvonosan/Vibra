@@ -150,10 +150,6 @@ void Fly::Click(int x, int y)
                 {
                     _base->_state = 0;
                 }
-                if (_current->_symbol == 'r')
-                {
-                    _net->GetResource(_current->_number);
-                }
             }
         }
     }else if (_attack)

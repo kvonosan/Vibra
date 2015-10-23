@@ -340,13 +340,6 @@ void Net::Fire(int pos, Popup *popup)
     _tcp->flush();
 }
 
-void Net::GetResource(int pos)
-{
-    QString str = "getres " + QString::number(pos);
-    _tcp->write(str.toUtf8());
-    _tcp->flush();
-}
-
 void Net::GetInfo()
 {
     QString str1 = "getinfo";
