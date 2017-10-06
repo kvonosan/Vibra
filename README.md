@@ -12,4 +12,4 @@ text based MMO game.
 
 Для связи https://vk.com/kvonosan
 
-Разрботчики  Kvonosan & Tom Nolane.
+Разрботчики  Kvonosan & Tom Nolane(https://github.com/TomNolane).
